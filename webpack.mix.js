@@ -23,5 +23,9 @@ mix.autoload({
   // jquery: ['$', 'window.jQuery']
 });
 mix.js('resources/assets/js/app.js', 'public/js')
-   .extract(['vue', 'axios', 'lodash', 'jquery']);
+   .extract(['vue', 'axios', 'lodash', 'jquery'])
+   //クライアントサイド処理用
+   .js('resources/assets/js/common.js', 'public/js');
+
 mix.sass('resources/assets/sass/app.scss', 'public/css');
+mix.copy('resources/assets/images', 'public/images');

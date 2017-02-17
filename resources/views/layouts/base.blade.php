@@ -8,12 +8,12 @@
     <script type="text/javascript" src="{{ mix('/js/vendor.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/js/app.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/app.css') }}">
-    
+    <script type="text/javascript" src="{{ mix('/js/common.js') }}"></script>
     <title>@yield('title') - ShortStoryServer</title>
   </head>
   <body>
     <div id="app">
-      <h1>Short Story Server</h1>
+      @include('layouts.topbar')
       
       @yield('content')
     </div>
