@@ -13,8 +13,8 @@
       <li>
         <a href="#">@lang('view.not_loggedin')</a>
         <ul class="menu vertical">
-          <li><a href="#">@lang('view.login')</a></li>
-          <li><a href="#">@lang('view.register_user')</a></li>
+          <li><a href="{{ secure_url('/login') }}">@lang('view.login')</a></li>
+          <li><a href="{{ secure_url('/user/register') }}">@lang('view.register_user')</a></li>
         </ul>
       </li>
     </ul>

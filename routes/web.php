@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('layouts.base');
 });
+
+//ユーザー認証関係
+Route::get('/login', function() {
+    return view('user.login');
+});
