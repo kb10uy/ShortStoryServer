@@ -11,11 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.base');
-});
+Route::get('/', 'HomeController@index');
 
 //ユーザー認証関係
-Route::get('/login', function() {
-    return view('user.login');
-});
+Auth::routes();
