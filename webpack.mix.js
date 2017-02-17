@@ -12,6 +12,20 @@ mix.disableNotifications();
  |
  */
 
-mix.autoload({});
+// watchじゃなくても差分ビルド有効化
+// extractはfoundation-sitesだけappに残すことで対処(どうにかしてくれWebpackさん)
+
+mix.webpackConfig({
+  cache: true
+});
+
+mix.autoload({
+  // jquery: ['$', 'window.jQuery']
+});
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .extract(['vue', 'axios', 'lodash', 'jquery'])
+   //クライアントサイド処理用
+   .js('resources/assets/js/common.js', 'public/js');
+
+mix.sass('resources/assets/sass/app.scss', 'public/css');
+mix.copy('resources/assets/images', 'public/images');
