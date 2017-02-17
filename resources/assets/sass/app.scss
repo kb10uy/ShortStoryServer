@@ -5,6 +5,9 @@
 // Variables
 @import "variables";
 
-// Foundation
+// Libraries
+@import "node_modules/motion-ui/motion-ui";
+@include motion-ui-transitions;
+
 @import "node_modules/foundation-sites/assets/foundation";
 

@@ -6,3 +6,15 @@ $body-font-family: 'Noto Sans Japanese', sans-serif;
 $topbar-title-spacing: 0.4rem 0.2rem 0.4rem 0.8rem;
 $topbar-padding: 0.2rem;
 
+$ssserver-palette: (
+  black-primary: #47791a,
+  black-secondory: #3d2d02,
+  white-primary: #fdfff7,
+  white-secondary: #f2f4eb,
+);
+@function s3color($key) {
+    @return map-get($ssserver-palette, $key);
+}
+
+$body-background: s3color(white-primary);
+$body-font-color: s3color(black-primary);

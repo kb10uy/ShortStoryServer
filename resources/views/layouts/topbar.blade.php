@@ -21,7 +21,7 @@
         <a href="#">{{ Auth::user()->name }}</a>
         <ul class="menu vertical">
           <li>
-            <a href="{{ route('logout') }}"onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.logout')</a>
+            <a href="{{ route('logout') }}"onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
               {{ csrf_field() }}
             </form>

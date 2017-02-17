@@ -12,6 +12,7 @@
     "jquery": "^3.1.1",
     "laravel-mix": "^0.7.2",
     "lodash": "^4.17.4",
+    "motion-ui": "^1.2.2",
     "script-loader": "^0.7.0",
     "vue": "^2.1.10"
   }

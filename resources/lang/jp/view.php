@@ -14,6 +14,7 @@ return [
         'password_confirm' => 'パスワードの再入力',
         'email' => 'メールアドレス',
         'register' => '登録',
-        'login' => 'ログイン'
+        'login' => 'ログイン',
+        'logout' => 'ログアウト',
     ],
 ];
