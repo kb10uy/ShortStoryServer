@@ -30,4 +30,21 @@ class LoginController extends Controller
     public function username() {
         return 'name';
     }
+    
+    //Socialite
+    public function redirectToTwitter() {
+        return Socialite::driver('twitter')->redirect();
+    }
+    
+    public function handleTwitterCallback() {
+        //return Socialite::driver('twitter')->redirect();
+    }
+    
+    public function redirectToGitHub() {
+        return Socialite::driver('github')->redirect();
+    }
+    
+    public function handleGitHubCallback() {
+        //return Socialite::driver('github')->redirect();
+    }
 }
