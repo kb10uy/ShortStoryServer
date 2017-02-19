@@ -39,12 +39,12 @@ return [
     'twitter' => [
         'client_id' => env('TWITTER_CK'),
         'client_secret' => env('TWITTER_CS'),
-        'redirect' => route('login.twitter.callback'),
+        'redirect' => 'https://ss.kb10uy.org/login/twitter/callback',
     ],
     
     'github' => [
         'client_id' => env('GITHUB_CK'),
         'client_secret' => env('GITHUB_CS'),
-        'redirect' => route('login.github.callback'),
+        'redirect' => 'https://ss.kb10uy.org/login/github/callback',
     ],
 ];
