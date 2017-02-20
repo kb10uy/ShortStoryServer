@@ -20,20 +20,31 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+    
+    public function username() {
+        return 'name';
+    }
+    
+    //Socialite
+    public function redirectToTwitter() {
+        return Socialite::driver('twitter')->redirect();
+    }
+    
+    public function handleTwitterCallback() {
+        //return Socialite::driver('twitter')->redirect();
+    }
+    
+    public function redirectToGitHub() {
+        return Socialite::driver('github')->redirect();
+    }
+    
+    public function handleGitHubCallback() {
+        //return Socialite::driver('github')->redirect();
     }
 }

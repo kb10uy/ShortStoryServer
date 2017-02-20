@@ -34,5 +34,17 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    
+    //Socialite
+    'twitter' => [
+        'client_id' => env('TWITTER_CK'),
+        'client_secret' => env('TWITTER_CS'),
+        'redirect' => 'https://ss.kb10uy.org/login/twitter/callback',
+    ],
+    
+    'github' => [
+        'client_id' => env('GITHUB_CK'),
+        'client_secret' => env('GITHUB_CS'),
+        'redirect' => 'https://ss.kb10uy.org/login/github/callback',
+    ],
 ];
