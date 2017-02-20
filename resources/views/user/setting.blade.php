@@ -5,6 +5,28 @@
 @section('content')
 <div class="row">
   <h1>設定</h1>
+  @if($errors->any())
+    <div data-abide-error class="warning callout">
+      <ul>
+        @foreach($errors->all() as $message)
+          <li>{{ $message }}</li>
+        @endforeach
+        @if(Session::has('current_password'))
+          <li>{{ Session::get('current_password') }}</li>
+        @endif
+      </ul>
+    </div>
+  @endif
+  @if(Session::has('basic_updated'))
+    <div data-abide-error class="success callout">
+      {{ Session::get('basic_updated') }}
+    </div>
+  @endif
+  @if(Session::has('password_updated'))
+    <div data-abide-error class="success callout">
+      {{ Session::get('password_updated') }}
+    </div>
+  @endif
 </div>
 
 <div class="row collapse">
@@ -19,7 +41,7 @@
       <div class="tabs-panel is-active" id="panel-basic">
         <!-- 基本情報 1 -->
         <h3>基本情報</h3>
-        <form role="form" method="PATCH" action="{{ "#" }}" data-abide novalidate>
+        <form role="form" method="POST" action="{{ route('user.update.basic') }}" data-abide novalidate>
           {{ csrf_field() }}
           <div class="row">
             <div class="small-3 columns">
@@ -47,7 +69,6 @@
             </div>
             <div class="small-9 columns">
               <textarea name="description" placeholder="自己紹介的な文章を入力してください。(200文字以内)"></textarea>
-              <span class="form-error">メールアドレスは入力してください。</span>
             </div>
           </div>
           
@@ -60,7 +81,7 @@
         
         <!-- 基本情報 1 -->
         <h3>パスワードの更新</h3>
-        <form role="form" method="PATCH" action="{{ "#" }}" data-abide novalidate>
+        <form role="form" method="POST" action="{{ route('user.update.password') }}" data-abide novalidate>
           {{ csrf_field() }}
           
           <div class="row">
@@ -78,7 +99,7 @@
               <label for="right-label" class="text-right middle">@lang('view.user.new_password')</label>
             </div>
             <div class="small-9 columns">
-              <input id="password_new" type="password" name="password" required>
+              <input id="password_new" type="password" name="password_new" required>
               <span class="form-error">新しいパスワードを入力してください。</span>
             </div>
           </div>
@@ -87,7 +108,7 @@
               <label for="right-label" class="text-right middle">@lang('view.user.new_password_confirm')</label>
             </div>
             <div class="small-9 columns">
-              <input type="password" name="password_confirmation" required data-equalto="password_new">
+              <input type="password" name="password_new_confirmation" required data-equalto="password_new">
               <span class="form-error">パスワードが一致していません。</span>
             </div>
           </div>
@@ -102,7 +123,33 @@
       
       <!-- アイコン -->
       <div class="tabs-panel" id="panel-icon">
+        <div class="row" data-equalizer data-equalize-on="medium">
+          <div class="small-12 columns">
+            <h3>アイコン</h3>
+          </div>
+          
+          <div class="small-6 medium-4 columns">
+            <div class="callout" data-equalizer-watch>
+              <img alt="Current icon" src="http://placeimg.com/320/320/any">
+            </div>
+          </div>
+          
+          <div class="small-6 medium-8 columns" data-equalizer-watch>
+            <ul>
+              <li>対応形式: PNG, JPEG, GIF</li>
+              <li>最大ファイルサイズ: 512KB</li>
+              <li>内部で320x320 JPEGに縮小・変換されます</li>
+            </ul>
+            <!-- アイコン アップロード -->
+            <form role="form" method="POST" action="{{ route('user.update.icon') }}" data-abide novalidate>
+              {{ csrf_field() }}
+              <label for="fileupicon" class="button">ファイルを選択</label>
+              <input type="file" id="fileupicon" class="show-for-sr">
+              <button class="button" type="submit" value="Submit">更新</button>
+            </form>
+          </div>
         
+        </div>
       </div>
     </div>
   </div>

@@ -48,7 +48,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255|unique:users',
+            //UserControllerと同じ条件
+            'name' => 'required|max:64|alpha_dash|unique:users',
             'email' => 'required|email|max:255',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -66,6 +67,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            
+            'icon' => '/public/images/default.png',
         ]);
     }
 }

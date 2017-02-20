@@ -10,12 +10,12 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
+     * User::createで複数代入できるアレ
+     * (これはあれか、Railsのstrong paramsみたいなのか)
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'icon',
     ];
 
     /**

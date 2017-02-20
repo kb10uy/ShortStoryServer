@@ -33,19 +33,23 @@ class LoginController extends Controller
     }
     
     //Socialite
-    public function redirectToTwitter() {
+    public function redirectToTwitter() 
+    {
         return Socialite::driver('twitter')->redirect();
     }
     
-    public function handleTwitterCallback() {
+    public function handleTwitterCallback() 
+    {
         //return Socialite::driver('twitter')->redirect();
     }
     
-    public function redirectToGitHub() {
+    public function redirectToGitHub() 
+    {
         return Socialite::driver('github')->redirect();
     }
     
-    public function handleGitHubCallback() {
+    public function handleGitHubCallback() 
+    {
         //return Socialite::driver('github')->redirect();
     }
 }

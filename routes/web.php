@@ -14,8 +14,13 @@
 
 //ホーム
 Route::get('/', 'HomeController@index');
+
+//要認証
 Route::get('/user/profile', 'UserController@profile')->name('user.profile');
 Route::get('/user/setting', 'UserController@setting')->name('user.setting');
+Route::post('/user/update/basic', 'UserController@updateBasic')->name('user.update.basic');
+Route::post('/user/update/password', 'UserController@updatePassword')->name('user.update.password');
+Route::post('/user/update/icon', 'UserController@updateIcon')->name('user.update.icon');
 
 //ユーザー認証関係
 Auth::routes();
