@@ -15,5 +15,8 @@
     "motion-ui": "^1.2.2",
     "script-loader": "^0.7.0",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "codemirror": "^5.23.0"
   }
 }

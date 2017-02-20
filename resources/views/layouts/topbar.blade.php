@@ -3,7 +3,7 @@
     ShortStoryServer
   </div>
   <div class="top-bar-left">
-    <ul class="dropdown menu" data^dropdown menu>
+    <ul class="dropdown menu" data-dropdown-menu>
       
     </ul>
   </div>
@@ -21,7 +21,9 @@
         <a href="#">{{ Auth::user()->name }}</a>
         <ul class="menu vertical">
           <li>
-            <a href="{{ route('logout') }}"onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a>
+            <a href="{{ route('user.profile') }}">@lang('view.user.profile')</a>
+            <a href="{{ route('user.setting') }}">@lang('view.user.setting')</a>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
               {{ csrf_field() }}
             </form>

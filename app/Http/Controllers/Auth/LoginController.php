@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -32,19 +33,23 @@ class LoginController extends Controller
     }
     
     //Socialite
-    public function redirectToTwitter() {
+    public function redirectToTwitter() 
+    {
         return Socialite::driver('twitter')->redirect();
     }
     
-    public function handleTwitterCallback() {
+    public function handleTwitterCallback() 
+    {
         //return Socialite::driver('twitter')->redirect();
     }
     
-    public function redirectToGitHub() {
+    public function redirectToGitHub() 
+    {
         return Socialite::driver('github')->redirect();
     }
     
-    public function handleGitHubCallback() {
+    public function handleGitHubCallback() 
+    {
         //return Socialite::driver('github')->redirect();
     }
 }

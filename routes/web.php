@@ -15,15 +15,22 @@
 //ホーム
 Route::get('/', 'HomeController@index');
 
+//要認証
+Route::get('/user/profile', 'UserController@profile')->name('user.profile');
+Route::get('/user/setting', 'UserController@setting')->name('user.setting');
+Route::post('/user/update/basic', 'UserController@updateBasic')->name('user.update.basic');
+Route::post('/user/update/password', 'UserController@updatePassword')->name('user.update.password');
+Route::post('/user/update/icon', 'UserController@updateIcon')->name('user.update.icon');
+
 //ユーザー認証関係
 Auth::routes();
 
-Route::get('/login/twitter', 'LoginController@redirectToTwitter')
+Route::get('/login/twitter', 'Auth\LoginController@redirectToTwitter')
      ->name('login.twitter');
-Route::get('/login/twitter/callback', 'LoginController@handleTwitterCallback')
+Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallback')
      ->name('login.twitter.callback');
 
-Route::get('/login/github', 'LoginController@redirectToGitHub')
+Route::get('/login/github', 'Auth\LoginController@redirectToGitHub')
      ->name('login.github');
-Route::get('/login/github/callback', 'LoginController@handleGitHubCallback')
+Route::get('/login/github/callback', 'Auth\LoginController@handleGitHubCallback')
      ->name('login.github.callback');

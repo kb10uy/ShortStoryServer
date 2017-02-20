@@ -47,8 +47,8 @@
       ShortStoryServerにTwitterアカウントなどを利用してログインできます。
       一度ログインすればSSSアカウントと外部アカウント両方でログインできます。
     </p>
-    <a class="button expanded" href="#">GitHubアカウントでログイン</a>
-    <a class="button expanded" href="#">Twitterアカウントでログイン</a>
+    <a class="button expanded" href="{{ route('login.github') }}">GitHubアカウントでログイン</a>
+    <a class="button expanded" href="{{ route('login.twitter') }}">Twitterアカウントでログイン</a>
   </div>
 </div>
 @endsection
