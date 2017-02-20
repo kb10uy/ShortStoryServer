@@ -16,12 +16,13 @@ return [
         'register' => '登録',
         'login' => 'ログイン',
         'logout' => 'ログアウト',
-        'profile' => 'プロフィール',
     ],
     'user' => [
         'description' => '自己紹介',
         'cur_password' => '現在のパスワード',
         'new_password' => '新しいパスワード',
         'new_password_confirm' => '新しいパスワードの再入力',
+        'profile' => 'プロフィール',
+        'setting' => '設定',
     ],
 ];
