@@ -11,15 +11,17 @@
         @foreach($errors->all() as $message)
           <li>{{ $message }}</li>
         @endforeach
-        @if(Session::has('current_password'))
-          <li>{{ Session::get('current_password') }}</li>
-        @endif
       </ul>
     </div>
   @endif
   @if(Session::has('basic_updated'))
     <div data-abide-error class="success callout">
       {{ Session::get('basic_updated') }}
+    </div>
+  @endif
+  @if(Session::has('current_password'))
+    <div data-abide-error class="warning callout">
+      {{ Session::get('current_password') }}
     </div>
   @endif
   @if(Session::has('password_updated'))
@@ -48,7 +50,7 @@
               <label for="right-label" class="text-right middle">@lang('view.auth.username')</label>
             </div>
             <div class="small-9 columns">
-              <input type="text" name="name" placeholder="使用したいユーザー名" required>
+              <input type="text" name="name" placeholder="使用したいユーザー名" required value="{{ Auth::user()->name }}">
               <span class="form-error">ユーザー名は入力してください。</span>
             </div>
           </div>
@@ -58,7 +60,7 @@
               <label for="right-label" class="text-right middle">@lang('view.auth.email')</label>
             </div>
             <div class="small-9 columns">
-              <input type="text" name="email" placeholder="メールアドレス" required>
+              <input type="text" name="email" placeholder="メールアドレス" required value="{{ Auth::user()->email }}">
               <span class="form-error">メールアドレスは入力してください。</span>
             </div>
           </div>
@@ -68,7 +70,7 @@
               <label for="right-label" class="text-right middle">@lang('view.user.description')</label>
             </div>
             <div class="small-9 columns">
-              <textarea name="description" placeholder="自己紹介的な文章を入力してください。(200文字以内)"></textarea>
+              <textarea name="description" placeholder="自己紹介的な文章を入力してください。(200文字以内)">{{ Auth::user()->description }}</textarea>
             </div>
           </div>
           
