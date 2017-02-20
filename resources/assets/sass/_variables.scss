@@ -18,3 +18,6 @@ $ssserver-palette: (
 
 $body-background: s3color(white-primary);
 $body-font-color: s3color(black-primary);
+
+//これマジ？paddingに対してsizeが貧弱すぎるだろ…
+$tab-item-font-size: rem-calc(16);

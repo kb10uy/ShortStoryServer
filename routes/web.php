@@ -14,16 +14,18 @@
 
 //ホーム
 Route::get('/', 'HomeController@index');
+Route::get('/user/profile', 'UserController@profile')->name('user.profile');
+Route::get('/user/setting', 'UserController@setting')->name('user.setting');
 
 //ユーザー認証関係
 Auth::routes();
 
-Route::get('/login/twitter', 'LoginController@redirectToTwitter')
+Route::get('/login/twitter', 'Auth\LoginController@redirectToTwitter')
      ->name('login.twitter');
-Route::get('/login/twitter/callback', 'LoginController@handleTwitterCallback')
+Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallback')
      ->name('login.twitter.callback');
 
-Route::get('/login/github', 'LoginController@redirectToGitHub')
+Route::get('/login/github', 'Auth\LoginController@redirectToGitHub')
      ->name('login.github');
-Route::get('/login/github/callback', 'LoginController@handleGitHubCallback')
+Route::get('/login/github/callback', 'Auth\LoginController@handleGitHubCallback')
      ->name('login.github.callback');
