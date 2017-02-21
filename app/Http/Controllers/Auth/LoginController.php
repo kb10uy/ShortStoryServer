@@ -34,19 +34,19 @@ class LoginController extends Controller
         return 'name';
     }
     
-    /*
+    
     //Socialite
     public function redirectToTwitter() 
     {
         return Socialite::driver('twitter')->redirect();
     }
     
-    public function handleTwitterCallback() 
+    public function handleTwitterCallback(Request $request) 
     {
         if (Auth::check()) {
-            //return $this->handleUpdateSocialiteUser('twitter', $request);
+            return $this->handleUpdateSocialiteUser('twitter', $request);
         } else {
-            //return $this->handleNewSocialiteUser('twitter', $social);
+            return $this->handleNewSocialiteUser('twitter', $request);
         }
     }
     
@@ -55,26 +55,24 @@ class LoginController extends Controller
         return Socialite::driver('github')->redirect();
     }
     
-    public function handleGitHubCallback() 
+    public function handleGitHubCallback(Request $request) 
     {
         if (Auth::check()) {
-            return "ログイン済みなんだが？";
-            //return $this->handleUpdateSocialiteUser('github', $request);
+            return $this->handleUpdateSocialiteUser('github', $request);
         } else {
-            return "まだログインしてないんだが？";
-            //return $this->handleNewSocialiteUser('github', $request, $social);
+            return $this->handleNewSocialiteUser('github', $request);
         }
     }
     
     //新規ユーザーログイン
-    protected function handleNewSocialiteUser($driver, $request, $social) 
+    protected function handleNewSocialiteUser($driver, $request) 
     {
         $session = $request->session();
+        $socuser = Socialite::driver($driver)->user();
+        $session->put($driver . '_id', $socuser->getId());
+        $session->put($driver . '_name', $socuser->getNickname());
         
-        $session->put($driver . '_id', $social->getId());
-        $session->put($driver . '_name', $social->getNickname());
-        
-        $session->flash('information', 'You are registering with ' . $driver . ' account. Your account name is ' . $social->getName() . '.');
+        $session->flash('information', 'You are registering with ' . $driver . ' account. Your account name is ' . $socuser->getNickname() . '.');
         return redirect()->route('register');
     }
     
@@ -91,5 +89,4 @@ class LoginController extends Controller
         $request->session()->flash('updated', 'Twitter account information has been successfully updated!');
         return redirect()->route('user.setting');
     }
-    */
 }
