@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 use Hash;
+use App\User;
 
 class UserController extends Controller
 {
@@ -15,9 +16,11 @@ class UserController extends Controller
         $this->middleware('auth')->except('profile');
     }
     
-    public function profile()
+    public function profile($user)
     {
-        return view('user.profile');
+        return view('user.profile', [
+            'user' => User::where('name', $user)->firstOrFail(),
+        ]);
     }
     
     public function setting()

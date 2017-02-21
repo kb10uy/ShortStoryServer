@@ -16,11 +16,13 @@
 Route::get('/', 'HomeController@index');
 
 //要認証
-Route::get('/user/profile', 'UserController@profile')->name('user.profile');
-Route::get('/user/setting', 'UserController@setting')->name('user.setting');
-Route::post('/user/update/basic', 'UserSettingController@updateBasic')->name('user.update.basic');
-Route::post('/user/update/password', 'UserSettingController@updatePassword')->name('user.update.password');
-Route::post('/user/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
+Route::get('/setting', 'UserController@setting')->name('user.setting');
+Route::post('/update/basic', 'UserSettingController@updateBasic')->name('user.update.basic');
+Route::post('/update/password', 'UserSettingController@updatePassword')->name('user.update.password');
+Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
+
+Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
+
 
 //ユーザー認証関係
 Auth::routes();

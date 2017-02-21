@@ -10,12 +10,12 @@
 <div class="row" data-equalizer data-equalize-on="medium">
   <div class="medium-4 large-3 columns">
     <div class="callout small-6 medium-12 columns" data-equalizer-watch>
-      <img alt="User Image" src="http://placeimg.com/320/320/any">
+      <img alt="User Image" src="{{ Storage::url($user->icon) }}">
     </div>
     <div class="small-6 medium-12 columns" data-equalizer-watch>
       <h3>
         Name to be shown as author
-        <small>(Name to be used as id)</small>
+        <small>({{ $user->name }})</small>
       </h3>
       <ul>
         <li>Birthday : 1970-01-01</li>
