@@ -20,6 +20,7 @@ Route::get('/setting', 'UserController@setting')->name('user.setting');
 Route::post('/update/basic', 'UserSettingController@updateBasic')->name('user.update.basic');
 Route::post('/update/password', 'UserSettingController@updatePassword')->name('user.update.password');
 Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
+Route::post('/update/misc', 'UserSettingController@updateMisc')->name('user.update.misc');
 
 Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 

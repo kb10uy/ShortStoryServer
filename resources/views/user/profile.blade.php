@@ -1,10 +1,10 @@
 @extends('layouts.base')
 
-@section('title', 'プロフィール')
+@section('title', __('view.title.profile'))
 
 @section('content')
 <div class="row">
-  <h1>プロフィール</h1>
+  <h1>@lang('view.title.profile')</h1>
 </div>
 
 <div class="row" data-equalizer data-equalize-on="medium">
@@ -18,8 +18,8 @@
         <small>({{ $user->name }})</small>
       </h3>
       <ul>
-        <li>Birthday : 1970-01-01</li>
-        <li>Website : http://example.com</li>
+        <li>Birthday : {{ $user->birthday }}</li>
+        <li>Website : {{ $user->url }}</li>
         <li>Twitter : @someone</li>
       </ul>
     </div>

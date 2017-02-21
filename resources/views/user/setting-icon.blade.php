@@ -1,5 +1,5 @@
 <div class="small-12 columns">
-  <h3>アイコン</h3>
+  <h3>@lang('view.user.icon')</h3>
 </div>
 
 <div class="small-6 medium-4 columns">
@@ -10,15 +10,15 @@
 
 <div class="small-6 medium-8 columns" data-equalizer-watch>
   <ul>
-    <li>対応形式: PNG, JPEG, GIF</li>
-    <li>最大サイズ: 1024x1024, 512KB</li>
-    <li>内部で320x320 JPEGに縮小・変換されます</li>
+    <li>@lang('view.user.icon_req_1')</li>
+    <li>@lang('view.user.icon_req_2')</li>
+    <li>@lang('view.user.icon_req_3')</li>
   </ul>
   <!-- アイコン アップロード -->
   <form role="form" method="POST" enctype="multipart/form-data" action="{{ route('user.update.icon') }}" data-abide novalidate>
     {{ csrf_field() }}
-    <label for="fileupicon" class="button">ファイルを選択</label>
+    <label for="fileupicon" class="button">@lang('view.user.icon_select')</label>
     <input type="file" name="file_icon" id="fileupicon" class="show-for-sr">
-    <button class="button" type="submit" value="Submit">更新</button>
+    <button class="button" type="submit" value="Submit">@lang('view.update')</button>
   </form>
 </div>
