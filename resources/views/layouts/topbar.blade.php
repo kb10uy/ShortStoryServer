@@ -14,8 +14,8 @@
         @if(Auth::guest())
         <a href="#">@lang('view.not_loggedin')</a>
         <ul class="menu vertical">
-          <li><a href="{{ route('login') }}">@lang('view.login')</a></li>
-          <li><a href="{{ route('register') }}">@lang('view.register_user')</a></li>
+          <li><a href="{{ route('login') }}">@lang('view.title.login')</a></li>
+          <li><a href="{{ route('register') }}">@lang('view.title.register_user')</a></li>
         </ul>
         @else
         <a href="#">{{ Auth::user()->name }}</a>

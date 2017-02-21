@@ -8,6 +8,11 @@
   <p>
     @lang('view.auth.register_intro')
   </p>
+  @if(Session::has('information'))
+    <div data-abide-error class="primary callout">
+      {{ Session::get('information') }}
+    </div>
+  @endif
 </div>
 <div class="row">
   <form role="form" method="POST" action="{{ route('register') }}" data-abide novalidate>

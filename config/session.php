@@ -146,6 +146,7 @@ return [
     | in your application. This will determine which domains the cookie is
     | available to in your application. A sensible default has been set.
     |
+    | http://stackoverflow.com/questions/30660847/laravel-socialite-invalidstateexception
     */
 
     'domain' => env('SESSION_DOMAIN', null),
