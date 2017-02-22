@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 
+//WebSocket/Pusher
+Broadcast::routes();
 
 //ユーザー認証関係
 Auth::routes();

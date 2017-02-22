@@ -16,5 +16,17 @@ require('./bootstrap');
 Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        information: {
+            message: ''
+        }
+    }
 });
+
+
+Echo.channel('server-information')
+    .listen('ServerInformed', (e) => {
+        app.information.message = e.message;
+        $('#modal-information').foundation('open');
+    });

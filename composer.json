@@ -12,7 +12,8 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "mpyw/co": "^1.5",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

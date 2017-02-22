@@ -23,7 +23,7 @@ mix.autoload({
   // jquery: ['$', 'window.jQuery']
 });
 mix.js('resources/assets/js/app.js', 'public/js')
-   .extract(['vue', 'axios', 'lodash', 'jquery'])
+   .extract(['vue', 'axios', 'lodash', 'jquery', 'laravel-echo', 'pusher-js'])
    //クライアントサイド処理用
    .js('resources/assets/js/common.js', 'public/js');
 
