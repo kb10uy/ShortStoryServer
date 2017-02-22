@@ -46,6 +46,7 @@ return [
         'password_update' => 'パスワードの更新',
         'basic_info' => '基本情報',
         'additional_info' => '追加情報',
+        'social' => '連携',
         'profile' => 'プロフィール',
         'description' => '自己紹介',
         'description_p' => '自己紹介的な文章を入力してください。(200文字以内)',
@@ -59,7 +60,11 @@ return [
         'icon_req_2' => '最大サイズ: 1024x1024, 512KB',
         'icon_req_3' => '内部で320x320 JPEGに縮小・変換されます',
         'icon_select' => 'ファイルを選択',
-        
+        'twitter' => 'Twitter',
+        'github' => 'GitHub',
+        'unset' => '未設定',
+        'set' => '設定・更新',
+        'unlink' => '解除',
     ],
     
     'message' => [

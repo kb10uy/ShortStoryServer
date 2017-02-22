@@ -27,6 +27,7 @@
       <li class="tabs-title is-active"><a href="#panel-basic" aria-selected="true">@lang('view.user.basic_setting')</a></li>
       <li class="tabs-title"><a href="#panel-icon">@lang('view.user.icon')</a></li>
       <li class="tabs-title"><a href="#panel-misc">@lang('view.user.misc')</a></li>
+      <li class="tabs-title"><a href="#panel-social">@lang('view.user.social')</a></li>
     </ul>
     </div>
     <div class="medium-9 columns">
@@ -49,6 +50,11 @@
       <div class="tabs-panel is-active" id="panel-misc">
         <!-- 追加情報 -->
         @include('user.setting-misc')
+      </div>
+      
+      <div class="tabs-panel is-active" id="panel-social">
+        <!-- 連携設定 -->
+        @include('user.setting-social')
       </div>
     </div>
   </div>

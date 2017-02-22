@@ -15,12 +15,14 @@
 //ホーム
 Route::get('/', 'HomeController@index');
 
-//要認証
-Route::get('/setting', 'UserController@setting')->name('user.setting');
-Route::post('/update/basic', 'UserSettingController@updateBasic')->name('user.update.basic');
-Route::post('/update/password', 'UserSettingController@updatePassword')->name('user.update.password');
-Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
-Route::post('/update/misc', 'UserSettingController@updateMisc')->name('user.update.misc');
+//設定
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/setting', 'UserController@setting')->name('user.setting');
+    Route::post('/update/basic', 'UserSettingController@updateBasic')->name('user.update.basic');
+    Route::post('/update/password', 'UserSettingController@updatePassword')->name('user.update.password');
+    Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
+    Route::post('/update/misc', 'UserSettingController@updateMisc')->name('user.update.misc');
+});
 
 Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 
@@ -28,12 +30,18 @@ Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 //ユーザー認証関係
 Auth::routes();
 
+//Twitter連携
 Route::get('/login/twitter', 'Auth\LoginController@redirectToTwitter')
      ->name('login.twitter');
 Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallback')
      ->name('login.twitter.callback');
+Route::delete('/login/twitter/remove', 'Auth\LoginController@removeTwitterData')
+     ->name('login.twitter.remove')->middleware('auth');
 
+//GitHub連携
 Route::get('/login/github', 'Auth\LoginController@redirectToGitHub')
      ->name('login.github');
 Route::get('/login/github/callback', 'Auth\LoginController@handleGitHubCallback')
      ->name('login.github.callback');
+Route::delete('/login/github/remove', 'Auth\LoginController@removeGitHubData')
+     ->name('login.github.remove')->middleware('auth');
