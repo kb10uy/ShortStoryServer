@@ -107,7 +107,7 @@ class LoginController extends Controller
         $user = User::where($driver . '_id', $social->getId())->first();
         if ($user) {
             Auth::login($user);
-            $user.fill([$driver . '_name' => $social->getNickname()])->save();
+            $user->fill([$driver . '_name' => $social->getNickname()])->save();
             return redirect()->route('home');
         } else {
             $session->put($driver . '_id', $social->getId());

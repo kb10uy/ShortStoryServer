@@ -13,7 +13,7 @@
 //デバッグ用
 
 //ホーム
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
 //設定
 Route::group(['middleware' => 'auth'], function () {
