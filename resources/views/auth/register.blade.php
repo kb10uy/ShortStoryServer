@@ -1,21 +1,22 @@
 @extends('layouts.base')
 
-@section('title', 'ユーザー登録')
+@section('title', __('view.title.register_user'))
 
 @section('content')
 <div class="row">
-  <h1>ShortStoryServerアカウントを作成する</h1>
+  <h1>@lang('view.auth.register_account')</h1>
   <p>
-    ユーザー登録をすると、SSの投稿やブックマーク、通知などを利用できます！
-    早速登録しましょう。
+    @lang('view.auth.register_intro')
   </p>
+  @if(Session::has('information'))
+    <div data-abide-error class="primary callout">
+      {{ Session::get('information') }}
+    </div>
+  @endif
 </div>
 <div class="row">
   <form role="form" method="POST" action="{{ route('register') }}" data-abide novalidate>
     <!-- エラー表示 -->
-    <div data-abide-error class="alert callout" style="display: none;">
-      (caution) 入力に不備もしくは不都合があります。確認してください。
-    </div>
     @if ($errors->has('name'))
       <div data-abide-error class="warning callout">
         {{ $errors->first('name') }}
@@ -33,8 +34,8 @@
         <label for="right-label" class="text-right middle">@lang('view.auth.username')</label>
       </div>
       <div class="small-8 columns">
-        <input type="text" name="name" placeholder="使用したいユーザー名" required>
-        <span class="form-error">ユーザー名は入力してください。</span>
+        <input type="text" name="name" placeholder="@lang('view.auth.username_p')" required>
+        <span class="form-error">@lang('view.message.username_required')</span>
       </div>
     </div>
     <div class="row">
@@ -42,8 +43,8 @@
         <label for="right-label" class="text-right middle">@lang('view.auth.email')</label>
       </div>
       <div class="small-8 columns">
-        <input type="text" name="email" placeholder="パスワードリセットなどに使用します" required>
-        <span class="form-error">メールアドレスは入力してください。</span>
+        <input type="text" name="email" placeholder="@lang('view.auth.email')" required>
+        <span class="form-error">@lang('view.message.email_required')</span>
       </div>
     </div>
     <div class="row">
@@ -52,7 +53,7 @@
       </div>
       <div class="small-8 columns">
         <input id="password" type="password" name="password" required>
-        <span class="form-error">パスワードは入力してください。</span>
+        <span class="form-error">@lang('view.message.password_required')</span>
       </div>
     </div>
     <div class="row">
@@ -61,7 +62,7 @@
       </div>
       <div class="small-8 columns">
         <input type="password" name="password_confirmation" required data-equalto="password">
-        <span class="form-error">パスワードが一致していません。</span>
+        <span class="form-error">@lang('view.message.password_nomatch')</span>
       </div>
     </div>
     <div class="input-group-button">

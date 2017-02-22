@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'ログイン')
+@section('title', __('view.title.login'))
 
 @section('content')
 <div class="row">
@@ -30,7 +30,7 @@
       <div class="row">
         <div class="small-4 columns"></div>
         <div class="small-8 columns">
-          <input id="remember" name="remember" type="checkbox"><label for="remember">ログインしたままにする</label>
+          <input id="remember" name="remember" type="checkbox"><label for="remember">@lang('view.auth.remember')</label>
         </div>
       </div>
       
@@ -39,16 +39,15 @@
       </div>
     </form>
     
-    <a href="{{ route('password.request') }}">パスワードを忘れた方はこちら</a>
+    <a href="{{ route('password.request') }}">@lang('view.auth.forgot')</a>
   </div>
   <div class="medium-6 small-12 columns">
     <h4>@lang('view.auth.other_account')</h4>
     <p>
-      ShortStoryServerにTwitterアカウントなどを利用してログインできます。
-      一度ログインすればSSSアカウントと外部アカウント両方でログインできます。
+      @lang('view.auth.other_account_info')
     </p>
-    <a class="button expanded" href="{{ route('login.github') }}">GitHubアカウントでログイン</a>
-    <a class="button expanded" href="{{ route('login.twitter') }}">Twitterアカウントでログイン</a>
+    <a class="button expanded" href="{{ route('login.twitter') }}">@lang('view.auth.login_with_twitter')</a>
+    <a class="button expanded" href="{{ route('login.github') }}">@lang('view.auth.login_with_github')</a>
   </div>
 </div>
 @endsection

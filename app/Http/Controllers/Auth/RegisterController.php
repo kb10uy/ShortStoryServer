@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Request;
 
 class RegisterController extends Controller
 {
@@ -63,12 +64,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             
             'icon' => '/public/images/default.png',
         ]);
+        $session = Request::session();
+        
+        //ソーシャルユーザー登録
+        if ($session->has('twitter_id')) {
+            $user->fill([
+                'twitter_id' => $session->pull('twitter_id'),
+                'twitter_name' => $session->pull('twitter_name'),
+            ])->save();
+        }
+        if ($session->has('github_id')) {
+            $user->fill([
+                'github_id' => $session->pull('github_id'),
+                'github_name' => $session->pull('github_name'),
+            ])->save();
+        }
+        
+        return $user;
     }
 }

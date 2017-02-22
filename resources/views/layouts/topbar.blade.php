@@ -14,15 +14,15 @@
         @if(Auth::guest())
         <a href="#">@lang('view.not_loggedin')</a>
         <ul class="menu vertical">
-          <li><a href="{{ route('login') }}">@lang('view.login')</a></li>
-          <li><a href="{{ route('register') }}">@lang('view.register_user')</a></li>
+          <li><a href="{{ route('login') }}">@lang('view.title.login')</a></li>
+          <li><a href="{{ route('register') }}">@lang('view.title.register_user')</a></li>
         </ul>
         @else
         <a href="#">{{ Auth::user()->name }}</a>
         <ul class="menu vertical">
           <li>
-            <a href="{{ route('user.profile') }}">@lang('view.user.profile')</a>
-            <a href="{{ route('user.setting') }}">@lang('view.user.setting')</a>
+            <a href="{{ route('user.profile', ['user' => Auth::user()->name]) }}">@lang('view.user.profile')</a>
+            <a href="{{ route('user.setting') }}">@lang('view.title.setting')</a>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
               {{ csrf_field() }}
