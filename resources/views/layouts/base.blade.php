@@ -9,6 +9,7 @@
     <title>@yield('title') - ShortStoryServer</title>
   </head>
   <body>
+    <!-- 本体 -->
     <div id="app">
       @include('layouts.topbar')
       

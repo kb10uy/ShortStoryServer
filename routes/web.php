@@ -15,6 +15,9 @@
 //ホーム
 Route::get('/', 'HomeController@index')->name('home');
 
+//投稿
+Route::get('/post/new', 'PostController@create')->name('post.new');
+
 //設定
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/setting', 'UserController@setting')->name('user.setting');
