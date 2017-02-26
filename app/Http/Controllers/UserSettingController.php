@@ -23,6 +23,7 @@ class UserSettingController extends Controller
                 'required',
                 'max:64',
                 'alpha_dash',
+                'allowed',
                 Rule::unique('users')->ignore($user->id),
             ],
             'email' => 'required|email|max:255',
@@ -38,7 +39,7 @@ class UserSettingController extends Controller
             'description' => $request->description,
         ])->save();
         
-        $request->session()->flash('updated', 'Basic information has been successfully updated!');
+        $request->session()->flash('success', 'Basic information has been successfully updated!');
         return redirect()->route('user.setting');
     }
     
@@ -63,7 +64,7 @@ class UserSettingController extends Controller
                 'password' => Hash::make($request->password_new)
             ])->save();
             
-            $request->session()->flash('updated', 'Your password has been successfully updated!');
+            $request->session()->flash('success', 'Your password has been successfully updated!');
             return redirect()->route('user.setting');
         }
     }
@@ -95,7 +96,7 @@ class UserSettingController extends Controller
         $user->icon = $path;
         $user->save();
         
-        $request->session()->flash('updated', 'Your icon has been successfully uploaded!');
+        $request->session()->flash('success', 'Your icon has been successfully uploaded!');
         return redirect()->route('user.setting');
     }
     
@@ -113,7 +114,7 @@ class UserSettingController extends Controller
             'url' => $request->url,
         ])->save();
         
-        $request->session()->flash('updated', 'Your information has been successfully uploaded!');
+        $request->session()->flash('success', 'Your information has been successfully uploaded!');
         return redirect()->route('user.setting');
     }
 }

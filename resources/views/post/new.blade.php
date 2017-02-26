@@ -9,6 +9,7 @@
 
 <div class="row">
   <form role="form" method="POST" action="{{ route('post.new') }}" novalidate data-abide>
+    {{ csrf_field() }}
     <label>
       タイトル
       <input name="title" required type="text" placeholder="このSSのタイトルを入力">
@@ -18,8 +19,6 @@
     <label>
       タグ
       <sss-post-tags></sss-post-tags>
-      <input id="tag-text" type="text">
-      <button class="button" type="button">投稿</button>
     </label>
     
     <label>

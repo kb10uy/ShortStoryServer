@@ -8,12 +8,18 @@ return [
     //タイトル
     'title' => [
         'home' => 'ホーム',
+        'about' => 'kb10uy S3とは',
         'profile' => 'プロフィール', 
         'setting' => '設定',
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
     ],
     
+    //aboutページ
+    'about' => [
+        'title' => 'ShortStoryServer とは?'
+    ],
+    //認証関係
     'auth' => [
         //含 register要素
         'register_intro' => 'ユーザー登録をすると、SSの投稿やブックマーク、通知などを利用できます！早速登録しましょう。',

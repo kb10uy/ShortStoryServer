@@ -5,20 +5,6 @@
 @section('content')
 <div class="row">
   <h1>@lang('view.title.setting')</h1>
-  @if($errors->any())
-    <div data-abide-error class="warning callout">
-      <ul>
-        @foreach($errors->all() as $message)
-          <li>{{ $message }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-  @if(Session::has('updated'))
-    <div data-abide-error class="success callout">
-      {{ Session::get('updated') }}
-    </div>
-  @endif
 </div>
 
 <div class="row collapse">

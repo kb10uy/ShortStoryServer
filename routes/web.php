@@ -14,9 +14,13 @@
 
 //ホーム
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/about', 'HomeController@about')->name('about');
 
 //投稿
-Route::get('/post/new', 'PostController@create')->name('post.new');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/post/new', 'PostController@create')->name('post.new');
+    Route::post('/post/new', 'PostController@upload')->name('post.new');
+});
 
 //設定
 Route::group(['middleware' => 'auth'], function () {
