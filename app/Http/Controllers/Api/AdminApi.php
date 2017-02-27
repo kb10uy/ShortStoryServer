@@ -33,7 +33,7 @@ class AdminApi extends Controller
             $user->type = 'admin';
             $user->save();
             return response()
-                 ->json(['result' => 'Yay! Now you has Admin privilege.'], 200);
+                 ->json(['result' => 'Yay! Now you have Admin privilege.'], 200);
         } else {
             $user->type = 'user';
             $user->save();
