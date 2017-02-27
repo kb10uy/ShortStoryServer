@@ -11,6 +11,30 @@
 |
 */
 
+//Admin
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    Route::get('/admin', 'AdminController@index')->name('admin.index');
+});
+
+//ユーザー認証関係
+Auth::routes();
+
+//Twitter連携
+Route::get('/login/twitter', 'Auth\SocialLoginController@redirectToTwitter')
+     ->name('login.twitter');
+Route::get('/login/twitter/callback', 'Auth\SocialLoginController@handleTwitterCallback')
+     ->name('login.twitter.callback');
+Route::delete('/login/twitter/remove', 'Auth\SocialLoginController@removeTwitterData')
+     ->name('login.twitter.remove')->middleware('auth');
+
+//GitHub連携
+Route::get('/login/github', 'Auth\SocialLoginController@redirectToGitHub')
+     ->name('login.github');
+Route::get('/login/github/callback', 'Auth\SocialLoginController@handleGitHubCallback')
+     ->name('login.github.callback');
+Route::delete('/login/github/remove', 'Auth\SocialLoginController@removeGitHubData')
+     ->name('login.github.remove')->middleware('auth');
+
 //ホーム
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/about', 'HomeController@about')->name('about');
@@ -36,22 +60,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 //WebSocket/Pusher
 Broadcast::routes();
-
-//ユーザー認証関係
-Auth::routes();
-
-//Twitter連携
-Route::get('/login/twitter', 'Auth\LoginController@redirectToTwitter')
-     ->name('login.twitter');
-Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallback')
-     ->name('login.twitter.callback');
-Route::delete('/login/twitter/remove', 'Auth\LoginController@removeTwitterData')
-     ->name('login.twitter.remove')->middleware('auth');
-
-//GitHub連携
-Route::get('/login/github', 'Auth\LoginController@redirectToGitHub')
-     ->name('login.github');
-Route::get('/login/github/callback', 'Auth\LoginController@handleGitHubCallback')
-     ->name('login.github.callback');
-Route::delete('/login/github/remove', 'Auth\LoginController@removeGitHubData')
-     ->name('login.github.remove')->middleware('auth');

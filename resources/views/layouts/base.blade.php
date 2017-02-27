@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
   <head>
     <meta charset="utf-8">
@@ -11,13 +10,19 @@
   <body>
     <!-- 本体 -->
     <div id="app">
-      @include('layouts.topbar')
-      @include('layouts.flashes')
+      <div id="content">
+        @include('layouts.topbar')
+        @include('layouts.flashes')
       
-      @yield('content')
-      @include('layouts.misc')
+        @yield('content')
+      </div>
+
+      <footer id="footer">
+        @include('layouts.footer')
+      </footer>
+      <popup-info name="server"></popup-info>
     </div>
-    
+
     @include('layouts.includes-after')
   </body>
 </html>

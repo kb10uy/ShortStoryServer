@@ -31,3 +31,18 @@ hr {
 .label-keep{
 	color: $label-color;
 }
+
+#app {
+  flex-direction: column;
+  display: flex;
+  min-height: 100%;
+}
+
+#content {
+  flex: 1;
+}
+
+#footer {
+  background-color: s3color(footer-background);
+  color: s3color(white-primary);
+}
