@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Post;
+use Auth;
+use Session;
 
 class PostController extends Controller
 {
@@ -25,11 +27,24 @@ class PostController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        
         $post = new Post;
         $post->title = $request->title;
         $post->text = $request->text;
-        $post->user = Auth::user();
-        $post->save();
+        Auth::user()->posts()->save($post);
         Session::flash('success', 'Your post has been uploaded successfully!');
+
+        return redirect()->route('post.view', ['id' => $post->id]);
+    }
+
+    public function open(Request $request, $id) 
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
+        } elseif ($post->invisible) {
+            Session::flash('warning', 'This post is set invisible now.');
+        }
+        return view('post.view', ['post' => $post]);
     }
 }

@@ -16,7 +16,7 @@ class CustomValidatorProvider extends ServiceProvider
     {
         //設定されたNGワードでないか
         Validator::extend('allowed', function ($attr, $value, $params, $vtor) {
-            return in_array($value, config('validator.prohibit'));
+            return !in_array($value, config('validator.prohibited'));
         });
     }
 

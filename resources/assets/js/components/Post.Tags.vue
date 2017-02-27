@@ -3,9 +3,9 @@
     <input type="hidden" name="tags" id="tags-field" v-bind:value="tagsValue">
     <div class="small-12 medium-4 columns">
       <div class="input-group">
-        <input type="text" class="input-group-field" v-model="newTagText">
+        <input type="text" class="input-group-field" form="" v-model="newTagText" @keyup.enter="addTag">
         <div class="input-group-button">
-          <input type="button" class="button" value="追加" @click="addTag" @keyup.enter="addTag">
+          <a class="button" @click="addTag">追加</a>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
         }, 
         methods: {
             addTag(event) {
-                if (this.newTagText.replace(/"/g, '')) return;
+                if (this.newTagText.replace(/"/g, '') == '') return;
                 this.tags.push(this.newTagText.replace(/"/g, ''));
                 this.newTagText = '';
             },

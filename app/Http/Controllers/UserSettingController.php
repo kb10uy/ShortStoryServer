@@ -107,11 +107,13 @@ class UserSettingController extends Controller
         $this->validate($request, [
             'birthday' => 'date',
             'url' => 'nullable|url',
+            'display_name' => 'nullable|max:64',
         ]);
         
         $user->fill([
             'birthday' => $request->birthday,
             'url' => $request->url,
+            'display_name' => $request->display_name ?: $request->user()->name,
         ])->save();
         
         $request->session()->flash('success', 'Your information has been successfully uploaded!');

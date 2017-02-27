@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'ホーム')
+@section('title', __('view.title.home'))
 
 @section('content')
 <div class="row">

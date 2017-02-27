@@ -1,10 +1,10 @@
 @extends('layouts.base')
 
-@section('title', '投稿する')
+@section('title', __('view.title.post'))
 
 @section('content')
 <div class="row">
-  <h1>投稿する</h1>
+  <h1>@lang('view.title.post')</h1>
 </div>
 
 <div class="row">

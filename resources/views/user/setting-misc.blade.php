@@ -3,6 +3,15 @@
   {{ csrf_field() }}
   <div class="row">
     <div class="small-3 columns">
+      <label for="right-label" class="text-right middle">@lang('view.user.display_name')</label>
+    </div>
+    <div class="small-9 columns">
+      <input type="text" name="display_name" placeholder="@lang('view.user.display_name_p')" value="{{ Auth::user()->display_name }}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-3 columns">
       <label for="right-label" class="text-right middle">@lang('view.user.birthday')</label>
     </div>
     <div class="small-9 columns">
