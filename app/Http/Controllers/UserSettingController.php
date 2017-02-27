@@ -39,7 +39,7 @@ class UserSettingController extends Controller
             'description' => $request->description,
         ])->save();
         
-        $request->session()->flash('success', 'Basic information has been successfully updated!');
+        $request->session()->flash('success', __('view.message.basic_info_updated'));
         return redirect()->route('user.setting');
     }
     
@@ -57,14 +57,14 @@ class UserSettingController extends Controller
             return redirect()->route('user.setting')->withErrors($validator);
         } elseif (!Hash::check($request->password, $user->password)) {
             //現パス不一致
-            $request->errors()->add('password', 'Current password does not match!');
+            $request->errors()->add('password', __('view.message.password_nomatch'));
             return redirect()->route('user.setting')->withErrors($validator);
         } else {
             $user->fill([
                 'password' => Hash::make($request->password_new)
             ])->save();
             
-            $request->session()->flash('success', 'Your password has been successfully updated!');
+            $request->session()->flash('success', __('view.message.password_updated'));
             return redirect()->route('user.setting');
         }
     }
@@ -96,7 +96,7 @@ class UserSettingController extends Controller
         $user->icon = $path;
         $user->save();
         
-        $request->session()->flash('success', 'Your icon has been successfully uploaded!');
+        $request->session()->flash('success', __('view.message.icon_updated'));
         return redirect()->route('user.setting');
     }
     
@@ -116,7 +116,7 @@ class UserSettingController extends Controller
             'display_name' => $request->display_name ?: $request->user()->name,
         ])->save();
         
-        $request->session()->flash('success', 'Your information has been successfully uploaded!');
+        $request->session()->flash('success', __('view.message.misc_info_updated'));
         return redirect()->route('user.setting');
     }
 }
