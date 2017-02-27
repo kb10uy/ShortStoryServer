@@ -10,10 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//デバッグ用
 
 //ホーム
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/about', 'HomeController@about')->name('about');
+
+//投稿
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/post/new', 'PostController@create')->name('post.new');
+    Route::post('/post/new', 'PostController@upload')->name('post.new');
+});
+Route::get('/post/{id}', 'PostController@open')->name('post.view');
+
+//ユーザー
+Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 
 //設定
 Route::group(['middleware' => 'auth'], function () {
@@ -23,8 +33,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
     Route::post('/update/misc', 'UserSettingController@updateMisc')->name('user.update.misc');
 });
-
-Route::get('/user/{user}', 'UserController@profile')->name('user.profile');
 
 //WebSocket/Pusher
 Broadcast::routes();

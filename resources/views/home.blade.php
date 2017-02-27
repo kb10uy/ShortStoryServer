@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'ホーム')
+@section('title', __('view.title.home'))
 
 @section('content')
 <div class="row">
@@ -37,6 +37,15 @@
 <div class="row text-center">
   <h1>新生ShortStoryServer</h1>
   <p>想像を書き起こす場所、今再び。</p>
-  <h2></h2>
+  
+  <hr>
+  
+  <h2>新機能ぞくぞく</h2>
+  <p class="with-emoji">
+    <a href="http://emojione.com/">EmojiOne</a>ライブラリによって、
+    :sparkles:このように:sparkles:絵文字を使えるようになりました。:smile:<br>
+    Unicode絵文字を使用することもできますが、&#058;smlie&#058;というようにshortnameで記述することも
+    できます。
+  </p>
 </div>
 @endsection

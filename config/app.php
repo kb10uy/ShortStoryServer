@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'jp',
+    'locale' => 'ja',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\CustomBladeDirectiveProvider::class,
+        App\Providers\CustomValidatorProvider::class,
     ],
 
     /*

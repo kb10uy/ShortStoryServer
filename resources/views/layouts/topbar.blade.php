@@ -4,7 +4,9 @@
   </div>
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
-      
+      <li><a href="{{ route('home') }}">@lang('view.title.home')</a></li>
+      <li><a href="{{ route('about') }}">@lang('view.title.about')</a></li>
+      <li><a href="{{ route('post.new') }}">@lang('view.title.post')</a></li>
     </ul>
   </div>
   

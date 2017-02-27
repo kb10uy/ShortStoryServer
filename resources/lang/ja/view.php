@@ -8,12 +8,19 @@ return [
     //タイトル
     'title' => [
         'home' => 'ホーム',
+        'about' => 'kb10uy S3とは',
         'profile' => 'プロフィール', 
         'setting' => '設定',
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
+        'post' => '投稿する',
     ],
     
+    //aboutページ
+    'about' => [
+        'title' => 'ShortStoryServer とは?'
+    ],
+    //認証関係
     'auth' => [
         //含 register要素
         'register_intro' => 'ユーザー登録をすると、SSの投稿やブックマーク、通知などを利用できます！早速登録しましょう。',
@@ -50,11 +57,14 @@ return [
         'profile' => 'プロフィール',
         'description' => '自己紹介',
         'description_p' => '自己紹介的な文章を入力してください。(200文字以内)',
+        'no-description' => '(自己紹介はありません)',
         'cur_password' => '現在のパスワード',
         'new_password' => '新しいパスワード',
         'new_password_confirm' => '新しいパスワードの再入力',
         'url' => 'URL',
         'url_p' => '自分のWebサイトなどのURL',
+        'display_name' => '名前',
+        'display_name_p' => '作者名として表示されます(任意文字表示可能)。空にするとユーザー名',
         'birthday' => '誕生日',
         'icon_req_1' => '対応形式: PNG, JPEG, GIF',
         'icon_req_2' => '最大サイズ: 1024x1024, 512KB',

@@ -1,19 +1,20 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+/* クライアントサイドの汎用処理
+ * あとFoundationくんはapp.jsに居残り
+ * だってそうしないと順序問題が
  */
-
 require('./bootstrap');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+Vue.component('sss-post-tags', require('./components/Post.Tags.vue'));
 
-Vue.component('example', require('./components/Example.vue'));
+//Foundation
+$(document).ready(function() {
+  $(document).foundation();
+});
+
+// Emoji One変換対象にはwith-emojiクラス付加すること
+$('.with-emoji').each(function(i, e) {
+    e.innerHTML = emojione.toImage(e.innerHTML);
+});
 
 const app = new Vue({
     el: '#app',
@@ -24,7 +25,7 @@ const app = new Vue({
     }
 });
 
-
+//Laravel Echoグローバル域
 Echo.channel('server-information')
     .listen('ServerInformed', (e) => {
         app.information.message = e.message;
