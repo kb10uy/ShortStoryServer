@@ -9,6 +9,7 @@
         "doctrine/dbal": "^2.5",
         "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
+        "laravel/passport": "^2.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "mpyw/co": "^1.5",
