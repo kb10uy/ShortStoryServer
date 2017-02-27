@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     /**
      * User::createで複数代入できるアレ
@@ -24,6 +25,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //API認証でユーザー名当てる
+    public function findForPassport($username) 
+    {
+        return $this->where('name', $username)->first();
+    }
 
     //このユーザーが投稿したSS
     public function posts() 

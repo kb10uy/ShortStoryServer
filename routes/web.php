@@ -57,6 +57,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update/icon', 'UserSettingController@updateIcon')->name('user.update.icon');
     Route::post('/update/misc', 'UserSettingController@updateMisc')->name('user.update.misc');
 });
-
-//WebSocket/Pusher
-Broadcast::routes();
