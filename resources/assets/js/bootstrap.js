@@ -1,19 +1,21 @@
-window._ = require('lodash');
-
 window.$ = window.jQuery = require('jquery');
-
+window._ = require('lodash');
 window.Vue = require('vue');
-
-require('foundation-sites');
-
 window.axios = require('axios');
+import Echo from "laravel-echo"
+
+window.VueEvent = new Vue();
+
+Vue.component('sss-post-tags', require('./components/Post.Tags.vue'));
+Vue.component('popup-info', require('./components/Popup-Info.vue'));
+window.VueInstance = new Vue({
+    el: '#app'
+});
 
 window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
-
-import Echo from "laravel-echo"
 
 window.Echo = new Echo({
     broadcaster: 'pusher',

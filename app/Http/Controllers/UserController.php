@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 use Hash;
+use Session;
 use App\User;
 
 class UserController extends Controller
@@ -18,9 +19,12 @@ class UserController extends Controller
     
     public function profile($user)
     {
-        return view('user.profile', [
-            'user' => User::where('name', $user)->firstOrFail(),
-        ]);
+        $user = User::where('name', $user)->first();
+        if (!$user) {
+            Session::flash('alert', __('view.message.user_not_exist'));
+            return redirect()->route('home');
+        }
+        return view('user.profile', ['user' => $user]);
     }
     
     public function setting()

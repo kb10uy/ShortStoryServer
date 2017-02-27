@@ -83,5 +83,12 @@ return [
         'password_required' => 'パスワードを入力してください。',
         'new_password_required' => '新しいパスワードを入力してください。',
         'password_nomatch' => 'パスワードが一致しません。',
+        'basic_info_updated' => '基本情報が更新されました。',
+        'password_updated' => '基本情報が更新されました。',
+        'misc_info_updated' => 'サブ情報が更新されました。',
+        'user_not_exist' => 'そのユーザーは存在しません。',
+        'post_not_exist' => 'このIDの投稿は存在しないか削除された可能性があります。',
+        'post_invisible' => 'この投稿は現在非公開になっています。',
+        'not_admin' => 'あなたに管理者権限がありません。',
     ],
 ];
