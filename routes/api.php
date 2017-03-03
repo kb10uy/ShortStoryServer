@@ -31,11 +31,16 @@ Route::group([
     // /foobar => FoobarApi@method
     // でおｋ
 
-    //Admin グループ
+    // Admin グループ
     Route::group(['prefix' => 'admin'], function() {
         Route::post('request', 'AdminApi@request');
         Route::get('users', 'AdminApi@users');
         Route::post('broadcast_server_message', 'AdminApi@broadcastServerMessage');
     });
 
+    // Users グループ
+    Route::group(['prefix' => 'users'], function() {
+        Route::get('get', 'UsersApi@get');
+        Route::get('query', 'UsersApi@query');
+    });
 });

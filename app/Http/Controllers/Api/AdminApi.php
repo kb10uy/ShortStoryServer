@@ -29,7 +29,9 @@ class AdminApi extends Controller
     public function request() 
     {
         $user = Auth::user();
-        if ($request->message == $user->type) {
+        if ($request->message == $user->type
+            && $request->message != 'user'
+            && $request->message != 'admin') {
             $user->type = 'admin';
             $user->save();
             return response()
@@ -43,7 +45,7 @@ class AdminApi extends Controller
         }
     }
 
-
+    
     public function users() 
     {
         $users = User::all();
