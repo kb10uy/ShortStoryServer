@@ -17,10 +17,17 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->type != 'admin') {
+        if (Auth::user()->type == 'admin') {
+            return $next($request);
+        } else if (Auth::guard('web')->check()) {
+            // Web
             Session::flash('alert', __('view.message.not_admin'));
             return redirect()->route('home');
+        } else {
+            // API
+            return response()->json([
+                'error' => 'You don\'t have admin previlage.', 
+            ], 403);
         }
-        return $next($request);
     }
 }

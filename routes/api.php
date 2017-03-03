@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 API ルート表
 /api
 +---/admin
+|   +---/request (POST) Admin権限を要求する
 |   +---/message (POST) サーバーメッセージを発行する
 |   +---/users (GET) ユーザーのリストを取得する
 +---/app
@@ -23,6 +24,23 @@ API ルート表
 
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'middleware' => 'auth:api',
+    'namespace' => 'Api',
+    ], function () {
+    // /foobar => FoobarApi@method
+    // でおｋ
+
+    // Admin グループ
+    Route::group(['prefix' => 'admin'], function() {
+        Route::post('request', 'AdminApi@request');
+        Route::get('users', 'AdminApi@users');
+        Route::post('broadcast_server_message', 'AdminApi@broadcastServerMessage');
+    });
+
+    // Users グループ
+    Route::group(['prefix' => 'users'], function() {
+        Route::get('get', 'UsersApi@get');
+        Route::get('query', 'UsersApi@query');
+    });
 });

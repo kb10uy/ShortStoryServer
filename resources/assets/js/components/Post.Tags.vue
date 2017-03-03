@@ -27,8 +27,9 @@
         }, 
         methods: {
             addTag(event) {
-                if (this.newTagText.replace(/"/g, '') == '') return;
-                this.tags.push(this.newTagText.replace(/"/g, ''));
+                const formed = this.newTagText.replace(/"/g, '');
+                if (formed == '' || this.tags.indexOf(formed) >= 0) return;
+                this.tags.push(formed);
                 this.newTagText = '';
             },
         },

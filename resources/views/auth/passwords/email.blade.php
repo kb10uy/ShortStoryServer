@@ -1,46 +1,31 @@
 @extends('layouts.base')
+@section('title', __('view.auth.reset_password'))
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+  <div class="row">
+    <h1>@lang('view.auth.reset_password')</h1>
+    @if(session('status'))
+      <div class="success callout">
+        {{ session('status') }}
+      </div>
+    @endif
+    <div class="small-12 columns">
+      <form role="form" method="POST" action="{{ route('password.email') }}">
+        {{ csrf_field() }}
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div class="row">
+          <div class="small-4 columns">
+            <label for="right-label" class="text-right middle">@lang('view.auth.email')</label>
+          </div>
+          <div class="small-8 columns">
+            <input type="email" name="email" value="{{ old('email') }}" required>
+          </div>
         </div>
+
+        <div class="input-group-button">
+          <input type="submit" class="button expanded" value="{{ __('view.auth.send_reset_link') }}">
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 @endsection

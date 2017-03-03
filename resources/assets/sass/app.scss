@@ -1,14 +1,12 @@
 
 // Fonts
 @import "fonts";
-
-// Variables
 @import "variables";
+@import "transition";
 
 // Libraries
 @import "node_modules/motion-ui/motion-ui";
 @include motion-ui-transitions;
-
 @import "node_modules/foundation-sites/assets/foundation";
 
 hr {
@@ -45,4 +43,19 @@ hr {
 #footer {
   background-color: s3color(footer-background);
   color: s3color(white-primary);
+}
+
+//admin テーブル
+.admin-table-id {
+    width: 5rem;
+}
+
+.admin-table-name {
+    width: 16rem;
+    word-wrap: break-word;
+}
+
+.admin-table-type {
+    width: 6rem;
+    word-wrap: break-word;
 }
