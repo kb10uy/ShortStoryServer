@@ -40,6 +40,10 @@ return [
         'logout' => 'ログアウト',
         'remember' => 'ログインしたままにする', 
         'forgot' => 'パスワードを忘れた方はこちら', 
+        'reset_password' => 'パスワードのリセット',
+        'send_reset_link' => 'パスワードリセットのリンクを送信',
+        'enter_new_password' => '新しいパスワードの入力',
+        'accept_password' => 'パスワードを更新',
         'other_account_info' => 'ShortStoryServerにTwitterアカウントなどを利用してログインできます。一度ログインすればSSSアカウントと外部アカウント両方でログインできます。',
         
         'login_with_twitter' => 'Twitterアカウントでログイン',
