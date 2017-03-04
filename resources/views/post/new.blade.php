@@ -11,23 +11,23 @@
   <form role="form" method="POST" action="{{ route('post.new') }}" novalidate data-abide>
     {{ csrf_field() }}
     <label>
-      タイトル
-      <input name="title" required type="text" placeholder="このSSのタイトルを入力">
-      <span class="form-error">タイトルは必須です。</span>
+      @lang('view.post.title')
+      <input name="title" required type="text" placeholder="{{ __('view.post.title_p') }}">
+      <span class="form-error">@lang('view.message.title_required')</span>
     </label>
     
     <label>
-      タグ
+      @lang('view.post.tag')
       <sss-post-tags></sss-post-tags>
     </label>
     
     <label>
-      本文
-      <textarea name="text" required rows="32" placeholder="本文"></textarea>
-      <span class="form-error">本文は必須です。</span>
+      @lang('view.post.text')
+      <textarea name="text" required rows="32" placeholder="{{ __('view.post.text_p') }}"></textarea>
+      <span class="form-error">@lang('view.message.title_required')</span>
     </label>
     
-    <button class="button" type="submit">投稿</button>
+    <button class="button" type="submit">@lang('view.update')</button>
   </form>
 </div>
 @endsection

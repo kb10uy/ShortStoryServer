@@ -12,24 +12,24 @@
     {{ csrf_field() }}
     <input name="_method" type="hidden" value="PATCH">
     <label>
-      タイトル
-      <input name="title" required type="text" placeholder="このSSのタイトルを入力" value="{{ $post->title }}">
-      <span class="form-error">タイトルは必須です。</span>
+      @lang('view.post.title')
+      <input name="title" required type="text" placeholder="{{ __('view.post.title_p') }}" value="{{ $post->title }}">
+      <span class="form-error">@lang('view.message.title_required')</span>
     </label>
     
     <input name="_prev_tags" id="post_hidden_tags" type="hidden" value="{{ $taglist }}">
     <label>
-      タグ
+      @lang('view.post.tag')
       <sss-post-tags></sss-post-tags>
     </label>
     
     <label>
-      本文
-      <textarea name="text" required rows="32" placeholder="本文">{{ $post->text }}</textarea>
-      <span class="form-error">本文は必須です。</span>
+      @lang('view.post.text')
+      <textarea name="text" required rows="32" placeholder="{{ __('view.post.text_p') }}">{{ $post->text }}</textarea>
+      <span class="form-error">@lang('view.message.title_required')</span>
     </label>
     
-    <button class="button" type="submit">投稿</button>
+    <button class="button" type="submit">@lang('view.update')</button>
   </form>
 </div>
 @endsection
