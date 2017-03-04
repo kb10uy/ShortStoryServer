@@ -10,7 +10,7 @@ class Rule
 
     /*
      * callbackの仕様
-     * function (ParserState $state, string match) : string
+     * function (ParserState $state, string $match) : string
      *
      *
      */

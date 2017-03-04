@@ -2,17 +2,19 @@
 
 namespace App\Utilities;
 
+use Parsers\S3wfParser;
+
 class TextParser 
 {
-    protected $parser;
+    protected $parsers = [];
 
     public function __construct()
     {
-        $parser = new TextParser;
+        $parsers['s3wf'] = new S3wfParser;
     }
 
     public function parse(string $type, string $text)
     {
-        return $this->parser->parse($type, $text);
+        return $this->parsers[$type]->parse(htmlspecialchars($text));
     }
 }

@@ -25,6 +25,23 @@ hr {
     rgba($color, 0) 100%);
 }
 
+//本文装飾用
+.text-bold {
+    font-weight: bold;
+}
+
+.text-italic {
+    font-style: italic;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.text-strike {
+    text-decoration: line-through;
+}
+
 // 
 .label-keep{
 	color: $label-color;
