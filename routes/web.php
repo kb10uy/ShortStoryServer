@@ -43,6 +43,8 @@ Route::get('/about', 'HomeController@about')->name('about');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/post/new', 'PostController@create')->name('post.new');
     Route::post('/post/new', 'PostController@upload')->name('post.new');
+    Route::get('/post/{id}/edit', 'PostController@edit')->name('post.edit');
+    Route::patch('/post/{id}/edit', 'PostController@update')->name('post.edit');
 });
 Route::get('/post/{id}', 'PostController@open')->name('post.view');
 

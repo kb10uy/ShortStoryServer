@@ -14,6 +14,7 @@ return [
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
         'post' => '投稿する',
+        'edit_post' => '編集する',
     ],
     
     //aboutページ

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    protected $fillable = [
+        'title', 'text',
+    ];
+
     //投稿したユーザーを取得
     public function user()
     {
