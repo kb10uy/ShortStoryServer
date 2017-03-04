@@ -3,7 +3,8 @@
 return [
     //ログインフォーム関係
     'not_loggedin' => 'ログインしていません',
-    'update' => '更新', 
+    'update' => '更新',
+    't_post' => '投稿',
     
     //タイトル
     'title' => [
@@ -14,6 +15,7 @@ return [
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
         'post' => '投稿する',
+        'edit_post' => '編集する',
     ],
     
     //aboutページ
@@ -81,6 +83,14 @@ return [
         'unlink' => '解除',
     ],
     
+    'post' => [
+        'title' => 'タイトル',
+        'title_p' => 'このSSのタイトルを入力',
+        'tag' => 'タグ',
+        'text' => '本文',
+        'text_p' => 'SSの本文',
+    ],
+
     'message' => [
         'username_required' => 'ユーザー名は入力してください。',
         'email_required' => 'メールアドレスは入力してください。',
@@ -90,9 +100,13 @@ return [
         'basic_info_updated' => '基本情報が更新されました。',
         'password_updated' => '基本情報が更新されました。',
         'misc_info_updated' => 'サブ情報が更新されました。',
+        'icon_updated' => 'アイコンが更新されました。',
         'user_not_exist' => 'そのユーザーは存在しません。',
         'post_not_exist' => 'このIDの投稿は存在しないか削除された可能性があります。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
         'not_admin' => 'あなたに管理者権限がありません。',
+
+        'title_required' => 'タイトルを入力してください。',
+        'text_required' => '本文を入力してください。',
     ],
 ];

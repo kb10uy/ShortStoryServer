@@ -182,6 +182,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         App\Providers\CustomBladeDirectiveProvider::class,
         App\Providers\CustomValidatorProvider::class,
+        App\Providers\TextServiceProvider::class,
         
     ],
 
@@ -234,6 +235,7 @@ return [
         
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Text' => App\Facades\Text::class,
     ],
 
 ];
