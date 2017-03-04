@@ -58,7 +58,7 @@ class PostController extends Controller
             Session::flash('alert', 'You can\'t edit this post!');
             return redirect()->route('home');
         }
-
+        
         $taglist = json_encode($post->tags->map(function($item,$key) {
             return $item->name;
         }));

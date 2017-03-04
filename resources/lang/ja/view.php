@@ -4,8 +4,7 @@ return [
     //ログインフォーム関係
     'not_loggedin' => 'ログインしていません',
     'update' => '更新',
-    'post' => '投稿',
-
+    't_post' => '投稿',
     
     //タイトル
     'title' => [
@@ -89,7 +88,7 @@ return [
         'title_p' => 'このSSのタイトルを入力',
         'tag' => 'タグ',
         'text' => '本文',
-        'text' => 'SSの本文',
+        'text_p' => 'SSの本文',
     ],
 
     'message' => [

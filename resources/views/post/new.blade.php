@@ -27,7 +27,7 @@
       <span class="form-error">@lang('view.message.title_required')</span>
     </label>
     
-    <button class="button" type="submit">@lang('view.update')</button>
+    <button class="button" type="submit">@lang('view.t_post')</button>
   </form>
 </div>
 @endsection
