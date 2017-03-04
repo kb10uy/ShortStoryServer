@@ -22,10 +22,8 @@
   </div>
 </div>
 <div class="row">
-  <div class="small-12 columns">
-    <p>
-      {{ $post->text }}
-    </p>
+  <div class="small-12 columns with-emoji">
+    {!! $parsed !!}
   </div>
 </div>
 @endsection

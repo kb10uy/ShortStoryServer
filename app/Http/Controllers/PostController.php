@@ -8,6 +8,7 @@ use App\Post;
 use App\Tag;
 use Auth;
 use Session;
+use Text;
 
 class PostController extends Controller
 {
@@ -112,6 +113,9 @@ class PostController extends Controller
         } elseif ($post->invisible) {
             Session::flash('warning', 'This post is set invisible now.');
         }
-        return view('post.view', ['post' => $post]);
+        return view('post.view', [
+            'post' => $post,
+            'parsed' => Text::parse('s3wf', $post->text),
+        ]);
     }
 }

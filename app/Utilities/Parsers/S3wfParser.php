@@ -2,7 +2,7 @@
 
 namespace App\Utilities\Parsers;
 
-use kb10uy\S3\Parsers\Parser;
+use App\Utilities\Parsers\Parser;
 
 class S3wfParser extends Parser
 {
@@ -19,7 +19,7 @@ class S3wfParser extends Parser
         $result = [];
 
         foreach($lines as $line) {
-            if($state['noparse']) {
+            if($state['noparse'] ?? false) {
                 $result[] = $line;
                 continue;
             }
@@ -36,7 +36,7 @@ class S3wfParser extends Parser
             }
 
             //ブロック要素
-            if (preg_match('/^>-{4,}/', $line) === 1) {
+            if (preg_match('/^&gt;-{4,}/', $line) === 1) {
                 if ($state['blockquote'] ?? false) {
                     $result[] = '</blockquote>';
                     $state['blockquote'] = false;
@@ -58,7 +58,7 @@ class S3wfParser extends Parser
             if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,(.+))?/', $line, $match) === 1) {
                 $state['type'][$match[1]] = [$match[2], $match[4] ?: ''];
                 continue;
-            } elseif (preg_match('/@(\w+)>(.+)$/', $line, $match) === 1) {
+            } elseif (preg_match('/@(\w+)&gt;(.+)$/', $line, $match) === 1) {
                 $result[] = '<span style="color: ' . $state['type'][$match[1]][0] . ';">' . $state['type'][$match[1]][1] . $match[2] . '</span><br>';
                 continue;
             }
@@ -95,7 +95,7 @@ class S3wfParser extends Parser
                 $line, -1);
             
             $line = preg_replace_callback(
-                '/<@(.+)>\((.+)\)/', 
+                '/&lt;@(.+)&gt;\((.+)\)/', 
                 function($m) {
                     return    '<span style="color: ' . $state['type'][$m[1]][0] . '">' 
                             . $state['type'][$m[1]][1] . $m[2] 
@@ -105,7 +105,6 @@ class S3wfParser extends Parser
 
             $result[] = $line;
         }
-
         return implode("\n", $result); 
     }
 }
