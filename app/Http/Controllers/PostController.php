@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Post;
+use App\Tag;
 use Auth;
 use Session;
 
@@ -27,11 +28,19 @@ class PostController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        //dd('[' . $request->tags . ']');
+        $tags = eval('return [' . $request->tags . '];');
+        $tagids = [];
+        foreach ($tags as $tagname) {
+            $tag = Tag::firstOrCreate(['name' => $tagname]);
+            $tagids[] = $tag->id;
+        }
         
         $post = new Post;
         $post->title = $request->title;
         $post->text = $request->text;
         Auth::user()->posts()->save($post);
+        $post->tags()->sync($tagids);
         Session::flash('success', 'Your post has been uploaded successfully!');
 
         return redirect()->route('post.view', ['id' => $post->id]);

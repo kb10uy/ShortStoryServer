@@ -90,6 +90,7 @@ return [
         'basic_info_updated' => '基本情報が更新されました。',
         'password_updated' => '基本情報が更新されました。',
         'misc_info_updated' => 'サブ情報が更新されました。',
+        'icon_updated' => 'アイコンが更新されました。',
         'user_not_exist' => 'そのユーザーは存在しません。',
         'post_not_exist' => 'このIDの投稿は存在しないか削除された可能性があります。',
         'post_invisible' => 'この投稿は現在非公開になっています。',

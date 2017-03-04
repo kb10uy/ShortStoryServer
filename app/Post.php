@@ -11,4 +11,10 @@ class Post extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    //この投稿のタグを取得
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
 }
