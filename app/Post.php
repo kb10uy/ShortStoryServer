@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Auth;
 use Text;
 use Redis;
@@ -10,9 +11,22 @@ use Session;
 
 class Post extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'title', 'text',
     ];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array = array_intersect_key($array, ['title' => '', 'text' => '']);
+        $array['tags'] = $this->tags->map(function($elem) {
+            return $elem->name;
+        });
+
+        return $array;
+    }
 
     // スコープ ----------------------------------------------
     public function scopeVisible($query)
@@ -59,7 +73,7 @@ class Post extends Model
     //短縮表示用のダイジェスト本文
     public function digest()
     {
-        $raw = Text::parseToPlain('s3wf', $this->text);
+        $raw = Text::parseToPlain($this->type, $this->text);
         if (strlen($raw) > 100) {
             return mb_substr($raw, 0, 100) . '…';
         } else {
@@ -70,9 +84,9 @@ class Post extends Model
     //Redis保管のデータを初期化する
     public function initInfo()
     {
-        Redis::zincrby(config('database.keys.post-views'), 0, $post->id);
-        Redis::zincrby(config('database.keys.post-nices'), 0, $post->id);
-        Redis::zincrby(config('database.keys.post-bads'), 0, $post->id);
+        Redis::zincrby(config('database.keys.post-views'), 0, $this->id);
+        Redis::zincrby(config('database.keys.post-nices'), 0, $this->id);
+        Redis::zincrby(config('database.keys.post-bads'), 0, $this->id);
     }
 
     //Redis保管のデータを引っ張ってくる

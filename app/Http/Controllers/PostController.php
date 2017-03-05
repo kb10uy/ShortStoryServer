@@ -40,6 +40,7 @@ class PostController extends Controller
         $post->fill([
             'title' => $request->title,
             'text' => $request->text,
+            'type' => 'plain',
         ]);
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
@@ -82,7 +83,8 @@ class PostController extends Controller
         $post->fill([
             'title' => $request->title,
             'text' => $request->text,
-        ])->save();
+        ]);
+        $post->save();
         $post->tags()->sync($tagids);
 
         return redirect()->route('post.view', ['id' => $post->id]);
@@ -97,7 +99,7 @@ class PostController extends Controller
         Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
             'post' => $post,
-            'parsed' => Text::parse('s3wf', $post->text),
+            'parsed' => Text::parse($post->type, $post->text),
         ]);
     }
 

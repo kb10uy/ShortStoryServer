@@ -24,7 +24,7 @@ class TextServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('text', function ($app) {
+        $this->app->bind('text', function ($app) {
             return new TextParser;
         });
     }

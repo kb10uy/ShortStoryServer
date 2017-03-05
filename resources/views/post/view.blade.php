@@ -26,7 +26,7 @@
 </div>
 <hr>
 <div class="row">
-  <div class="small-12 columns with-emoji">
+  <div class="small-12 columns">
     {!! $parsed !!}
   </div>
 </div>

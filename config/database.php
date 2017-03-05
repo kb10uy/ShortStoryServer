@@ -109,6 +109,8 @@ return [
         'post-views' => 'kbs3-post-views',
         'post-nices' => 'kbs3-post-nices',
         'post-bads' => 'kbs3-post-bads',
+        'post-index-prefix' => 'kbs3-text-index-',
+        'post-index-table' => 'kbs3-text-table',
     ],
 
 ];

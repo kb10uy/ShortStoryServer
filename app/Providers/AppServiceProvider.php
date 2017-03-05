@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
+use App\Utilities\MeCabEngine;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        resolve(EngineManager::class)->extend('mecab', function () {
+            return new MeCabEngine;
+        });
     }
 
     /**
