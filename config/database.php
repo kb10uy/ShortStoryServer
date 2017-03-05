@@ -102,7 +102,13 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
+    ],
 
+    // Redis独自保存アクセスキー
+    'keys' => [
+        'post-views' => 'kbs3-post-views',
+        'post-nices' => 'kbs3-post-nices',
+        'post-bads' => 'kbs3-post-bads',
     ],
 
 ];

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Text;
+use Redis;
 
 class Post extends Model
 {
@@ -23,6 +24,7 @@ class Post extends Model
         return $result;
     }
 
+    //短縮表示用のダイジェスト本文
     public function digest()
     {
         $raw = Text::parseToPlain('s3wf', $this->text);
@@ -31,6 +33,16 @@ class Post extends Model
         } else {
             return $raw;
         }
+    }
+
+    //Redis保管のデータを引っ張ってくる
+    public function info()
+    {
+        return [
+            'view_count' => Redis::zscore(config('database.keys.post-views'), $this->id),
+            'nice_count' => Redis::zscore(config('database.keys.post-nices'), $this->id),
+            'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
+        ];
     }
 
     //投稿したユーザーを取得

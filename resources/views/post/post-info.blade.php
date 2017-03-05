@@ -1,8 +1,13 @@
+@php
+    //仕方ない
+    $_postinfo = $postinfo ?? $post->info();
+@endphp
+
 <div class="small-3 columns">
-  <h5><i class="fi-eye"></i> {{ $post->view_count }}</h5>
+  <h5><i class="fi-eye"></i> {{ $_postinfo['view_count'] ?? 0 }}</h5>
 </div>
 <div class="small-3 columns">
-  <h5><i class="fi-like"></i> {{ $post->nice_count }}</h5>
+  <h5><i class="fi-like"></i> {{ $_postinfo['nice_count'] ?? 0}}</h5>
 </div>
 <div class="small-3 columns">
   <h5><i class="fi-bookmark"></i> 0</h5>

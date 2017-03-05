@@ -108,7 +108,9 @@ return [
         'icon_updated' => 'アイコンが更新されました。',
         'user_not_exist' => 'そのユーザーは存在しません。',
         'post_not_exist' => 'このIDの投稿は存在しないか削除された可能性があります。',
+        'post_cant_edit' => 'このIDの投稿はあなたは編集できません。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
+        'post_uploaded' => 'SSが投稿されました！',
         'not_admin' => 'あなたに管理者権限がありません。',
 
         'title_required' => 'タイトルを入力してください。',

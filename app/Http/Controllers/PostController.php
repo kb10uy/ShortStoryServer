@@ -9,9 +9,12 @@ use App\Tag;
 use Auth;
 use Session;
 use Text;
+use Redis;
 
 class PostController extends Controller
 {
+    public $paginationCount = 10;
+
     // /post/new (GET)
     public function create()
     {
@@ -39,13 +42,18 @@ class PostController extends Controller
         }
 
         $post = new Post;
-        $post->title = $request->title;
-        $post->text = $request->text;
+        $post->fill([
+            'title' => $request->title,
+            'text' => $request->text,
+        ]);
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
         $post->tags()->sync($tagids);
+        Redis::zincrby(config('database.keys.post-views'), 0, $post->id);
+        Redis::zincrby(config('database.keys.post-nices'), 0, $post->id);
+        Redis::zincrby(config('database.keys.post-bads'), 0, $post->id);
 
-        Session::flash('success', 'Your post has been uploaded successfully!');
+        Session::flash('success', __('view.message.post_uploaded'));
         return redirect()->route('post.view', ['id' => $post->id]);
     }
 
@@ -53,10 +61,10 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
+            Session::flash('alert', __('view.message.post_not_exist'));
             return redirect()->route('home');
         } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
+            Session::flash('alert', __('view.message.post_cant_edit'));
             return redirect()->route('home');
         }
         
@@ -78,10 +86,10 @@ class PostController extends Controller
         ]);
 
         if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
+            Session::flash('alert', __('view.message.post_not_exist'));
             return redirect()->route('home');
         } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
+            Session::flash('alert', __('view.message.post_cant_edit'));
             return redirect()->route('home');
         } elseif ($validator->fails()) {
             return redirect()->route('post.edit')
@@ -109,12 +117,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
+            Session::flash('alert', __('view.message.post_not_exist'));
         } elseif ($post->invisible) {
-            Session::flash('warning', 'This post is set invisible now.');
+            Session::flash('warning', __('view.message.post_invisible'));
         }
-        $post->view_count++;
-        $post->save();
+
+        Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
             'post' => $post,
             'parsed' => Text::parse('s3wf', $post->text),
