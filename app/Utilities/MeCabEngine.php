@@ -97,7 +97,6 @@ class MeCabEngine extends Engine
 
     protected function deleteData(int $id)
     {
-        
         $list = Redis::hget(config('database.keys.post-index-table'), $id) ?? '';
         $list = preg_split('/ /u', $list, -1, PREG_SPLIT_NO_EMPTY);
         Redis::pipeline(function($pipe) use ($id, $list) {
