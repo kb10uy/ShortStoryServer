@@ -21,9 +21,6 @@ class Post extends Model
     {
         $array = $this->toArray();
         $array = array_intersect_key($array, ['title' => '', 'text' => '']);
-        $array['tags'] = $this->tags->map(function($elem) {
-            return $elem->name;
-        });
 
         return $array;
     }

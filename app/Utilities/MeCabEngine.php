@@ -4,6 +4,7 @@ namespace App\Utilities;
 
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
+use Illuminate\Database\Eloquent\Collection;
 use meCab\meCab;
 use Text;
 use Redis;
@@ -29,21 +30,7 @@ class MeCabEngine extends Engine
             $allwords = collect([]);
             $parse = $model->type;
             foreach($model->toSearchableArray() as $elem) {
-                $words = collect([]);
-                if (is_string($elem)) {
-                    $words = 
-                        collect($this->mecab->analysis(preg_replace('/\R/u', '', Text::parseToPlain($model->type ?? 'plain', $elem), -1)))
-                        ->filter(function ($value, $key) {
-                            return 
-                                ($value->getSpeech() === '名詞')
-                                && (array_search($value->getSpeechInfo()[0], $this->nounTypesToIgnore) === FALSE);
-                        })
-                        ->map(function($value, $key) {
-                            return $value->getText();
-                        });
-                } elseif (is_array($elem)) {
-                    $words = collect($elem);
-                }
+                $words = $this->getValidWords($elem);
                 $allwords = $allwords->union($words);
             }
             $allwords = $allwords->unique()->values()->toArray();
@@ -53,6 +40,52 @@ class MeCabEngine extends Engine
         }
     }
 
+    public function delete($models)
+    {
+        foreach($models as $model) $this->deleteData($model->id);
+    }
+
+    public function search(Builder $builder)
+    {
+        return $this->performSearch(['query' => $builder->query]);    
+    }
+
+    public function paginate(Builder $builder, $perPage, $page)
+    {
+        return $this->performSearch([
+            'query' => $builder->query,
+            'page' => $page,
+            'perPage' => $perPage,
+        ]);
+    }
+
+    public function map($results, $model)
+    {
+        if ($results['count'] === 0) return Collection::make();
+
+        $models = $model->whereIn(
+            $model->getQualifiedKeyName(), $results['matches']
+        )->get()->keyBy($model->getKeyName());
+
+        return Collection::make($results['matches'])->map(function ($hitId) use ($model, $models) {
+            $key = $hitId;
+            if (isset($models[$key])) {
+                return $models[$key];
+            }
+        })->filter();
+    }   
+
+    public function mapIds($results)
+    {
+        return $results['matches'];
+    }
+
+    public function getTotalCount($results)
+    {
+        return $results['count'];
+    }
+
+    // protected ---------------------------------------
     //重複無きこと
     protected function applyData(int $id, array $words)
     {
@@ -73,33 +106,50 @@ class MeCabEngine extends Engine
         Redis::hset(config('database.keys.post-index-table'), $id, '');
     }
 
-    public function delete($models)
+    protected function getValidWords($elem)
     {
-        foreach($models as $model) $this->deleteData($model->id);
+        $words = collect([]);
+        if (is_string($elem)) {
+            $words = 
+                collect($this->mecab->analysis(preg_replace('/\R/u', '', Text::parseToPlain('plain', $elem), -1)))
+                ->filter(function ($value, $key) {
+                    return 
+                        ($value->getSpeech() === '名詞')
+                        && (array_search($value->getSpeechInfo()[0], $this->nounTypesToIgnore) === FALSE);
+                })
+                ->map(function($value, $key) {
+                    return $value->getText();
+                });
+        } elseif (is_array($elem)) {
+            $words = collect([]);
+            foreach($elem as $child) $words = $words->union($this->getValidWords($child));
+        }
+        //dd($words);
+        return $words->unique()->values();
     }
 
-    public function search(Builder $builder)
+    protected function performSearch(array $options)
     {
-
-    }
-
-    public function paginate(Builder $builder, $perPage, $page)
-    {
-
-    }
-
-    public function map($results, $model)
-    {
+        $schfor = preg_split('/ /u', $options['query'], -1, PREG_SPLIT_NO_EMPTY);
+        $searches = $this->getValidWords($schfor)
+            ->map(function($item, $key) {
+                return config('database.keys.post-index-prefix') . $item;
+            })
+            ->toArray();
         
-    }
-
-    public function mapIds($results)
-    {
-        return collect($results['hits'])->pluck('objectID')->values();
-    }
-
-    public function getTotalCount($results)
-    {
-        return $results['nbHits'];
+        $matches = collect(Redis::sinter(implode(" ", $searches)))
+            ->map(function ($item, $key){
+                return (int)$item; 
+            })
+            ->sort(function($a, $b) {
+                return $a - $b;
+            });
+        $result['count'] = count($matches);
+        
+        if (isset($options['page'])) {
+            $matches = $matches->forPage($options['page'], $options['perPage']);
+        }
+        $result['matches'] = $matches;
+        return $result;
     }
 }
