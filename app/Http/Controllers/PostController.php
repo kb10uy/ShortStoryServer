@@ -124,7 +124,7 @@ class PostController extends Controller
     public function list(Request $request)
     {
         $posts = Post::visible();
-        if ($request->has('sort')){
+        if ($request->has('sort')) {
             switch($request->input('sort')) {
                 case 'view':
                     $posts = $posts->orderBy('view_count', 'desc');
@@ -136,16 +136,17 @@ class PostController extends Controller
                     $posts = $posts->orderBy('bookmark_count', 'desc');
                     break;
                 case 'updated':
-                    $posts = $posts->latest('updated_at');
+                    $posts = $posts->latest('updated_at', 'desc');
                     break;
                 case 'created':
                 default:
                     $posts = $posts->latest();
                     break;
             }
-            $posts = $posts->paginate(10);
-
+        } else {
+            $posts = $posts->latest();
         }
+        $posts = $posts->paginate(10);
         return view('post.list', [
             'posts' => $posts,
         ]);

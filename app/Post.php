@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
+use Text;
 
 class Post extends Model
 {
@@ -19,6 +21,16 @@ class Post extends Model
             $result = $result->orWhere('user_id', Auth::user()->id);
         }
         return $result;
+    }
+
+    public function digest()
+    {
+        $raw = Text::parseToPlain('s3wf', $this->text);
+        if (strlen($raw) > 100) {
+            return mb_substr($raw, 0, 100) . '…';
+        } else {
+            return $raw;
+        }
     }
 
     //投稿したユーザーを取得

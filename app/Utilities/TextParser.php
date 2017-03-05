@@ -17,4 +17,9 @@ class TextParser
     {
         return $this->parsers[$type]->parse(htmlspecialchars($text));
     }
+
+    public function parseToPlain(string $type, string $text)
+    {
+        return $this->parsers[$type]->parseToPlain(htmlspecialchars($text));
+    }
 }

@@ -107,6 +107,11 @@ class S3wfParser extends Parser
         }
         return implode("\n", $result); 
     }
+
+    public function parseToPlain(string $text)
+    {
+        return strip_tags($this->parse($text));
+    }
 }
 
 /*
