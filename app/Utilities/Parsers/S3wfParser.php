@@ -90,7 +90,7 @@ class S3wfParser extends Parser
                 $line, -1);
 
             $line = preg_replace(
-                '/\[(.+)\]\((.+)\)/', 
+                '/\[(.+)\]\((http.+)\)/', 
                 '<a href="$2">$1</a>',
                 $line, -1);
             

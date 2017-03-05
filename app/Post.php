@@ -10,6 +10,17 @@ class Post extends Model
         'title', 'text',
     ];
 
+    // スコープ ------------------------------
+    public function scopeVisible($query)
+    {
+        $result = $query->where('invisible', 0);
+        if (Auth::check())
+        {
+            $result = $result->orWhere('user_id', Auth::user()->id);
+        }
+        return $result;
+    }
+
     //投稿したユーザーを取得
     public function user()
     {

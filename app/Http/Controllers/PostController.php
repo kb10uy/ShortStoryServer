@@ -118,4 +118,36 @@ class PostController extends Controller
             'parsed' => Text::parse('s3wf', $post->text),
         ]);
     }
+
+    // /post?sort=****&.... (GET)
+    // pageクエリは勝手に探して判断してくれるよ！
+    public function list(Request $request)
+    {
+        $posts = Post::visible();
+        if ($request->has('sort')){
+            switch($request->input('sort')) {
+                case 'view':
+                    $posts = $posts->orderBy('view_count', 'desc');
+                    break;
+                case 'nice':
+                    $posts = $posts->orderBy('nice_count', 'desc');
+                    break;
+                case 'bookmark':
+                    $posts = $posts->orderBy('bookmark_count', 'desc');
+                    break;
+                case 'updated':
+                    $posts = $posts->latest('updated_at');
+                    break;
+                case 'created':
+                default:
+                    $posts = $posts->latest();
+                    break;
+            }
+            $posts = $posts->paginate(10);
+
+        }
+        return view('post.list', [
+            'posts' => $posts,
+        ]);
+    }
 }
