@@ -17,7 +17,7 @@ class PlainParser extends Parser
         $result = [];
         
         foreach($lines as $line) {
-            $line += '<br>';
+            $line .= '<br>';
             $result[] = $line;
         }
         return implode("\n", $result); 

@@ -94,6 +94,9 @@ return [
         'tag' => 'タグ',
         'text' => '本文',
         'text_p' => 'SSの本文',
+        'type' => 'SSの書式',
+        'type_plain' => 'プレーンテキスト',
+        'type_s3wf' => 'ShortStoryServer Writer Format',
     ],
 
     'message' => [

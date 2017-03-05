@@ -40,7 +40,7 @@ class PostController extends Controller
         $post->fill([
             'title' => $request->title,
             'text' => $request->text,
-            'type' => 'plain',
+            'type' => $request->type,
         ]);
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
@@ -72,6 +72,7 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required|max:128',
             'text' => 'required',
+            'type' => 'required',
         ]);
 
         $tags = eval('return [' . $request->tags . '];');
@@ -83,6 +84,7 @@ class PostController extends Controller
         $post->fill([
             'title' => $request->title,
             'text' => $request->text,
+            'type' => $request->type,
         ]);
         $post->save();
         $post->tags()->sync($tagids);
