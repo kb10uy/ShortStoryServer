@@ -14,7 +14,7 @@ class Post extends Model
         'title', 'text',
     ];
 
-    // スコープ & 検証 ----------------------------------------------
+    // スコープ ----------------------------------------------
     public function scopeVisible($query)
     {
         $result = $query->where('invisible', 0);
@@ -25,9 +25,9 @@ class Post extends Model
         return $result;
     }
 
-    // 検証
+    // 検証 ------------------------------------------------------
     
-    static public function updatable(Post $post, &$response)
+    static public function updatable(Post $post = null, &$response)
     {
         if (!$post) {
             Session::flash('alert', __('view.message.post_not_exist'));
@@ -41,7 +41,7 @@ class Post extends Model
         return true;
     }
 
-    static public function visibleForMe(Post $post, &$response) 
+    static public function visibleForMe(Post $post = null, &$response) 
     {
         if (!$post) {
             Session::flash('alert', __('view.message.post_not_exist'));

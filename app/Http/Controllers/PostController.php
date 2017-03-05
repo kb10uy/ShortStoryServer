@@ -92,7 +92,7 @@ class PostController extends Controller
     public function open(Request $request, $id) 
     {
         $post = Post::find($id);
-        if (!visibleForMe($post, $response)) return $response;
+        if (!Post::visibleForMe($post, $response)) return $response;
 
         Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
