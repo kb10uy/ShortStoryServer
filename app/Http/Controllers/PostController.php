@@ -113,6 +113,8 @@ class PostController extends Controller
         } elseif ($post->invisible) {
             Session::flash('warning', 'This post is set invisible now.');
         }
+        $post->view_count++;
+        $post->save();
         return view('post.view', [
             'post' => $post,
             'parsed' => Text::parse('s3wf', $post->text),

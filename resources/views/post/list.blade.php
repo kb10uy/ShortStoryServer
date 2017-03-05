@@ -10,10 +10,11 @@
     @foreach($posts as $post)
       <div class="small-12 large-6 columns">
         <div class="callout" data-equalizer-watch>
-          <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a></h3>
-          <blockquote>
+          <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
+          @include('post.post-info')
+          <p>
             {{ $post->digest() }}
-          </blockquote>
+          </p>
         </div>
       </div>
     @endforeach

@@ -6,6 +6,7 @@
     <ul class="dropdown menu" data-dropdown-menu>
       <li><a href="{{ route('home') }}">@lang('view.title.home')</a></li>
       <li><a href="{{ route('about') }}">@lang('view.title.about')</a></li>
+      <li><a href="{{ route('post.list') }}">@lang('view.title.posts_list')</a></li>
     </ul>
   </div>
   
