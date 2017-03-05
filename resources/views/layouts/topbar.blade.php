@@ -6,7 +6,7 @@
     <ul class="dropdown menu" data-dropdown-menu>
       <li><a href="{{ route('home') }}">@lang('view.title.home')</a></li>
       <li><a href="{{ route('about') }}">@lang('view.title.about')</a></li>
-      <li><a href="{{ route('post.new') }}">@lang('view.title.post')</a></li>
+      <li><a href="{{ route('post.list') }}">@lang('view.title.posts_list')</a></li>
     </ul>
   </div>
   
@@ -23,9 +23,10 @@
         <a href="#">{{ Auth::user()->name }}</a>
         <ul class="menu vertical">
           <li>
-            <a href="{{ route('user.profile', ['user' => Auth::user()->name]) }}">@lang('view.user.profile')</a>
-            <a href="{{ route('user.setting') }}">@lang('view.title.setting')</a>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a>
+            <li><a href="{{ route('post.new') }}">@lang('view.title.post')</a></li>
+            <li><a href="{{ route('user.profile', ['user' => Auth::user()->name]) }}">@lang('view.user.profile')</a></li>
+            <li><a href="{{ route('user.setting') }}">@lang('view.title.setting')</a></li>
+            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a></li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
               {{ csrf_field() }}
             </form>

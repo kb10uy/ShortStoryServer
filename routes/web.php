@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/post/{id}/edit', 'PostController@edit')->name('post.edit');
     Route::patch('/post/{id}/edit', 'PostController@update')->name('post.edit');
 });
+Route::get('/post', 'PostController@list')->name('post.list');
 Route::get('/post/{id}', 'PostController@open')->name('post.view');
 
 //ユーザー

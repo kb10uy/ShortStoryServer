@@ -5,6 +5,9 @@ return [
     'not_loggedin' => 'ログインしていません',
     'update' => '更新',
     't_post' => '投稿',
+    'page_prev' => '前のページ',
+    'page_next' => '次のページ',
+    'page_current' => '現在のページは',
     
     //タイトル
     'title' => [
@@ -15,6 +18,8 @@ return [
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
         'post' => '投稿する',
+        'posts_list' => '投稿一覧',
+        'posts_list_p' => '投稿一覧 ページ:page',
         'edit_post' => '編集する',
     ],
     

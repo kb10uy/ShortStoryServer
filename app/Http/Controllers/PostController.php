@@ -113,9 +113,44 @@ class PostController extends Controller
         } elseif ($post->invisible) {
             Session::flash('warning', 'This post is set invisible now.');
         }
+        $post->view_count++;
+        $post->save();
         return view('post.view', [
             'post' => $post,
             'parsed' => Text::parse('s3wf', $post->text),
+        ]);
+    }
+
+    // /post?sort=****&.... (GET)
+    // pageクエリは勝手に探して判断してくれるよ！
+    public function list(Request $request)
+    {
+        $posts = Post::visible();
+        if ($request->has('sort')) {
+            switch($request->input('sort')) {
+                case 'view':
+                    $posts = $posts->orderBy('view_count', 'desc');
+                    break;
+                case 'nice':
+                    $posts = $posts->orderBy('nice_count', 'desc');
+                    break;
+                case 'bookmark':
+                    $posts = $posts->orderBy('bookmark_count', 'desc');
+                    break;
+                case 'updated':
+                    $posts = $posts->latest('updated_at', 'desc');
+                    break;
+                case 'created':
+                default:
+                    $posts = $posts->latest();
+                    break;
+            }
+        } else {
+            $posts = $posts->latest();
+        }
+        $posts = $posts->paginate(10);
+        return view('post.list', [
+            'posts' => $posts,
         ]);
     }
 }
