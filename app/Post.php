@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Text;
 use Redis;
+use Session;
 
 class Post extends Model
 {
@@ -13,7 +14,7 @@ class Post extends Model
         'title', 'text',
     ];
 
-    // スコープ ------------------------------
+    // スコープ & 検証 ----------------------------------------------
     public function scopeVisible($query)
     {
         $result = $query->where('invisible', 0);
@@ -24,6 +25,37 @@ class Post extends Model
         return $result;
     }
 
+    // 検証
+    
+    static public function updatable(Post $post, &$response)
+    {
+        if (!$post) {
+            Session::flash('alert', __('view.message.post_not_exist'));
+            $response = redirect()->route('home');
+            return false;
+        } elseif (Auth::user()->cant('update', $post)) {
+            Session::flash('alert', __('view.message.post_cant_edit'));
+            $response = redirect()->route('home');
+            return false;
+        }
+        return true;
+    }
+
+    static public function visibleForMe(Post $post, &$response) 
+    {
+        if (!$post) {
+            Session::flash('alert', __('view.message.post_not_exist'));
+            $response = redirect()->route('home');
+            return false;
+        } elseif ($post->invisible) {
+            Session::flash('warning', __('view.message.post_invisible'));
+            $response = redirect()->route('home');
+            return false;
+        }
+        return true;
+    }
+
+    // DBにもたない補助データ --------------------------------
     //短縮表示用のダイジェスト本文
     public function digest()
     {
@@ -33,6 +65,14 @@ class Post extends Model
         } else {
             return $raw;
         }
+    }
+
+    //Redis保管のデータを初期化する
+    public function initInfo()
+    {
+        Redis::zincrby(config('database.keys.post-views'), 0, $post->id);
+        Redis::zincrby(config('database.keys.post-nices'), 0, $post->id);
+        Redis::zincrby(config('database.keys.post-bads'), 0, $post->id);
     }
 
     //Redis保管のデータを引っ張ってくる
@@ -45,6 +85,7 @@ class Post extends Model
         ];
     }
 
+    // リレーション ----------------------------------------------
     //投稿したユーザーを取得
     public function user()
     {

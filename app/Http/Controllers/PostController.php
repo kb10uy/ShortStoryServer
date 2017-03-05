@@ -24,16 +24,11 @@ class PostController extends Controller
     // /post/new (POST)
     public function upload(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'title' => 'required|max:128',
             'text' => 'required',
         ]);
-        if ($validator->fails()) {
-            return redirect()->route('post.new')
-                ->withErrors($validator)
-                ->withInput();
-        }
-        //dd('[' . $request->tags . ']');
+        
         $tags = eval('return [' . $request->tags . '];');
         $tagids = [];
         foreach ($tags as $tagname) {
@@ -49,9 +44,7 @@ class PostController extends Controller
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
         $post->tags()->sync($tagids);
-        Redis::zincrby(config('database.keys.post-views'), 0, $post->id);
-        Redis::zincrby(config('database.keys.post-nices'), 0, $post->id);
-        Redis::zincrby(config('database.keys.post-bads'), 0, $post->id);
+        $post->initInfo();
 
         Session::flash('success', __('view.message.post_uploaded'));
         return redirect()->route('post.view', ['id' => $post->id]);
@@ -60,13 +53,7 @@ class PostController extends Controller
     public function edit(Request $request, $id)
     {
         $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', __('view.message.post_not_exist'));
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', __('view.message.post_cant_edit'));
-            return redirect()->route('home');
-        }
+        if (!Post::updatable($post, $response)) return $response;
         
         $taglist = json_encode($post->tags->map(function($item,$key) {
             return $item->name;
@@ -80,22 +67,11 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        $validator = Validator::make($request->all(), [
+        if (!Post::updatable($post, $response)) return $response;
+        $this->validate($request, [
             'title' => 'required|max:128',
             'text' => 'required',
         ]);
-
-        if (!$post) {
-            Session::flash('alert', __('view.message.post_not_exist'));
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', __('view.message.post_cant_edit'));
-            return redirect()->route('home');
-        } elseif ($validator->fails()) {
-            return redirect()->route('post.edit')
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $tags = eval('return [' . $request->tags . '];');
         $tagids = [];
@@ -116,11 +92,7 @@ class PostController extends Controller
     public function open(Request $request, $id) 
     {
         $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', __('view.message.post_not_exist'));
-        } elseif ($post->invisible) {
-            Session::flash('warning', __('view.message.post_invisible'));
-        }
+        if (!visibleForMe($post, $response)) return $response;
 
         Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
