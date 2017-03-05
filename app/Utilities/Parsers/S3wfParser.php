@@ -13,11 +13,11 @@ class S3wfParser extends Parser
     //htmlspecialcharsを通した文字列が渡されます
     public function parse(string $text)
     {
-        $lines = preg_split("/\R/", $text);
+        $lines = preg_split('/\R/u', $text, -1);
         $state = [];
         $state['type'] = [];
         $result = [];
-
+        
         foreach($lines as $line) {
             if($state['noparse'] ?? false) {
                 $result[] = $line;
@@ -36,7 +36,7 @@ class S3wfParser extends Parser
             }
 
             //ブロック要素
-            if (preg_match('/^&gt;-{4,}/', $line) === 1) {
+            if (preg_match('/^&gt;-{4,}/u', $line) === 1) {
                 if ($state['blockquote'] ?? false) {
                     $result[] = '</blockquote>';
                     $state['blockquote'] = false;
@@ -45,7 +45,7 @@ class S3wfParser extends Parser
                     $state['blockquote'] = true;
                 }
                 continue;
-            } elseif (preg_match('/^!{4,}/', $line) === 1) {
+            } elseif (preg_match('/^!{4,}/u', $line) === 1) {
                 if ($state['noparse'] ?? false) {
                     $state['noparse'] = false;
                 } else {
@@ -55,47 +55,47 @@ class S3wfParser extends Parser
             }
 
             //スクリプト的要素
-            if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,(.+))?/', $line, $match) === 1) {
+            if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,(.+))?/u', $line, $match) === 1) {
                 $state['type'][$match[1]] = [$match[2], $match[4] ?: ''];
                 continue;
-            } elseif (preg_match('/@(\w+)&gt;(.+)$/', $line, $match) === 1) {
+            } elseif (preg_match('/@(\w+)&gt;(.+)$/u', $line, $match) === 1) {
                 $result[] = '<span style="color: ' . $state['type'][$match[1]][0] . ';">' . $state['type'][$match[1]][1] . $match[2] . '</span><br>';
                 continue;
             }
 
             //インライン要素
             $line = preg_replace(
-                '/\*\*(.+)\*\*/', 
+                '/\*\*(.+)\*\*/u', 
                 '<span class="text-bold">$1</span>',
                 $line, -1);
             $line = preg_replace(
-                '/\/\/(.+)\/\//', 
+                '/\/\/(.+)\/\//u', 
                 '<span class="text-italic">$1</span>',
                 $line, -1);
             $line = preg_replace(
-                '/__(.+)__/', 
+                '/__(.+)__/u', 
                 '<span class="text-underline">$1</span>',
                 $line, -1);
             $line = preg_replace(
-                '/--(.+)--/', 
+                '/--(.+)--/u', 
                 '<span class="text-strike">$1</span>',
                 $line, -1);
             $line = preg_replace(
-                '/ ;;$/', 
+                '/ ;;$/u', 
                 '<br>',
                 $line, -1);
             $line = preg_replace(
-                '/^-{8,}$/', 
+                '/^-{8,}$/u', 
                 '<hr>',
                 $line, -1);
 
             $line = preg_replace(
-                '/\[(.+)\]\((http.+)\)/', 
+                '/\[(.+)\]\((http.+)\)/u', 
                 '<a href="$2">$1</a>',
                 $line, -1);
             
             $line = preg_replace_callback(
-                '/&lt;@(.+)&gt;\((.+)\)/', 
+                '/&lt;@(.+)&gt;\((.+)\)/u', 
                 function($m) {
                     return    '<span style="color: ' . $state['type'][$m[1]][0] . '">' 
                             . $state['type'][$m[1]][1] . $m[2] 

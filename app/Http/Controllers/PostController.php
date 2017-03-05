@@ -9,9 +9,12 @@ use App\Tag;
 use Auth;
 use Session;
 use Text;
+use Redis;
 
 class PostController extends Controller
 {
+    public $paginationCount = 10;
+
     // /post/new (GET)
     public function create()
     {
@@ -21,16 +24,11 @@ class PostController extends Controller
     // /post/new (POST)
     public function upload(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'title' => 'required|max:128',
             'text' => 'required',
         ]);
-        if ($validator->fails()) {
-            return redirect()->route('post.new')
-                ->withErrors($validator)
-                ->withInput();
-        }
-        //dd('[' . $request->tags . ']');
+        
         $tags = eval('return [' . $request->tags . '];');
         $tagids = [];
         foreach ($tags as $tagname) {
@@ -39,26 +37,24 @@ class PostController extends Controller
         }
 
         $post = new Post;
-        $post->title = $request->title;
-        $post->text = $request->text;
+        $post->fill([
+            'title' => $request->title,
+            'text' => $request->text,
+            'type' => $request->type,
+        ]);
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
         $post->tags()->sync($tagids);
+        $post->initInfo();
 
-        Session::flash('success', 'Your post has been uploaded successfully!');
+        Session::flash('success', __('view.message.post_uploaded'));
         return redirect()->route('post.view', ['id' => $post->id]);
     }
 
     public function edit(Request $request, $id)
     {
         $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
-            return redirect()->route('home');
-        }
+        if (!Post::updatable($post, $response)) return $response;
         
         $taglist = json_encode($post->tags->map(function($item,$key) {
             return $item->name;
@@ -72,22 +68,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        $validator = Validator::make($request->all(), [
+        if (!Post::updatable($post, $response)) return $response;
+        $this->validate($request, [
             'title' => 'required|max:128',
             'text' => 'required',
+            'type' => 'required',
         ]);
-
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
-            return redirect()->route('home');
-        } elseif ($validator->fails()) {
-            return redirect()->route('post.edit')
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $tags = eval('return [' . $request->tags . '];');
         $tagids = [];
@@ -98,7 +84,9 @@ class PostController extends Controller
         $post->fill([
             'title' => $request->title,
             'text' => $request->text,
-        ])->save();
+            'type' => $request->type,
+        ]);
+        $post->save();
         $post->tags()->sync($tagids);
 
         return redirect()->route('post.view', ['id' => $post->id]);
@@ -108,16 +96,12 @@ class PostController extends Controller
     public function open(Request $request, $id) 
     {
         $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-        } elseif ($post->invisible) {
-            Session::flash('warning', 'This post is set invisible now.');
-        }
-        $post->view_count++;
-        $post->save();
+        if (!Post::visibleForMe($post, $response)) return $response;
+
+        Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
             'post' => $post,
-            'parsed' => Text::parse('s3wf', $post->text),
+            'parsed' => Text::parse($post->type, $post->text),
         ]);
     }
 

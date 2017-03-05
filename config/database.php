@@ -97,12 +97,20 @@ return [
         'client' => 'predis',
 
         'default' => [
-            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'scheme' => 'unix',
+            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
             'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
+    ],
 
+    // Redis独自保存アクセスキー
+    'keys' => [
+        'post-views' => 'kbs3-post-views',
+        'post-nices' => 'kbs3-post-nices',
+        'post-bads' => 'kbs3-post-bads',
+        'post-index-prefix' => 'kbs3-text-index-',
+        'post-index-table' => 'kbs3-text-table',
     ],
 
 ];
