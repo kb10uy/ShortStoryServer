@@ -129,13 +129,12 @@ class MeCabEngine extends Engine
 
     protected function performSearch(array $options)
     {
-        $schfor = preg_split('/ /u', $options['query'], -1, PREG_SPLIT_NO_EMPTY);
+        $schfor = preg_split('/[\s　]/u', $options['query'], -1, PREG_SPLIT_NO_EMPTY);
         $searches = $this->getValidWords($schfor)
             ->map(function($item, $key) {
                 return config('database.keys.post-index-prefix') . $item;
             })
             ->toArray();
-        
         $matches = collect(Redis::sinter(implode(" ", $searches)))
             ->map(function ($item, $key){
                 return (int)$item; 
