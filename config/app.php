@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         App\Providers\CustomBladeDirectiveProvider::class,

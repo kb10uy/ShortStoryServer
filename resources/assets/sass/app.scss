@@ -43,8 +43,11 @@ hr {
 }
 
 // 
-.label-keep{
+.label-keep {
 	color: $label-color;
+    &:hover {
+        color: $label-color;
+    }
 }
 
 #app {

@@ -3,121 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 use App\Post;
 use App\Tag;
+use App\Jobs\SyncPostInfoToDatabase;
+
 use Auth;
 use Session;
 use Text;
+use Redis;
 
 class PostController extends Controller
 {
-    // /post/new (GET)
-    public function create()
-    {
-        return view('post.new');
-    }
-
-    // /post/new (POST)
-    public function upload(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:128',
-            'text' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->route('post.new')
-                ->withErrors($validator)
-                ->withInput();
-        }
-        //dd('[' . $request->tags . ']');
-        $tags = eval('return [' . $request->tags . '];');
-        $tagids = [];
-        foreach ($tags as $tagname) {
-            $tag = Tag::firstOrCreate(['name' => $tagname]);
-            $tagids[] = $tag->id;
-        }
-
-        $post = new Post;
-        $post->title = $request->title;
-        $post->text = $request->text;
-        //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
-        Auth::user()->posts()->save($post);
-        $post->tags()->sync($tagids);
-
-        Session::flash('success', 'Your post has been uploaded successfully!');
-        return redirect()->route('post.view', ['id' => $post->id]);
-    }
-
-    public function edit(Request $request, $id)
-    {
-        $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
-            return redirect()->route('home');
-        }
-        
-        $taglist = json_encode($post->tags->map(function($item,$key) {
-            return $item->name;
-        }));
-        return view('post.edit', [
-            'post' => $post,
-            'taglist' => $taglist,
-        ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $post = Post::find($id);
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:128',
-            'text' => 'required',
-        ]);
-
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-            return redirect()->route('home');
-        } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', 'You can\'t edit this post!');
-            return redirect()->route('home');
-        } elseif ($validator->fails()) {
-            return redirect()->route('post.edit')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $tags = eval('return [' . $request->tags . '];');
-        $tagids = [];
-        foreach ($tags as $tagname) {
-            $tag = Tag::firstOrCreate(['name' => $tagname]);
-            $tagids[] = $tag->id;
-        }
-        $post->fill([
-            'title' => $request->title,
-            'text' => $request->text,
-        ])->save();
-        $post->tags()->sync($tagids);
-
-        return redirect()->route('post.view', ['id' => $post->id]);
-    }
+    public $paginationCount = 10;
 
     // /post/{id} (GET)
     public function open(Request $request, $id) 
     {
         $post = Post::find($id);
-        if (!$post) {
-            Session::flash('alert', 'This post has been deleted or doesn\'t exist!');
-        } elseif ($post->invisible) {
-            Session::flash('warning', 'This post is set invisible now.');
-        }
-        $post->view_count++;
-        $post->save();
+        if (!Post::visibleForMe($post, $response)) return $response;
+
+        Redis::zincrby(config('database.keys.post-views'), 1, $post->id);
         return view('post.view', [
             'post' => $post,
-            'parsed' => Text::parse('s3wf', $post->text),
+            'parsed' => Text::parse($post->type, $post->text),
         ]);
     }
 
@@ -152,5 +62,95 @@ class PostController extends Controller
         return view('post.list', [
             'posts' => $posts,
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        if (!$request->has('q')) return view('post.search');
+        
+        switch($request->input('type')) {
+            case 'keyword':
+                $posts = Post::search($request->input('q'))->paginate($this->paginationCount);
+                break;
+            case 'tag':
+                $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));
+                break;
+            case 'author':
+                $posts = $this->paginatePosts($request, $this->getPostsOfUsers($request->input('q')));
+                break;
+            default:
+                $posts = Post::paginate($this->paginationCount);
+                break;
+        }
+        //dd($posts);
+        dispatch(new SyncPostInfoToDatabase);
+        return view('post.search', [
+            'posts' => $posts,
+            'request' => [
+                'q' => $request->input('q'),
+                'keyword' => $request->input('keyword'),
+                'type' => $request->input('type'),
+            ],
+        ]);
+    }
+
+    public function getPostsOfTags($query)
+    {
+        $tags = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
+            ->map(function($item, $key) {
+                return Tag::where('name', $item)->first();
+            })
+            ->filter()
+            ->keyBy('id');
+        if ($tags->count() == 0)  return collect([]);
+
+        $results = collect($tags->first()->posts->keyBy('id'));
+        $tags = $tags->slice(1);
+        foreach($tags as $tag) $results = $results->intersect($tag->posts->keyBy('id'));
+        return $results;
+    }
+
+    public function getPostsOfUsers($query)
+    {
+        $users = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
+            ->map(function($item, $key) {
+                return User::where('name', $item)->first();
+            })
+            ->filter()
+            ->keyBy('id');
+        if ($users->count() == 0)  return collect([]);
+
+        $results = collect([]);
+        foreach($users as $user) $results = $results->union($user->posts->keyBy('id'));
+        return $results;
+    }
+
+    public function paginatePosts(Request $request, $posts)
+    {
+        $sort = $request['sort'];
+        $page = (int)$request['page'];
+        switch($sort) {
+            case 'view':
+                $posts = $posts->sortByDesc('view_count');
+                break;
+            case 'nice':
+                $posts = $posts->sortByDesc('nice_count');
+                break;
+            case 'bookmark':
+                $posts = $posts->sortByDesc('bookmark_count');
+                break;
+            case 'updated':
+                $posts = $posts->sortByDesc('updated_at');
+                break;
+            case 'created':
+            default:
+                $posts = $posts->sortByDesc('created_at');
+                break;
+        }
+        $paginated = new LengthAwarePaginator(
+            $posts->forPage($page , $this->paginationCount),
+            $posts->count(), $this->paginationCount, $page,
+            ['path' => $request->url(), 'query' => $request->query()]);
+        return $paginated;
     }
 }

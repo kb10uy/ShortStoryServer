@@ -41,12 +41,13 @@ Route::get('/about', 'HomeController@about')->name('about');
 
 //投稿
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/post/new', 'PostController@create')->name('post.new');
-    Route::post('/post/new', 'PostController@upload')->name('post.new');
-    Route::get('/post/{id}/edit', 'PostController@edit')->name('post.edit');
-    Route::patch('/post/{id}/edit', 'PostController@update')->name('post.edit');
+    Route::get('/post/new', 'PostEditController@create')->name('post.new');
+    Route::post('/post/new', 'PostEditController@upload')->name('post.new');
+    Route::get('/post/{id}/edit', 'PostEditController@edit')->name('post.edit');
+    Route::patch('/post/{id}/edit', 'PostEditController@update')->name('post.edit');
 });
 Route::get('/post', 'PostController@list')->name('post.list');
+Route::get('/post/search', 'PostController@search')->name('post.search');
 Route::get('/post/{id}', 'PostController@open')->name('post.view');
 
 //ユーザー

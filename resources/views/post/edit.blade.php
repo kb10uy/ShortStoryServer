@@ -24,6 +24,14 @@
     </label>
     
     <label>
+      @lang('view.post.type')
+      <select name="type">
+        <option value="plain" {{ $post->type == 'plain' ? 'selected' : '' }}>@lang('view.post.type_plain')</option>
+        <option value="s3wf" {{ $post->type == 's3wf' ? 'selected' : '' }}>@lang('view.post.type_s3wf')</option>
+      </select>
+    </label>
+
+    <label>
       @lang('view.post.text')
       <textarea name="text" required rows="32" placeholder="{{ __('view.post.text_p') }}">{{ $post->text }}</textarea>
       <span class="form-error">@lang('view.message.title_required')</span>

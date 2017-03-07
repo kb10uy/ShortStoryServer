@@ -21,6 +21,7 @@ return [
         'posts_list' => '投稿一覧',
         'posts_list_p' => '投稿一覧 ページ:page',
         'edit_post' => '編集する',
+        'post_search_result' => ':word の検索結果',
     ],
     
     //aboutページ
@@ -94,6 +95,9 @@ return [
         'tag' => 'タグ',
         'text' => '本文',
         'text_p' => 'SSの本文',
+        'type' => 'SSの書式',
+        'type_plain' => 'プレーンテキスト',
+        'type_s3wf' => 'ShortStoryServer Writer Format',
     ],
 
     'message' => [
@@ -108,7 +112,9 @@ return [
         'icon_updated' => 'アイコンが更新されました。',
         'user_not_exist' => 'そのユーザーは存在しません。',
         'post_not_exist' => 'このIDの投稿は存在しないか削除された可能性があります。',
+        'post_cant_edit' => 'このIDの投稿はあなたは編集できません。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
+        'post_uploaded' => 'SSが投稿されました！',
         'not_admin' => 'あなたに管理者権限がありません。',
 
         'title_required' => 'タイトルを入力してください。',
