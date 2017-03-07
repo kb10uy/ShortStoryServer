@@ -12,6 +12,7 @@ return [
     //タイトル
     'title' => [
         'home' => 'ホーム',
+        'explore' => '探索',
         'about' => 'kb10uy S3とは',
         'profile' => 'プロフィール', 
         'setting' => '設定',
@@ -21,6 +22,7 @@ return [
         'posts_list' => '投稿一覧',
         'posts_list_p' => '投稿一覧 ページ:page',
         'edit_post' => '編集する',
+        'search' => '検索する',
         'post_search_result' => ':word の検索結果',
     ],
     

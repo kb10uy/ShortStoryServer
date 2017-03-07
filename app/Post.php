@@ -96,16 +96,16 @@ class Post extends Model
             'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
         ];
     }
-
-    //Redis --> SQLite
-    public function syncInfo()
+    
+    //Redis --> $this
+    //あくまで検索用、表示に使うときはinfo()使ってね
+    public function applyCachedInfo() 
     {
         $info = $this->info();
-        $this->fill([
-            'view_count' => $info['view_count'] ?: 0,
-            'nice_count' => $info['nice_count'] ?: 0,
-            'bad_count' => $info['bad_count'] ?: 0,
-        ])->save();
+        $this->view_count = $info['view_count'];
+        $this->nice_count = $info['nice_count'];
+        $this->bad_count = $info['bad_count'];
+        return $this;
     }
 
     // リレーション ----------------------------------------------
@@ -119,5 +119,11 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    //この投稿が登録されてるブクマを取得
+    public function bookmarks()
+    {
+        return $this->belongsToMany('App\Bookmark')->withTimestamps();
     }
 }

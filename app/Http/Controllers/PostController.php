@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 use App\Post;
 use App\Tag;
+use App\User;
 use App\Jobs\SyncPostInfoToDatabase;
 
 use Auth;
@@ -106,7 +107,12 @@ class PostController extends Controller
 
         $results = collect($tags->first()->posts->keyBy('id'));
         $tags = $tags->slice(1);
-        foreach($tags as $tag) $results = $results->intersect($tag->posts->keyBy('id'));
+        foreach($tags as $tag) {
+            $posts = $tag->posts->keyBy('id')->map(function($item, $key) {
+                return $item->applyCachedInfo();
+            });
+            $results = $results->intersect($posts->keyBy('id'));
+        }
         return $results;
     }
 
@@ -121,7 +127,12 @@ class PostController extends Controller
         if ($users->count() == 0)  return collect([]);
 
         $results = collect([]);
-        foreach($users as $user) $results = $results->union($user->posts->keyBy('id'));
+        foreach($users as $user) {
+            $posts = $user->posts->keyBy('id')->map(function($item, $key) {
+                return $item->applyCachedInfo();
+            });
+            $results = $results->union($posts->keyBy('id'));
+        }
         return $results;
     }
 

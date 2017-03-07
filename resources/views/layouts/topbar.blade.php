@@ -11,8 +11,14 @@
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu data-close-on-click-inside="false">
         <li><a href="{{ route('home') }}">@lang('view.title.home')</a></li>
-        <li><a href="{{ route('about') }}">@lang('view.title.about')</a></li>
-        <li><a href="{{ route('post.list') }}">@lang('view.title.posts_list')</a></li>
+        <li>
+          <a href="#">@lang('view.title.explore')</a>
+          <ul class="menu vertical">
+            <li><a href="{{ route('about') }}">@lang('view.title.about')</a></li>
+            <li><a href="{{ route('post.list') }}">@lang('view.title.posts_list')</a></li>
+            <li><a href="{{ route('post.search') }}">@lang('view.title.search')</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
 

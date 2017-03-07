@@ -41,7 +41,7 @@ class SyncPostInfoToDatabase implements ShouldQueue
         if ($now->diffInMinutes($last) < $this->updateLeastMinutes) return;
         
         $posts = Post::all();
-        foreach($posts as $post) $post->syncInfo();
+        foreach($posts as $post) $post->applyCachedInfo()->save();
 
         Log::info('Post info updated at' . $now);
         Redis::set(config('database.keys.post-index-refreshed_at'), $now->toDateTimeString()); 
