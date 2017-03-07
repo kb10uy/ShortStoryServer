@@ -102,9 +102,9 @@ class Post extends Model
     {
         $info = $this->info();
         $this->fill([
-            'view_count' => $info['view_count'],
-            'nice_count' => $info['nice_count'],
-            'bad_count' => $info['bad_count'],
+            'view_count' => $info['view_count'] ?: 0,
+            'nice_count' => $info['nice_count'] ?: 0,
+            'bad_count' => $info['bad_count'] ?: 0,
         ])->save();
     }
 

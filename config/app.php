@@ -181,6 +181,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\CustomBladeDirectiveProvider::class,
         App\Providers\CustomValidatorProvider::class,
         App\Providers\TextServiceProvider::class,
@@ -237,6 +238,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Text' => App\Facades\Text::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
