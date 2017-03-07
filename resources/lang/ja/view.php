@@ -86,6 +86,8 @@ return [
         'icon_select' => 'ファイルを選択',
         'twitter' => 'Twitter',
         'github' => 'GitHub',
+        'posts' => 'このユーザーの投稿',
+        'posts-more' => 'もっと見る',
         'unset' => '未設定',
         'set' => '設定・更新',
         'unlink' => '解除',

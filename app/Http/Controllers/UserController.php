@@ -8,9 +8,12 @@ use Validator;
 use Hash;
 use Session;
 use App\User;
+use App\Post;
 
 class UserController extends Controller
 {
+    protected $postsToShowInProfile = 5;
+
     public function __construct()
     {
         //そりゃお前ログイン済みでしょ
@@ -24,7 +27,12 @@ class UserController extends Controller
             Session::flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
-        return view('user.profile', ['user' => $user]);
+        $posts = Post::where('user_id', $user->id)->latest()->take($this->postsToShowInProfile)->get();
+
+        return view('user.profile', [
+            'user' => $user,
+            'posts' => $posts,
+        ]);
     }
     
     public function setting()

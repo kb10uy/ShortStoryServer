@@ -151,7 +151,8 @@ class PostController extends Controller
                 $posts = $posts->sortByDesc('bookmark_count');
                 break;
             case 'updated':
-                $posts = $posts->sortByDesc('updated_at');
+                //updated_atは別にとっておくことにします。
+                $posts = $posts->sortByDesc('modified_at');
                 break;
             case 'created':
             default:

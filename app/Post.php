@@ -16,6 +16,7 @@ class Post extends Model
     protected $fillable = [
         'title', 'text', 'type',
         'view_count', 'nice_count', 'bad_count',
+        'modified_at',
     ];
 
     public function toSearchableArray()
