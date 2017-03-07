@@ -37,7 +37,7 @@ class SyncPostInfoToDatabase implements ShouldQueue
     public function handle()
     {
         $now = Carbon::now();
-        $last = Carbon::parse(Redis::get(config('database.keys.post-index-refreshed_at')));
+        $last = Carbon::parse(Redis::get(config('database.keys.post-index-refreshed_at')) ?: '1970-01-01 00:00:00');
         if ($now->diffInMinutes($last) < $this->updateLeastMinutes) return;
         
         $posts = Posts::all();

@@ -16,3 +16,20 @@ $('#search-type').change(function() {
         $('#search-sort').val('updated');
     }
 });
+
+$(document).ready(function() {
+    const type = getUrlParameter('type'), sort = getUrlParameter('sort');
+    if (type != '' && type != 'keyword') {
+        $('#search-type').val(type);
+        $('#search-sort').prop('disabled', false);
+        $('#search-sort').val(sort);
+    }
+    $('#posts-list>div:last').addClass('end');
+});
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

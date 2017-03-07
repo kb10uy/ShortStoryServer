@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 use App\Post;
 use App\Tag;
@@ -72,23 +73,28 @@ class PostController extends Controller
                 $posts = Post::search($request->input('q'))->paginate($this->paginationCount);
                 break;
             case 'tag':
-                $posts = $this->paginatePosts($this->getPostsOfTags($request->input('q')));
+                $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));
                 break;
             case 'author':
-                $posts = $this->paginatePosts($this->getPostsOfUsers($request->input('q')));
+                $posts = $this->paginatePosts($request, $this->getPostsOfUsers($request->input('q')));
                 break;
             default:
                 $posts = Post::paginate($this->paginationCount);
                 break;
         }
+        //dd($posts);
         dispatch(new SyncPostInfoToDatabase);
-        dd($posts);
         return view('post.search', [
             'posts' => $posts,
+            'request' => [
+                'q' => $request->input('q'),
+                'keyword' => $request->input('keyword'),
+                'type' => $request->input('type'),
+            ],
         ]);
     }
 
-    public function getPostsOfTags($tags)
+    public function getPostsOfTags($query)
     {
         $tags = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
@@ -98,6 +104,8 @@ class PostController extends Controller
             ->keyBy('id');
         if ($tags->count() == 0)  return collect([]);
 
+        $results = collect($tags->first()->posts->keyBy('id'));
+        $tags = $tags->slice(1);
         foreach($tags as $tag) $results = $results->intersect($tag->posts->keyBy('id'));
         return $results;
     }
@@ -112,6 +120,7 @@ class PostController extends Controller
             ->keyBy('id');
         if ($users->count() == 0)  return collect([]);
 
+        $results = collect([]);
         foreach($users as $user) $results = $results->union($user->posts->keyBy('id'));
         return $results;
     }
@@ -138,7 +147,6 @@ class PostController extends Controller
                 $posts = $posts->sortByDesc('created_at');
                 break;
         }
-
         $paginated = new LengthAwarePaginator(
             $posts->forPage($page , $this->paginationCount),
             $posts->count(), $this->paginationCount, $page,
