@@ -21,6 +21,7 @@ return [
         'posts_list' => '投稿一覧',
         'posts_list_p' => '投稿一覧 ページ:page',
         'edit_post' => '編集する',
+        'post_search_result' => ':word の検索結果',
     ],
     
     //aboutページ

@@ -12,6 +12,7 @@ $ssserver-palette: (
   white-primary: #fdfff7,
   white-secondary: #f2f4eb,
   footer-background: #334c1a,
+  search-background: #334c1a
 );
 @function s3color($key) {
     @return map-get($ssserver-palette, $key);

@@ -111,6 +111,7 @@ return [
         'post-bads' => 'kbs3-post-bads',
         'post-index-prefix' => 'kbs3-text-index-',
         'post-index-table' => 'kbs3-text-table',
+        'post-index-refreshed_at' => 'kbs3-post-refreshed_at',
     ],
 
 ];

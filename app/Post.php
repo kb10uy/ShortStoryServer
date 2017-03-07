@@ -15,6 +15,7 @@ class Post extends Model
 
     protected $fillable = [
         'title', 'text', 'type',
+        'view_count', 'nice_count', 'bad_count',
     ];
 
     public function toSearchableArray()
@@ -94,6 +95,17 @@ class Post extends Model
             'nice_count' => Redis::zscore(config('database.keys.post-nices'), $this->id),
             'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
         ];
+    }
+
+    //Redis --> SQLite
+    public function syncInfo()
+    {
+        $info = $this->info();
+        $this->fill([
+            'view_count' => $info['view_count'],
+            'nice_count' => $info['nice_count'],
+            'bad_count' => $info['bad_count'],
+        ])->save();
     }
 
     // リレーション ----------------------------------------------

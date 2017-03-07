@@ -9,11 +9,7 @@
     <div>
       @include('post.post-info')
     </div>
-    <div>
-      @foreach($post->tags as $tag)
-        <span class="primary label">{{ $tag->name }}</span>&nbsp;
-      @endforeach
-    </div>
+    @include('post.post-tags')
   </div>
   <div class="small-12 medium-6 large-4 columns callout">
     <div class="media-object-section">
