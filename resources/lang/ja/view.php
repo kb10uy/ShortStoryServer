@@ -102,6 +102,8 @@ return [
         'type' => 'SSの書式',
         'type_plain' => 'プレーンテキスト',
         'type_s3wf' => 'ShortStoryServer Writer Format',
+        'nice' => 'いいね！',
+        'nice_ok' => 'しました。',
     ],
 
     'message' => [

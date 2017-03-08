@@ -109,6 +109,18 @@ class Post extends Model
         return $this;
     }
 
+    //いいね
+    public function performNice()
+    {
+        Redis::zincrby(config('database.keys.post-nices'), 1, $this->id);
+    }
+
+    //よくないね
+    public function performBad()
+    {
+        Redis::zincrby(config('database.keys.post-bads'), 1, $this->id);
+    }
+
     // リレーション ----------------------------------------------
     //投稿したユーザーを取得
     public function user()

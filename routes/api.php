@@ -43,4 +43,10 @@ Route::group([
         Route::get('get', 'UsersApi@get');
         Route::get('query', 'UsersApi@query');
     });
+
+    // Posts グループ
+    Route::group(['prefix' => 'posts'], function() {
+        Route::get('get', 'PostsApi@get');
+        Route::patch('nice', 'PostsApi@nice');
+    });
 });

@@ -27,7 +27,7 @@ class UserController extends Controller
             Session::flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
-        $posts = Post::where('user_id', $user->id)->latest()->take($this->postsToShowInProfile)->get();
+        $posts = Post::where('user_id', $user->id)->visible()->latest()->take($this->postsToShowInProfile)->get();
 
         return view('user.profile', [
             'user' => $user,
