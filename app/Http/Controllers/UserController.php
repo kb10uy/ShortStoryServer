@@ -9,10 +9,12 @@ use Hash;
 use Session;
 use App\User;
 use App\Post;
+use App\Bookmark;
 
 class UserController extends Controller
 {
     protected $postsToShowInProfile = 5;
+    protected $bookmarksToShowInProfile = 5;
 
     public function __construct()
     {
@@ -27,11 +29,14 @@ class UserController extends Controller
             Session::flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
+        //visibleクエリが必要なので動的プロパティ使用不可？
         $posts = Post::where('user_id', $user->id)->visible()->latest()->take($this->postsToShowInProfile)->get();
+        $bookmarks = Bookmark::where('user_id', $user->id)->visible()->latest()->take($this->bookmarksToShowInProfile)->get();
 
         return view('user.profile', [
             'user' => $user,
             'posts' => $posts,
+            'bookmarks' => $bookmarks,
         ]);
     }
     

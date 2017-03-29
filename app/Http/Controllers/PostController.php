@@ -69,9 +69,10 @@ class PostController extends Controller
     {
         if (!$request->has('q')) return view('post.search');
         
+        // whereIn句で書き直したほうが良いかも 要検証
         switch($request->input('type')) {
             case 'keyword':
-                $posts = Post::search($request->input('q'))->paginate($this->paginationCount);
+                $posts = $this->paginatePosts(Post::search($request->input('q'))->get());
                 break;
             case 'tag':
                 $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));
@@ -80,7 +81,7 @@ class PostController extends Controller
                 $posts = $this->paginatePosts($request, $this->getPostsOfUsers($request->input('q')));
                 break;
             default:
-                $posts = Post::paginate($this->paginationCount);
+                $posts = Post::visible()->paginate($this->paginationCount);
                 break;
         }
         //dd($posts);
@@ -140,6 +141,9 @@ class PostController extends Controller
     {
         $sort = $request['sort'];
         $page = (int)$request['page'];
+        $posts = $posts->filter(function($item, $key) {
+            return $item->visibleNow();
+        });
         switch($sort) {
             case 'view':
                 $posts = $posts->sortByDesc('view_count');

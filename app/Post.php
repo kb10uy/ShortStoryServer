@@ -60,12 +60,17 @@ class Post extends Model
             Session::flash('alert', __('view.message.post_not_exist'));
             $response = redirect()->route('home');
             return false;
-        } elseif ($post->invisible) {
+        } elseif ($post->invisible && Auth::user() != $post->user) {
             Session::flash('warning', __('view.message.post_invisible'));
             $response = redirect()->route('home');
             return false;
         }
         return true;
+    }
+
+    public function visibleNow()
+    {
+        return !($this->invisible && (Auth::check() ? Auth::user() != $this->user : false));
     }
 
     // DBにもたない補助データ --------------------------------

@@ -87,6 +87,7 @@ return [
         'twitter' => 'Twitter',
         'github' => 'GitHub',
         'posts' => 'このユーザーの投稿',
+        'bookmarks' => 'このユーザーのブックマーク',
         'posts-more' => 'もっと見る',
         'unset' => '未設定',
         'set' => '設定・更新',
@@ -121,6 +122,7 @@ return [
         'post_cant_edit' => 'このIDの投稿はあなたは編集できません。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
         'post_uploaded' => 'SSが投稿されました！',
+        'bookmark_not_exist' => 'このIDのブックマークは存在しないか削除された可能性があります。',
         'not_admin' => 'あなたに管理者権限がありません。',
 
         'title_required' => 'タイトルを入力してください。',
