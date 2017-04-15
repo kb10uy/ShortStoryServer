@@ -12,6 +12,7 @@ return [
     //タイトル
     'title' => [
         'home' => 'ホーム',
+        'explore' => '探索',
         'about' => 'kb10uy S3とは',
         'profile' => 'プロフィール', 
         'setting' => '設定',
@@ -21,6 +22,7 @@ return [
         'posts_list' => '投稿一覧',
         'posts_list_p' => '投稿一覧 ページ:page',
         'edit_post' => '編集する',
+        'search' => '検索する',
         'post_search_result' => ':word の検索結果',
     ],
     
@@ -84,6 +86,9 @@ return [
         'icon_select' => 'ファイルを選択',
         'twitter' => 'Twitter',
         'github' => 'GitHub',
+        'posts' => 'このユーザーの投稿',
+        'bookmarks' => 'このユーザーのブックマーク',
+        'posts-more' => 'もっと見る',
         'unset' => '未設定',
         'set' => '設定・更新',
         'unlink' => '解除',
@@ -98,6 +103,8 @@ return [
         'type' => 'SSの書式',
         'type_plain' => 'プレーンテキスト',
         'type_s3wf' => 'ShortStoryServer Writer Format',
+        'nice' => 'いいね！',
+        'nice_ok' => 'しました。',
     ],
 
     'message' => [
@@ -115,6 +122,7 @@ return [
         'post_cant_edit' => 'このIDの投稿はあなたは編集できません。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
         'post_uploaded' => 'SSが投稿されました！',
+        'bookmark_not_exist' => 'このIDのブックマークは存在しないか削除された可能性があります。',
         'not_admin' => 'あなたに管理者権限がありません。',
 
         'title_required' => 'タイトルを入力してください。',

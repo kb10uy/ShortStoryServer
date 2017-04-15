@@ -237,6 +237,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Text' => App\Facades\Text::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

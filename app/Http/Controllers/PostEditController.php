@@ -10,6 +10,7 @@ use Auth;
 use Session;
 use Text;
 use Redis;
+use Carbon\Carbon;
 
 class PostEditController extends Controller
 {
@@ -39,6 +40,7 @@ class PostEditController extends Controller
             'title' => $request->title,
             'text' => $request->text,
             'type' => $request->type,
+            'modified_at' => Carbon::now(),
         ]);
         //$postを先にsaveしないとidが確定しないのでpost_tagのpost_idがわからなくなる
         Auth::user()->posts()->save($post);
@@ -83,6 +85,7 @@ class PostEditController extends Controller
             'title' => $request->title,
             'text' => $request->text,
             'type' => $request->type,
+            'modified_at' => Carbon::now(),
         ]);
         $post->save();
         $post->tags()->sync($tagids);

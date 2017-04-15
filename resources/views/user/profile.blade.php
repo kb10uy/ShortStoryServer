@@ -35,7 +35,8 @@
     <div class="small-12 columns" data-equalizer-watch>
       <ul class="tabs" data-tabs id="tabs-main">
         <li class="tabs-title is-active"><a href="#panel-notif" aria-selected="true">@lang('view.user.description')</a></li>
-        <li class="tabs-title"><a href="#panel-post">投稿</a></li>
+        <li class="tabs-title"><a href="#panel-post">@lang('view.user.posts')</a></li>
+        <li class="tabs-title"><a href="#panel-bookmark">@lang('view.user.bookmarks')</a></li>
         <li class="tabs-title"><a href="#panel-misc">その他</a></li>
       </ul>
       <div class="tabs-content" data-tabs-content="tabs-main">
@@ -43,10 +44,57 @@
           <p>{{ $user->description ?: __('view.user.no-description') }}</p>
         </div>
         <div class="tabs-panel" id="panel-post">
-          <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+          <div class="row">
+            @foreach($posts as $post)
+              <div class="small-12 columns">
+                <div class="card">
+                  <div class="card-divider">
+                    <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
+                  </div>
+                  <div class="card-section">
+                    @include('post.post-info')
+                    @include('post.post-tags')
+                  </div>
+                  <div class="card-section">
+                    <p>
+                      {{ $post->digest() }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+            <div class="small-12 columns">
+              <a href="{{ route('post.search', ['q' => $user->name, 'type' => 'author', 'sort' => 'updated']) }}">@lang('view.user.posts-more')</a>
+            </div>
+          </div>
+        </div>
+        <div class="tabs-panel" id="panel-bookmark">
+          <div class="row">
+            @foreach($posts as $post)
+              <div class="small-12 columns">
+                <div class="card">
+                  <div class="card-divider">
+                    <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
+                  </div>
+                  <div class="card-section">
+                    @include('post.post-info')
+                    @include('post.post-tags')
+                  </div>
+                  <div class="card-section">
+                    <p>
+                      {{ $post->digest() }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+            <div class="small-12 columns">
+              <a href="#">@lang('view.user.posts-more')</a>
+            </div>
+          </div>
         </div>
         <div class="tabs-panel" id="panel-misc">
-          <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+          
         </div>
       </div>
     </div>

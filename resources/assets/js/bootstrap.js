@@ -8,6 +8,8 @@ window.VueEvent = new Vue();
 
 Vue.component('sss-post-tags', require('./components/Post.Tags.vue'));
 Vue.component('popup-info', require('./components/Popup-Info.vue'));
+Vue.component('nice-button', require('./components/NiceButton.vue'));
+Vue.component('bookmark-dropdown', require('./components/BookmarkDropDown.vue'));
 Vue.component('admin-user-tab', require('./components/admin/UserTab.vue'));
 Vue.component('admin-post-tab', require('./components/admin/PostTab.vue'));
 Vue.component('admin-server-tab', require('./components/admin/ServerTab.vue'));

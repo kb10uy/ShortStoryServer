@@ -7,6 +7,7 @@ use Laravel\Scout\Engines\Engine;
 use Illuminate\Database\Eloquent\Collection;
 use meCab\meCab;
 use Text;
+use Log;
 use Redis;
 
 class MeCabEngine extends Engine
@@ -34,7 +35,6 @@ class MeCabEngine extends Engine
                 $allwords = $allwords->union($words);
             }
             $allwords = $allwords->unique()->values()->toArray();
-
             $this->deleteData($model->id);
             $this->applyData($model->id, $allwords);
         }

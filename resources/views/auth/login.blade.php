@@ -13,7 +13,7 @@
       {{ csrf_field() }}
       <div class="row">
         <div class="small-4 columns">
-          <label for="right-label" class="text-right middle">@lang('view.auth.username')</label>
+          <label for="name" class="text-right middle">@lang('view.auth.username')</label>
         </div>
         <div class="small-8 columns">
           <input type="text" name="name" value="{{ old('name') }}" required>
@@ -21,16 +21,25 @@
       </div>
       <div class="row">
         <div class="small-4 columns">
-          <label for="right-label" class="text-right middle">@lang('view.auth.password')</label>
+          <label for="password" class="text-right middle">@lang('view.auth.password')</label>
         </div>
         <div class="small-8 columns">
           <input type="password" name="password" required>
         </div>
       </div>
       <div class="row">
-        <div class="small-4 columns"></div>
         <div class="small-8 columns">
-          <input id="remember" name="remember" type="checkbox"><label for="remember">@lang('view.auth.remember')</label>
+          <label class="text-right middle" for="remember">@lang('view.auth.remember')</label>
+        </div>
+        <div class="small-4 columns">
+          <div class="switch large">
+            <input id="remember" name="remember" type="checkbox" class="switch-input">
+            <label class="switch-paddle" for="remember">
+              <span class="show-for-sr">@lang('view.auth.remember')</span>
+              <span class="switch-active" aria-hidden="true">Yes</span>
+              <span class="switch-inactive" aria-hidden="true">No</span>
+            </label>
+          </div>
         </div>
       </div>
       

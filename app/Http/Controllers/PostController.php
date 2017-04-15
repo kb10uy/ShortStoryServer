@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 use App\Post;
 use App\Tag;
+use App\User;
 use App\Jobs\SyncPostInfoToDatabase;
 
 use Auth;
@@ -19,7 +20,7 @@ class PostController extends Controller
     public $paginationCount = 10;
 
     // /post/{id} (GET)
-    public function open(Request $request, $id) 
+    public function view(Request $request, $id) 
     {
         $post = Post::find($id);
         if (!Post::visibleForMe($post, $response)) return $response;
@@ -68,9 +69,10 @@ class PostController extends Controller
     {
         if (!$request->has('q')) return view('post.search');
         
+        // whereIn句で書き直したほうが良いかも 要検証
         switch($request->input('type')) {
             case 'keyword':
-                $posts = Post::search($request->input('q'))->paginate($this->paginationCount);
+                $posts = $this->paginatePosts(Post::search($request->input('q'))->get());
                 break;
             case 'tag':
                 $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));
@@ -79,7 +81,7 @@ class PostController extends Controller
                 $posts = $this->paginatePosts($request, $this->getPostsOfUsers($request->input('q')));
                 break;
             default:
-                $posts = Post::paginate($this->paginationCount);
+                $posts = Post::visible()->paginate($this->paginationCount);
                 break;
         }
         //dd($posts);
@@ -106,7 +108,12 @@ class PostController extends Controller
 
         $results = collect($tags->first()->posts->keyBy('id'));
         $tags = $tags->slice(1);
-        foreach($tags as $tag) $results = $results->intersect($tag->posts->keyBy('id'));
+        foreach($tags as $tag) {
+            $posts = $tag->posts->keyBy('id')->map(function($item, $key) {
+                return $item->applyCachedInfo();
+            });
+            $results = $results->intersect($posts->keyBy('id'));
+        }
         return $results;
     }
 
@@ -121,7 +128,12 @@ class PostController extends Controller
         if ($users->count() == 0)  return collect([]);
 
         $results = collect([]);
-        foreach($users as $user) $results = $results->union($user->posts->keyBy('id'));
+        foreach($users as $user) {
+            $posts = $user->posts->keyBy('id')->map(function($item, $key) {
+                return $item->applyCachedInfo();
+            });
+            $results = $results->union($posts->keyBy('id'));
+        }
         return $results;
     }
 
@@ -129,6 +141,9 @@ class PostController extends Controller
     {
         $sort = $request['sort'];
         $page = (int)$request['page'];
+        $posts = $posts->filter(function($item, $key) {
+            return $item->visibleNow();
+        });
         switch($sort) {
             case 'view':
                 $posts = $posts->sortByDesc('view_count');
@@ -140,7 +155,8 @@ class PostController extends Controller
                 $posts = $posts->sortByDesc('bookmark_count');
                 break;
             case 'updated':
-                $posts = $posts->sortByDesc('updated_at');
+                //updated_atは別にとっておくことにします。
+                $posts = $posts->sortByDesc('modified_at');
                 break;
             case 'created':
             default:

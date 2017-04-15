@@ -16,6 +16,7 @@ class Post extends Model
     protected $fillable = [
         'title', 'text', 'type',
         'view_count', 'nice_count', 'bad_count',
+        'modified_at',
     ];
 
     public function toSearchableArray()
@@ -59,12 +60,17 @@ class Post extends Model
             Session::flash('alert', __('view.message.post_not_exist'));
             $response = redirect()->route('home');
             return false;
-        } elseif ($post->invisible) {
+        } elseif ($post->invisible && Auth::user() != $post->user) {
             Session::flash('warning', __('view.message.post_invisible'));
             $response = redirect()->route('home');
             return false;
         }
         return true;
+    }
+
+    public function visibleNow()
+    {
+        return !($this->invisible && (Auth::check() ? Auth::user() != $this->user : false));
     }
 
     // DBにもたない補助データ --------------------------------
@@ -96,16 +102,28 @@ class Post extends Model
             'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
         ];
     }
-
-    //Redis --> SQLite
-    public function syncInfo()
+    
+    //Redis --> $this
+    //あくまで検索用、表示に使うときはinfo()使ってね
+    public function applyCachedInfo() 
     {
         $info = $this->info();
-        $this->fill([
-            'view_count' => $info['view_count'],
-            'nice_count' => $info['nice_count'],
-            'bad_count' => $info['bad_count'],
-        ])->save();
+        $this->view_count = $info['view_count'];
+        $this->nice_count = $info['nice_count'];
+        $this->bad_count = $info['bad_count'];
+        return $this;
+    }
+
+    //いいね
+    public function performNice()
+    {
+        Redis::zincrby(config('database.keys.post-nices'), 1, $this->id);
+    }
+
+    //よくないね
+    public function performBad()
+    {
+        Redis::zincrby(config('database.keys.post-bads'), 1, $this->id);
     }
 
     // リレーション ----------------------------------------------
@@ -119,5 +137,11 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    //この投稿が登録されてるブクマを取得
+    public function bookmarks()
+    {
+        return $this->belongsToMany('App\Bookmark')->withTimestamps();
     }
 }

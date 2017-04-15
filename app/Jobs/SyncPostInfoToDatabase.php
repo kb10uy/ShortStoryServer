@@ -22,7 +22,7 @@ class SyncPostInfoToDatabase implements ShouldQueue
      *
      * @return void
      */
-    public $updateLeastMinutes = 10;
+    public $updateLeastMinutes = 60;
 
     public function __construct()
     {
@@ -40,8 +40,8 @@ class SyncPostInfoToDatabase implements ShouldQueue
         $last = Carbon::parse(Redis::get(config('database.keys.post-index-refreshed_at')) ?: '1970-01-01 00:00:00');
         if ($now->diffInMinutes($last) < $this->updateLeastMinutes) return;
         
-        $posts = Posts::all();
-        foreach($posts as $post) $post->syncInfo();
+        $posts = Post::all();
+        foreach($posts as $post) $post->applyCachedInfo()->save();
 
         Log::info('Post info updated at' . $now);
         Redis::set(config('database.keys.post-index-refreshed_at'), $now->toDateTimeString()); 

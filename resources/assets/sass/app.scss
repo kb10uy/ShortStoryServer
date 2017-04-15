@@ -7,7 +7,8 @@
 // Libraries
 @import "node_modules/motion-ui/motion-ui";
 @include motion-ui-transitions;
-@import "node_modules/foundation-sites/assets/foundation";
+@import "node_modules/foundation-sites/scss/foundation";
+@include foundation-everything;
 
 hr {
   border: 0;

@@ -77,4 +77,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+
+    //このユーザーが所持しているブクマ
+    public function bookmarks() 
+    {
+        return $this->hasMany('App\Bookmark');
+    }
 }
