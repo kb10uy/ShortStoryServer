@@ -20,7 +20,7 @@ class PostController extends Controller
     public $paginationCount = 10;
 
     // /post/{id} (GET)
-    public function open(Request $request, $id) 
+    public function view(Request $request, $id) 
     {
         $post = Post::find($id);
         if (!Post::visibleForMe($post, $response)) return $response;

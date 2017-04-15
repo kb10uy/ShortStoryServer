@@ -31,7 +31,8 @@ class BookmarkController extends Controller
         ]);
     }
 
-    //特定ブクマのPost一覧
+    // /bookmark/{id} (GET)
+    // 特定ブクマのPost一覧
     public function view(Request $request, $id)
     {
         $bookmark = Bookmark::find($id);
