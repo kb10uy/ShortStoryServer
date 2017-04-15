@@ -184,6 +184,7 @@ return [
         App\Providers\CustomBladeDirectiveProvider::class,
         App\Providers\CustomValidatorProvider::class,
         App\Providers\TextServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
         
     ],
 
