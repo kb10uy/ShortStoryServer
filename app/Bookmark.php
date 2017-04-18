@@ -38,6 +38,7 @@ class Bookmark extends Model
             return false;
         }
         */
+
         return true;
     }
 
