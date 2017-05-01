@@ -8,6 +8,9 @@ use Auth;
 use Text;
 use Redis;
 use Session;
+use Mail;
+
+use App\Mail\PostDopyulicated;
 
 class Post extends Model
 {
@@ -124,6 +127,13 @@ class Post extends Model
     public function performBad()
     {
         Redis::zincrby(config('database.keys.post-bads'), 1, $this->id);
+    }
+
+    public function performDopyulicate()
+    {
+        //TODO: UserモデルにpermitDopyulicationMailを用意して
+        //      そっち側で送信を決定したほうがいい
+        Mail::to($this->user->email)->send(new PostDopyulicated($this));
     }
 
     // リレーション ----------------------------------------------

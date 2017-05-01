@@ -7,20 +7,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GeneralInformation extends Mailable
+use App\Post;
+
+class PostDopyulicated extends Mailable
 {
     use Queueable, SerializesModels;
     
-    public $message = '';
+    private $post = null;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($mes)
+    public function __construct(Post $target)
     {
-        $this->message = $mes;
+        $this->post = $target;
     }
 
     /**
@@ -31,7 +28,7 @@ class GeneralInformation extends Mailable
     public function build()
     {
         return $this
-            ->subject(config('app.name') . 'からのお知らせ')
-            ->markdown('emails.general.information');
+            ->subject('あなたの作品がシコられました - ' . config('app.name'))
+            ->markdown('emails.post.dopyulicated', ['post' => $this->post]);
     }
 }

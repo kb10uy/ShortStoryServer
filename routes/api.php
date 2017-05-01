@@ -48,5 +48,6 @@ Route::group([
     Route::group(['prefix' => 'posts'], function() {
         Route::get('get', 'PostsApi@get');
         Route::patch('nice', 'PostsApi@nice');
+        Route::post('dopyulicate', 'PostsApi@dopyulicate');
     });
 });
