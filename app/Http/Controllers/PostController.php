@@ -72,7 +72,7 @@ class PostController extends Controller
         // whereIn句で書き直したほうが良いかも 要検証
         switch($request->input('type')) {
             case 'keyword':
-                $posts = $this->paginatePosts(Post::search($request->input('q'))->get());
+                $posts = $this->paginatePosts($request, Post::search($request->input('q'))->get());
                 break;
             case 'tag':
                 $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));

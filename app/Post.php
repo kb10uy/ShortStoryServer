@@ -8,6 +8,7 @@ use Auth;
 use Text;
 use Redis;
 use Session;
+
 use Mail;
 
 use App\Mail\PostDopyulicated;
@@ -111,9 +112,9 @@ class Post extends Model
     public function applyCachedInfo() 
     {
         $info = $this->info();
-        $this->view_count = $info['view_count'];
-        $this->nice_count = $info['nice_count'];
-        $this->bad_count = $info['bad_count'];
+        $this->view_count = $info['view_count'] ?: 0;
+        $this->nice_count = $info['nice_count'] ?: 0;
+        $this->bad_count = $info['bad_count'] ?: 0;
         return $this;
     }
 
