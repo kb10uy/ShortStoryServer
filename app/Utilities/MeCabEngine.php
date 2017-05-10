@@ -12,7 +12,7 @@ use Redis;
 
 class MeCabEngine extends Engine
 {
-    protected $mecab;
+    protected $mecab, $redis;
 
     protected $nounTypesToIgnore = [
         'ナイ形容詞語幹', '引用文字列', '形容動詞語幹',
@@ -23,6 +23,7 @@ class MeCabEngine extends Engine
     public function __construct() 
     {
         $this->mecab = new meCab;
+        $this->redis = Redis::connection('index');
     }
 
     public function update($models)
@@ -89,20 +90,20 @@ class MeCabEngine extends Engine
     // 重複無きこと
     protected function applyData(int $id, array $words)
     {
-        Redis::pipeline(function($pipe) use ($id, $words) {
+        $this->redis->pipeline(function($pipe) use ($id, $words) {
             foreach($words as $word) $pipe->sadd(config('database.keys.post-index-prefix') . $word, $id);
         });
-        Redis::hset(config('database.keys.post-index-table'), $id, implode(' ', $words));
+        $this->redis->hset(config('database.keys.post-index-table'), $id, implode(' ', $words));
     }
 
     protected function deleteData(int $id)
     {
-        $list = Redis::hget(config('database.keys.post-index-table'), $id) ?? '';
+        $list = $this->redis->hget(config('database.keys.post-index-table'), $id) ?? '';
         $list = preg_split('/ /u', $list, -1, PREG_SPLIT_NO_EMPTY);
-        Redis::pipeline(function($pipe) use ($id, $list) {
+        $this->redis->pipeline(function($pipe) use ($id, $list) {
             foreach($list as $word) $pipe->srem(config('database.keys.post-index-prefix') . $word, $id);
         });
-        Redis::hset(config('database.keys.post-index-table'), $id, '');
+        $this->redis->hset(config('database.keys.post-index-table'), $id, '');
     }
 
     protected function getValidWords($elem, $type)
@@ -139,7 +140,7 @@ class MeCabEngine extends Engine
                 return config('database.keys.post-index-prefix') . $item;
             })
             ->toArray();
-        $matches = collect(Redis::command('sinter', $searches))
+        $matches = collect($this->redis->command('sinter', $searches))
             ->map(function ($item, $key){
                 return (int)$item; 
             })

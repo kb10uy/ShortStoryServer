@@ -24,7 +24,6 @@ window.axios.defaults.headers.common = {
 };
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '89b4cc51b9ed5145f608',
-    encrypted: true
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':50626'
 });
