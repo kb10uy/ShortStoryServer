@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "ioredis": "registry:dt/ioredis#0.0.0+20161224103521"
+  },
+  "globalDependencies": {
+    "node": "registry:dt/node#7.0.0+20170322231424",
+    "socket.io": "registry:dt/socket.io#1.4.4+20170313110830"
+  }
+}
