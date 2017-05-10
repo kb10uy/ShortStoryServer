@@ -16,20 +16,10 @@
         <img class="orbit-image" src="{{ asset('images/laravel-text-logo.png') }}" alt="Space">
         <figcaption class="orbit-caption">Laravel 5、はじめました。</figcaption>
       </li>
-      <li class="orbit-slide">
-        <img class="orbit-image" src="{{ asset('images/SSSLogo.png') }}" alt="Space">
-        <figcaption class="orbit-caption">ShortStoryServer、再誕。</figcaption>
-      </li>
-      <li class="orbit-slide">
-        <img class="orbit-image" src="{{ asset('images/SSSLogo.png') }}" alt="Space">
-        <figcaption class="orbit-caption">ShortStoryServer、再誕。</figcaption>
-      </li>
     </ul>
     <nav class="orbit-bullets">
       <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
       <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button>
-      <button data-slide="2"><span class="show-for-sr">Third slide details.</span></button>
-      <button data-slide="3"><span class="show-for-sr">Fourth slide details.</span></button>
     </nav>
   </div>
 </div>
@@ -40,6 +30,13 @@
   
   <hr>
   
+  <p>
+    <strong>現在オープンβ状態です。</strong><br>
+    記録されたデータが予告なく削除・変更・破壊されることが多々あります。
+  </p>
+
+  <hr>
+
   <h2>新機能ぞくぞく</h2>
   <p class="with-emoji">
     <a href="http://emojione.com/">EmojiOne</a>ライブラリによって、

@@ -43,6 +43,14 @@ hr {
     text-decoration: line-through;
 }
 
+.text-line-inline {
+    display: inline;
+}
+
+.text-line-block {
+    display: block;
+}
+
 // 
 .label-keep {
 	color: $label-color;

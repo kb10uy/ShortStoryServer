@@ -24,7 +24,8 @@
     </div>
     
     <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}" :id="{{ $post->id }}"></nice-button>
-    
+    <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
+
   </div>
 </div>
 <hr>

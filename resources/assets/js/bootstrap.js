@@ -9,6 +9,7 @@ window.VueEvent = new Vue();
 Vue.component('sss-post-tags', require('./components/Post.Tags.vue'));
 Vue.component('popup-info', require('./components/Popup-Info.vue'));
 Vue.component('nice-button', require('./components/NiceButton.vue'));
+Vue.component('dopyulicate-button', require('./components/DopyulicateButton.vue'));
 Vue.component('bookmark-dropdown', require('./components/BookmarkDropDown.vue'));
 Vue.component('admin-user-tab', require('./components/admin/UserTab.vue'));
 Vue.component('admin-post-tab', require('./components/admin/PostTab.vue'));
@@ -23,7 +24,6 @@ window.axios.defaults.headers.common = {
 };
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '89b4cc51b9ed5145f608',
-    encrypted: true
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':50626'
 });

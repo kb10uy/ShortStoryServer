@@ -8,7 +8,7 @@ mix.webpackConfig({
 
 mix.autoload({});
 mix.js('resources/assets/js/app.js', 'public/js')
-   .extract(['vue', 'axios', 'lodash', 'jquery', 'laravel-echo', 'pusher-js']);
+   .extract(['vue', 'axios', 'lodash', 'jquery', 'laravel-echo']);
 mix.js('resources/assets/js/user.js', 'public/js')
    .js('resources/assets/js/admin.js', 'public/js');
 

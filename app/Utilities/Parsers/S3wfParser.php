@@ -58,8 +58,8 @@ class S3wfParser extends Parser
             if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,(.+))?/u', $line, $match) === 1) {
                 $state['type'][$match[1]] = [$match[2], $match[4] ?: ''];
                 continue;
-            } elseif (preg_match('/@(\w+)&gt;(.+)$/u', $line, $match) === 1) {
-                $result[] = '<span style="color: ' . $state['type'][$match[1]][0] . ';">' . $state['type'][$match[1]][1] . $match[2] . '</span><br>';
+            } elseif (preg_match('/^@(\w+)&gt;(.+)$/u', $line, $match) === 1) {
+                $result[] = '<span style="color: ' . $state['type'][$match[1]][0] . ';" class="text-line-block">' . $state['type'][$match[1]][1] . $match[2] . '</span>';
                 continue;
             }
 
@@ -96,9 +96,9 @@ class S3wfParser extends Parser
             
             $line = preg_replace_callback(
                 '/&lt;@(.+)&gt;\((.+)\)/u', 
-                function($m) {
-                    return    '<span style="color: ' . $state['type'][$m[1]][0] . '">' 
-                            . $state['type'][$m[1]][1] . $m[2] 
+                function($m) use($state) {
+                    return    '<span style="color: ' . $state['type'][$m[1]][0] . '" class="text-line-inline">' 
+                            /*. $state['type'][$m[1]][1]*/ . $m[2] 
                             . '</span>';
                 },
                 $line, -1);

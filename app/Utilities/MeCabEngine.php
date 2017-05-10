@@ -12,7 +12,7 @@ use Redis;
 
 class MeCabEngine extends Engine
 {
-    protected $mecab;
+    protected $mecab, $redis;
 
     protected $nounTypesToIgnore = [
         'ナイ形容詞語幹', '引用文字列', '形容動詞語幹',
@@ -23,6 +23,7 @@ class MeCabEngine extends Engine
     public function __construct() 
     {
         $this->mecab = new meCab;
+        $this->redis = Redis::connection('index');
     }
 
     public function update($models)
@@ -31,10 +32,10 @@ class MeCabEngine extends Engine
             $allwords = collect([]);
             $parse = $model->type;
             foreach($model->toSearchableArray() as $elem) {
-                $words = $this->getValidWords($elem);
-                $allwords = $allwords->union($words);
+                $words = collect($this->getValidWords($elem, $parse));
+                $allwords->push($words);
             }
-            $allwords = $allwords->unique()->values()->toArray();
+            $allwords = $allwords->flatten()->unique()->values()->toArray();
             $this->deleteData($model->id);
             $this->applyData($model->id, $allwords);
         }
@@ -86,31 +87,34 @@ class MeCabEngine extends Engine
     }
 
     // protected ---------------------------------------
-    //重複無きこと
+    // 重複無きこと
     protected function applyData(int $id, array $words)
     {
-        Redis::pipeline(function($pipe) use ($id, $words) {
+        $this->redis->pipeline(function($pipe) use ($id, $words) {
             foreach($words as $word) $pipe->sadd(config('database.keys.post-index-prefix') . $word, $id);
         });
-        Redis::hset(config('database.keys.post-index-table'), $id, implode(' ', $words));
+        $this->redis->hset(config('database.keys.post-index-table'), $id, implode(' ', $words));
     }
 
     protected function deleteData(int $id)
     {
-        $list = Redis::hget(config('database.keys.post-index-table'), $id) ?? '';
+        $list = $this->redis->hget(config('database.keys.post-index-table'), $id) ?? '';
         $list = preg_split('/ /u', $list, -1, PREG_SPLIT_NO_EMPTY);
-        Redis::pipeline(function($pipe) use ($id, $list) {
+        $this->redis->pipeline(function($pipe) use ($id, $list) {
             foreach($list as $word) $pipe->srem(config('database.keys.post-index-prefix') . $word, $id);
         });
-        Redis::hset(config('database.keys.post-index-table'), $id, '');
+        $this->redis->hset(config('database.keys.post-index-table'), $id, '');
     }
 
-    protected function getValidWords($elem)
+    protected function getValidWords($elem, $type)
     {
         $words = collect([]);
         if (is_string($elem)) {
+            // remove newlines & uncapitalize
+            $target = preg_replace('/\R/u', '', Text::parseToPlain($type, $elem), -1);
+            $target = mb_strtolower($target);
             $words = 
-                collect($this->mecab->analysis(preg_replace('/\R/u', '', Text::parseToPlain('plain', $elem), -1)))
+                collect($this->mecab->analysis($target))
                 ->filter(function ($value, $key) {
                     return 
                         ($value->getSpeech() === '名詞')
@@ -121,21 +125,22 @@ class MeCabEngine extends Engine
                 });
         } elseif (is_array($elem)) {
             $words = collect([]);
-            foreach($elem as $child) $words = $words->union($this->getValidWords($child));
+            foreach($elem as $child) $words->push($this->getValidWords($child, 'plain'));
+            $words = $words->flatten();
         }
-        //dd($words);
         return $words->unique()->values();
     }
 
     protected function performSearch(array $options)
     {
-        $schfor = preg_split('/[\s　]/u', $options['query'], -1, PREG_SPLIT_NO_EMPTY);
-        $searches = $this->getValidWords($schfor)
+        $schfor = preg_split('/[\s　]/u', mb_strtolower($options['query']), -1, PREG_SPLIT_NO_EMPTY);
+        
+        $searches = $this->getValidWords($schfor, 'plain')
             ->map(function($item, $key) {
                 return config('database.keys.post-index-prefix') . $item;
             })
             ->toArray();
-        $matches = collect(Redis::sinter(implode(" ", $searches)))
+        $matches = collect($this->redis->command('sinter', $searches))
             ->map(function ($item, $key){
                 return (int)$item; 
             })

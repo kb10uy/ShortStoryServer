@@ -9,6 +9,10 @@ use Text;
 use Redis;
 use Session;
 
+use Mail;
+
+use App\Mail\PostDopyulicated;
+
 class Post extends Model
 {
     use Searchable;
@@ -108,9 +112,9 @@ class Post extends Model
     public function applyCachedInfo() 
     {
         $info = $this->info();
-        $this->view_count = $info['view_count'];
-        $this->nice_count = $info['nice_count'];
-        $this->bad_count = $info['bad_count'];
+        $this->view_count = $info['view_count'] ?: 0;
+        $this->nice_count = $info['nice_count'] ?: 0;
+        $this->bad_count = $info['bad_count'] ?: 0;
         return $this;
     }
 
@@ -124,6 +128,13 @@ class Post extends Model
     public function performBad()
     {
         Redis::zincrby(config('database.keys.post-bads'), 1, $this->id);
+    }
+
+    public function performDopyulicate()
+    {
+        //TODO: UserモデルにpermitDopyulicationMailを用意して
+        //      そっち側で送信を決定したほうがいい
+        Mail::to($this->user->email)->send(new PostDopyulicated($this));
     }
 
     // リレーション ----------------------------------------------

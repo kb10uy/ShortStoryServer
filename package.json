@@ -11,17 +11,23 @@
   },
   "devDependencies": {
     "axios": "~0.15",
+    "codemirror": "~5",
+    "cross-env": "^3.2.3",
     "foundation-sites": "~6",
     "jquery": "~3",
+    "laravel-echo": "~1",
     "laravel-mix": "0.*",
-    "cross-env": "^3.2.3",
     "lodash": "~4",
     "motion-ui": "~1.2",
     "script-loader": "~0.7",
-    "vue": "~2",
-    "codemirror": "~5",
-    "foundation-emails": "~2",
-    "laravel-echo": "~1",
-    "pusher-js": "~4"
+    "vue": "~2"
+  },
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "crypto": "^0.0.3",
+    "dotenv": "^4.0.0",
+    "ioredis": "^2.5.0",
+    "php-unserialize": "^0.0.1",
+    "socketio": "^1.0.0"
   }
 }
