@@ -6,7 +6,7 @@ const SocketIO = require('socket.io');
 const FileSystem = require('fs');
 const _ = require('lodash');
 require('dotenv').config({
-    path: __dirname + '/.env'
+    path: __dirname + '/../.env'
 });
 
 const env = process.env;
