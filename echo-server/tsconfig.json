@@ -1,5 +1,15 @@
 {
     "compilerOptions": {
-        
-    }
+         "target": "es2017",
+         "module": "commonjs",
+         "outDir": "dist/"
+    },
+    "include": [
+        "src/**/*",
+        "typings/index.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }
