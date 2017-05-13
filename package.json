@@ -9,25 +9,32 @@
     "prod": "$npm_package_scripts_production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/ioredis": "^0.0.23",
+    "@types/lodash": "^4.14.64",
+    "@types/log4js": "^0.0.32",
+    "@types/node": "^7.0.18",
+    "@types/socket.io": "^1.4.29",
     "axios": "~0.15",
     "codemirror": "~5",
+    "cookie": "^0.3.1",
     "cross-env": "^3.2.3",
+    "crypto": "^0.0.3",
+    "dotenv": "^4.0.0",
     "foundation-sites": "~6",
+    "ioredis": "^2.5.0",
     "jquery": "~3",
     "laravel-echo": "~1",
     "laravel-mix": "0.*",
     "lodash": "~4",
+    "log4js": "^1.1.1",
     "motion-ui": "~1.2",
-    "script-loader": "~0.7",
-    "vue": "~2"
-  },
-  "dependencies": {
-    "cookie": "^0.3.1",
-    "crypto": "^0.0.3",
-    "dotenv": "^4.0.0",
-    "ioredis": "^2.5.0",
     "php-unserialize": "^0.0.1",
-    "socketio": "^1.0.0"
+    "request": "^2.81.0",
+    "script-loader": "~0.7",
+    "socketio": "~2",
+    "typescript": "^2.3.2",
+    "vue": "~2"
   }
 }

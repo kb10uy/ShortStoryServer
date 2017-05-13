@@ -8,3 +8,5 @@ Homestead.yaml
 .env
 .sqlite
 disablecache
+/.vscode
+.vscode-upload.json

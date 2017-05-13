@@ -6,7 +6,7 @@ const SocketIO = require('socket.io');
 const FileSystem = require('fs');
 const _ = require('lodash');
 require('dotenv').config({
-    path: __dirname + '/.env'
+    path: __dirname + '/../.env'
 });
 
 const env = process.env;
@@ -14,7 +14,7 @@ const port = env.SOCKETIO_PORT;
 const redisSetting = {
     path: env.REDIS_SOCKET,
     password: env.REDIS_PASSWORD,
-    db: 4
+    db: env.REDIS_BROADCAST_DB_NUMBER
 };
 const redis = new Redis(redisSetting);
 const redisReceiver = new Redis(redisSetting);
