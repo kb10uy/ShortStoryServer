@@ -10,7 +10,9 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/ioredis": "^0.0.23",
+    "@types/lodash": "^4.14.64",
     "@types/node": "^7.0.18",
     "@types/socket.io": "^1.4.29",
     "axios": "~0.15",
@@ -27,6 +29,7 @@
     "lodash": "~4",
     "motion-ui": "~1.2",
     "php-unserialize": "^0.0.1",
+    "request": "^2.81.0",
     "script-loader": "~0.7",
     "socketio": "~2",
     "typescript": "^2.3.2",
