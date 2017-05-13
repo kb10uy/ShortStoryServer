@@ -4,6 +4,7 @@ import * as Http from 'http';
 import * as Https from 'https';
 import * as Net from 'net';
 import { Channel } from './Channel';
+import { Logger } from './Logger';
 
 export class ServerManager {
     public defaultOptions: any = {
@@ -45,6 +46,7 @@ export class ServerManager {
     options: any;
 
     constructor(additionalOptions: any) {
+        Logger.initialize();
         this.options = Object.assign(this.defaultOptions, additionalOptions);
 
         if (this.options.http.protocol === 'https') {
@@ -63,6 +65,10 @@ export class ServerManager {
         this.initializeRedisSubscriber();
         this.httpServer.listen(this.options.port);
         this.onConnect();
+    }
+
+    startup(): void {
+        Logger.default.info('Laravel Echo Server has started!');
     }
 
     private initializeRedisSubscriber(): void {

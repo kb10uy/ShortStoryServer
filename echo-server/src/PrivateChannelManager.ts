@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as SocketIO from 'socket.io';
+import { Logger } from './Logger';
 
 export class PrivateChannelManager {
     constructor(private options) {
@@ -27,11 +28,13 @@ export class PrivateChannelManager {
             axios(updatedConfig).then((response: AxiosResponse) => {
                 // TODO: errorに関する処理
                 if (response.status !== 200) {
+                    Logger.default.error('Private channel authentication failed.');
                     reject({
                         reason: 'Cannot be authenticated',
                         status: response.status
                     });
                 }
+                Logger.default.info('Private channel authentication succeeded.');
                 resolve(response.data);
             });
         });

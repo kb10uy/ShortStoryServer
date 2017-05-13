@@ -1,6 +1,7 @@
 import * as SocketIO from 'socket.io';
 import { Redis } from 'ioredis';
 import * as _ from 'lodash';
+import { Logger } from './Logger';
 
 export class PresenceChannelManager {
     // チャンネル情報保管しないといけないので
@@ -73,9 +74,11 @@ export class PresenceChannelManager {
 
     onJoin(socket: SocketIO.Socket, channel: string, member: any): void {
         this.ioServer.sockets.connected[socket.id].broadcast.to(channel).emit('presence:joining', channel, member);
+        Logger.default.info(`User #${ member.id } joined "${ channel }" (presence)`);
     }
 
     onLeave(channel: string, member: any): void {
         this.ioServer.to('channel').emit('presence:leaving', channel, member);
+        Logger.default.info(`User #${ member.id } left "${ channel }" (presence)`);
     }
 }

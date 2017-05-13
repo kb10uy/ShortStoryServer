@@ -1,7 +1,8 @@
 import * as SocketIO from 'socket.io';
-import * as Redis from 'ioredis';
+import { Redis } from 'ioredis';
 import { PrivateChannelManager } from "./PrivateChannelManager";
 import { PresenceChannelManager } from "./PresenceChannelManager";
+import { Logger } from './Logger';
 
 export class Channel {
 
@@ -15,7 +16,7 @@ export class Channel {
     privateChannels: PrivateChannelManager;
     presenceChannels: PresenceChannelManager;
 
-    constructor(private redisClient: Redis.Redis, private ioServer: SocketIO.Server, private options: any) {
+    constructor(private redisClient: Redis, private ioServer: SocketIO.Server, private options: any) {
         this.privateChannels = new PrivateChannelManager(options);
         this.presenceChannels = new PresenceChannelManager(redisClient, ioServer, options);
     }
@@ -51,8 +52,8 @@ export class Channel {
         if (channel) {
             if (this.isPresence(channel)) this.presenceChannels.leave(socket, channel);
         }
-
         socket.leave(channel);
+        this.onLeave(socket, channel);
     }
 
     triggerClientEvent(socket: SocketIO.Socket, data: any): void {
@@ -91,7 +92,10 @@ export class Channel {
     }
 
     onJoin(socket: SocketIO.Socket, channel: string): void {
-        // ロギングしかしてなかった
+        Logger.default.info(`User #${ socket.id } joined "${ channel }"`);
     }
 
+    onLeave(socket: SocketIO.Socket, channel: string): void {
+        Logger.default.info(`User #${ socket.id } left "${ channel }"`);
+    }
 }
