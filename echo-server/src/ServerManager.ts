@@ -65,6 +65,7 @@ export class ServerManager {
         this.initializeRedisSubscriber();
         this.httpServer.listen(this.options.port);
         this.onConnect();
+        this.startup();
     }
 
     startup(): void {
@@ -73,7 +74,8 @@ export class ServerManager {
 
     private initializeRedisSubscriber(): void {
         this.redisSubscriber.psubscribe('*', (err: string) => { });
-        this.redisSubscriber.on('*', this.onReceiveRedisEvent);
+        this.redisSubscriber.on('pmessage',
+            (subscribe: string, channel: string, messageJson: string) => this.onReceiveRedisEvent(subscribe, channel, messageJson));
     }
 
     private broadcastToAll(channel: string, message: any): void {
@@ -86,10 +88,13 @@ export class ServerManager {
 
     // ハンドラー ------------------------------------------------------------------------
     private onReceiveRedisEvent(subscribe: string, channel: string, messageJson: string): void {
+        // いつか絶対にthisの仇を取ってやるからな覚えてろよECMAScript
         const message = JSON.parse(messageJson);
         if (message.socket && this.ioServer.sockets.connected[message.socket]) {
+            Logger.default.info(`Guarded message received on ${channel}`, message);
             this.broadcastToOthers(this.ioServer.sockets.connected[message.socket], channel, message);
         } else {
+            Logger.default.info(`Global message received on ${channel}`, message);
             this.broadcastToAll(channel, message);
         }
     }

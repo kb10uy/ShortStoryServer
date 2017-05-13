@@ -1,6 +1,6 @@
-import { ServerManager } from './ServerManager';
 import * as dotenv from 'dotenv';
 import * as FileSystem from 'fs';
+import { ServerManager } from './ServerManager';
 
 dotenv.config({
     path: __dirname + '/../../.env'
