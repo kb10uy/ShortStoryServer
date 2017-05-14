@@ -51,6 +51,7 @@ class PostEditController extends Controller
         return redirect()->route('post.view', ['id' => $post->id]);
     }
 
+    // /post/{id}/edit (GET)
     public function edit(Request $request, $id)
     {
         $post = Post::find($id);
@@ -65,6 +66,7 @@ class PostEditController extends Controller
         ]);
     }
 
+    // /post/{id}/edit (PATCH)
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
@@ -91,5 +93,15 @@ class PostEditController extends Controller
         $post->tags()->sync($tagids);
 
         return redirect()->route('post.view', ['id' => $post->id]);
+    }
+
+    // /post/{id}/delete (DELETE)
+    public function delete(Request $request, $id) {
+        $post = Post::find($id);
+        if (!Post::updatable($post, $response)) return $response;
+        
+        $post->delete();
+        Session::flash('success', __('view.message.post_deleted'));
+        return redirect()->route('home');
     }
 }
