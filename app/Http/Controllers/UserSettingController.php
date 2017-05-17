@@ -13,12 +13,19 @@ class UserSettingController extends Controller
 {
     //ユーザー設定更新
     //RegisterControllerと同じ条件にする
-    
-    //基本情報(name, email, description)
-    public function updateBasic(Request $request)
+
+    public $request = null;
+
+    public function __construct(Request $request) 
     {
-        $user = $request->user();
-        $validator = Validator::make($request->all(), [
+        $this->request = $request;
+    }
+
+    //基本情報(name, email, description)
+    public function updateBasic()
+    {
+        $user = $this->request->user();
+        $validator = Validator::make($this->request->all(), [
             'name' => [
                 'required',
                 'max:64',
@@ -39,41 +46,41 @@ class UserSettingController extends Controller
             'description' => $request->description,
         ])->save();
         
-        $request->session()->flash('success', __('view.message.basic_info_updated'));
+        session()->flash('success', __('view.message.basic_info_updated'));
         return redirect()->route('user.setting');
     }
     
     //パスワード(password)
-    public function updatePassword(Request $request)
+    public function updatePassword()
     {
         //新パスワードのチェックと現パスワードの一致は別でやる
-        $user = $request->user();
-        $validator = Validator::make($request->all(), [
+        $user = $this->request->user();
+        $validator = Validator::make($this->request->all(), [
             'password' => 'required|min:6',
             'password_new' => 'required|min:6|confirmed',
         ]);
         if ($validator->fails()) {
             //パス形式不一致
             return redirect()->route('user.setting')->withErrors($validator);
-        } elseif (!Hash::check($request->password, $user->password)) {
+        } elseif (!Hash::check($this->request->password, $user->password)) {
             //現パス不一致
-            $request->errors()->add('password', __('view.message.password_nomatch'));
+            $this->request->errors()->add('password', __('view.message.password_nomatch'));
             return redirect()->route('user.setting')->withErrors($validator);
         } else {
             $user->fill([
-                'password' => Hash::make($request->password_new)
+                'password' => Hash::make($this->request->password_new)
             ])->save();
             
-            $request->session()->flash('success', __('view.message.password_updated'));
+            session()->flash('success', __('view.message.password_updated'));
             return redirect()->route('user.setting');
         }
     }
     
     //アイコン(icon)
-    public function updateIcon(Request $request)
+    public function updateIcon()
     {
-        $user = $request->user();
-        $validator = Validator::make($request->all(), [
+        $user = $this->request->user();
+        $validator = Validator::make($this->request->all(), [
             'file_icon' => [
                 'required',
                 'file',
@@ -84,7 +91,7 @@ class UserSettingController extends Controller
         ]);
         if ($validator->fails()) return redirect()->route('user.setting')->withErrors($validator);
         
-        $file = $request->file('file_icon');
+        $file = $this->request->file('file_icon');
         $image = Image::make($file->path());
         $image->resize(320, null, function ($constraint) {
             $constraint->aspectRatio();
@@ -96,27 +103,27 @@ class UserSettingController extends Controller
         $user->icon = $path;
         $user->save();
         
-        $request->session()->flash('success', __('view.message.icon_updated'));
+        session()->flash('success', __('view.message.icon_updated'));
         return redirect()->route('user.setting');
     }
     
     //その他情報(birthday, url, display_name)
-    public function updateMisc(Request $request) 
+    public function updateMisc() 
     {
-        $user = $request->user();
-        $this->validate($request, [
+        $user = $this->request->user();
+        $this->validate($this->request, [
             'birthday' => 'date',
             'url' => 'nullable|url',
             'display_name' => 'nullable|max:64',
         ]);
         
         $user->fill([
-            'birthday' => $request->birthday,
-            'url' => $request->url,
-            'display_name' => $request->display_name ?: $request->user()->name,
+            'birthday' => $this->request->birthday,
+            'url' => $this->request->url,
+            'display_name' => $this->request->display_name ?: $this->request->user()->name,
         ])->save();
         
-        $request->session()->flash('success', __('view.message.misc_info_updated'));
+        session()->flash('success', __('view.message.misc_info_updated'));
         return redirect()->route('user.setting');
     }
 }

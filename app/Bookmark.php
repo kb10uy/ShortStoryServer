@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Session;
 use Auth;
 
 class Bookmark extends Model
