@@ -10,6 +10,7 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "doctrine/dbal": "^2.5",
         "intervention/image": "^2.3",
+        "jenssegers/agent": "^2.5",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
         "laravel/scout": "^3.0",
