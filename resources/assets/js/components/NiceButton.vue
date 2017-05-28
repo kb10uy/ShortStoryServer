@@ -1,9 +1,18 @@
 <template>
-    <button class="button primary" id="button-nice" @click="perform">{{ tlnice }}</button>
+  <div class="button-group expanded">
+    <button class="button hollow">{{ nice_count }}</button>
+    <button class="button" id="button-nice" @click="perform">{{ tlnice }}</button>
+  </div>
 </template>
 
 <script>
     export default {
+        props: ['tlnice', 'tlnice_ok', 'id', 'nice_count'],
+        data() {
+            return {
+                nice: 0,
+            }
+        },
         methods: {
             perform() {
                 let vm = this;
@@ -13,13 +22,13 @@
                 })
                 .then(function() {
                     $('#button-nice')
-                        .prop('disabled', false)
-                        .html(vm.tlnice_ok)
-                        .delay(1000)
-                        .html(vm.tlnice);
+                        .prop('disabled', false);
+                    vm.nice_count++;
                 });
             },
         },
-        props: ['tlnice', 'tlnice_ok', 'id'],
+        mounted() {
+            this.nice = this.nice_count;
+        },
     }
 </script>
