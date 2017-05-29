@@ -10,7 +10,7 @@ class ViewExtra
     public static function drawOnDevice(string $name, array $data = null)
     {
         if (Agent::isMobile()) {
-            return view($name . $this->suffixMobile, $data);
+            return view($name . self::$suffixMobile, $data);
         } else {
             return view($name, $data);
         }

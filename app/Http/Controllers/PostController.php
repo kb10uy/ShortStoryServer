@@ -9,6 +9,7 @@ use App\Post;
 use App\Tag;
 use App\User;
 use App\Jobs\SyncPostInfoToDatabase;
+use App\Utilities\ViewExtra;
 
 use Auth;
 use Text;

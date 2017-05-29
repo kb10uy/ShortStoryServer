@@ -64,7 +64,7 @@ class PostsApi extends Controller
      *
      * 指定したidの投稿にシコりメールを送ります。
      */
-    public function dopyulicate($request) 
+    public function dopyulicate() 
     {
          $validator = Validator::make($this->request->all(), [
             'id' => 'required',

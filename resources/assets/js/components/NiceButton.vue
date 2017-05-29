@@ -1,6 +1,6 @@
 <template>
-  <div class="button-group expanded">
-    <button class="button hollow">{{ nice_count }}</button>
+  <div class="compressed button-group expanded">
+    <button class="button hollow">{{ nice }}</button>
     <button class="button" id="button-nice" @click="perform">{{ tlnice }}</button>
   </div>
 </template>
@@ -23,7 +23,7 @@
                 .then(function() {
                     $('#button-nice')
                         .prop('disabled', false);
-                    vm.nice_count++;
+                    vm.nice++;
                 });
             },
         },

@@ -26,6 +26,17 @@ hr {
     rgba($color, 0) 100%);
 }
 
+hr.raw {
+  max-width: 100%;
+  box-sizing: border-box;
+  height: 1px;
+  margin: 0.5em auto;
+}
+
+.compressed {
+    margin-bottom: 1px;
+}
+
 //本文装飾用
 .text-bold {
     font-weight: bold;

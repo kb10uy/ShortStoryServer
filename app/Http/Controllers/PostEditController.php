@@ -53,7 +53,7 @@ class PostEditController extends Controller
         $post->tags()->sync($tagids);
         $post->initInfo();
 
-        Session::flash('success', __('view.message.post_uploaded'));
+        $this->request->session()->flash('success', __('view.message.post_uploaded'));
         return redirect()->route('post.view', ['id' => $post->id]);
     }
 

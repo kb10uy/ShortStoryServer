@@ -1,5 +1,5 @@
 <template>
-    <button class="button primary expanded" id="button-dopyulicate" @click="perform">{{ tldopyu }}</button>
+  <button class="compressed button primary expanded" id="button-dopyulicate" @click="perform">{{ tldopyu }}</button>
 </template>
 
 <script>
