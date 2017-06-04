@@ -54,7 +54,7 @@ class S3wfParser extends Parser
             }
 
             //スクリプト的要素
-            if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,(.+))?/u', $line, $match) === 1) {
+            if (preg_match('/^@(\w+)=(#[0-9a-fA-F]{1,6})(,\s*(.+))?/u', $line, $match) === 1) {
                 $state['type'][$match[1]] = [$match[2], $match[4] ?: ''];
                 continue;
             } elseif (preg_match('/^@(\w+)&gt;(.+)$/u', $line, $match) === 1) {
@@ -76,16 +76,16 @@ class S3wfParser extends Parser
                 '<span class="text-underline">$1</span>',
                 $line, -1);
             $line = preg_replace(
+                '/^\-{8,}$/u', 
+                '<hr>',
+                $line, -1);
+            $line = preg_replace(
                 '/--(.+)--/u', 
                 '<span class="text-strike">$1</span>',
                 $line, -1);
             $line = preg_replace(
                 '/ ;;$/u', 
                 '<br>',
-                $line, -1);
-            $line = preg_replace(
-                '/^-{8,}$/u', 
-                '<hr>',
                 $line, -1);
 
             $line = preg_replace(

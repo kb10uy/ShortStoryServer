@@ -35,11 +35,11 @@
 
 <div class="row">
   @if(Agent::isMobile())
-    <div class="small-12 columns" id="text-body">
+    <div class="small-12 columns with-emoji" id="text-body">
       {!! $parsed['text'] !!}
     </div>
   @else
-    <div class="medium-8 columns" id="text-body">
+    <div class="medium-8 columns with-emoji" id="text-body">
       {!! $parsed['text'] !!}
     </div>
     <div class="medium-4 columns" data-sticky-container>
