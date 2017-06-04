@@ -17,6 +17,7 @@ class S3wfParser extends Parser
         $state = [];
         $state['type'] = [];
         $result = [];
+        $anchors = [];
         
         foreach($lines as $line) {
             if($state['noparse'] ?? false) {
@@ -24,14 +25,12 @@ class S3wfParser extends Parser
                 continue;
             }
             //タイトル
-            if (strpos($line, '###') === 0) {
-                $result[] = '<h5>' . trim(substr($line, 3)) . '</h5>';
-                continue;
-            } elseif (strpos($line, '##') === 0) {
-                $result[] = '<h4>' . trim(substr($line, 2)) . '</h4>';
-                continue;
-            } elseif (strpos($line, '#') === 0) {
-                $result[] = '<h3>' . trim(substr($line, 1)) . '</h3>';
+            if (preg_match('/^(#+)\s*(.+)\s*$/', $line, $matches)) {
+                $level = strlen($matches[1]) + 2;
+                $title = $matches[2];
+                $anchor = hash('crc32', $title);
+                $result[] = "<h$level>$title</h$level><a name=\"$anchor\"></a>";
+                $anchors[] = [$title, $anchor];
                 continue;
             }
 
@@ -105,12 +104,12 @@ class S3wfParser extends Parser
 
             $result[] = $line;
         }
-        return implode("\n", $result); 
+        return ['text' => implode("\n", $result), 'anchors' => $anchors]; 
     }
 
     public function parseToPlain(string $text)
     {
-        return strip_tags($this->parse($text));
+        return strip_tags(($this->parse($text))['text']);
     }
 }
 

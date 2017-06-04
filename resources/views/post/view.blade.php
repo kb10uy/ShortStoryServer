@@ -4,7 +4,7 @@
 
 @section('content')
 @if(Agent::isMobile())
-  <div class="row small-12 columns">
+  <div class="row">
     <h1>{{ $post->title }}</h1>
   </div>
 @else
@@ -36,17 +36,17 @@
 <div class="row">
   @if(Agent::isMobile())
     <div class="small-12 columns" id="text-body">
-      {!! $parsed !!}
+      {!! $parsed['text'] !!}
     </div>
   @else
     <div class="medium-8 columns" id="text-body">
-      {!! $parsed !!}
+      {!! $parsed['text'] !!}
     </div>
     <div class="medium-4 columns" data-sticky-container>
       <div class="sticky callout" data-sticky data-anchor="text-body">
         @if(Auth::check())
           <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}"
-                        :id="{{ $post->id }}" :nice_count="{{ ($postinfo ?? $post->info())['nice_count'] }}">
+                        :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
           </nice-button>
           <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
           
@@ -64,6 +64,14 @@
           @endif
         @else
           <a class="button primary expanded" href="{{ route('login') }}">ログインして評価する</a>
+        @endif
+        @if(count($parsed['anchors']) > 0)
+          <hr class="raw">
+          <ul class="vertical menu">
+            @foreach($parsed['anchors'] as $anchor)
+              <li><a href="#{{ $anchor[1] }}">{{ $anchor[0] }}</a></li>
+            @endforeach
+          </ul>
         @endif
       </div>
     </div>
@@ -109,17 +117,16 @@
 
 @if(Auth::check())
   <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}"
-                :id="{{ $post->id }}" :nice_count="{{ ($postinfo ?? $post->info())['nice_count'] }}">
+                :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
   </nice-button>
   <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
 @else
   <a class="button primary expanded" href="{{ route('login') }}">ログインして評価する</a>
 @endif
 
-<hr class="raw">
-
-<ul class="vertical menu" data-accordion-menu>
-  @if(Auth::user() == $post->user)
+@if(Auth::user() == $post->user)
+  <hr class="raw">
+  <ul class="vertical menu" data-accordion-menu>
     <li>
       <a href="#">作者メニュー</a>
       <ul class="vertical menu nested">
@@ -128,6 +135,16 @@
         <li><a href="#">非公開にする</a></li>
       </ul>
     </li>
-  @endif
-</ul>
+  </ul>
+@endif
+
+@if(count($parsed['anchors']) > 0)
+  <hr class="raw">
+  <ul class="vertical menu">
+    @foreach($parsed['anchors'] as $anchor)
+      <li><a href="#{{ $anchor[1] }}">{{ $anchor[0] }}</a></li>
+    @endforeach
+  </ul>
+@endif
+
 @endsection
