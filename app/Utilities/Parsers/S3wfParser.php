@@ -29,7 +29,7 @@ class S3wfParser extends Parser
                 $level = strlen($matches[1]) + 2;
                 $title = $matches[2];
                 $anchor = hash('crc32', $title);
-                $result[] = "<h$level>$title</h$level><a name=\"$anchor\"></a>";
+                $result[] = "<a id=\"$anchor\"></a><h$level>$title</h$level>";
                 $anchors[] = [$title, $anchor];
                 continue;
             }

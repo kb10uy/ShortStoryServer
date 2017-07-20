@@ -8,7 +8,6 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "$npm_package_scripts_production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    
     "build-echo-server": "tsc --project ./echo-server/"
   },
   "dependencies": {
@@ -32,6 +31,7 @@
     "lodash": "~4",
     "log4js": "^1.1.1",
     "motion-ui": "~1.2",
+    "node-sass": "^4.5.3",
     "php-unserialize": "^0.0.1",
     "request": "^2.81.0",
     "script-loader": "~0.7",

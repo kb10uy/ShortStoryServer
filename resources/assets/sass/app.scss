@@ -9,6 +9,7 @@
 @include motion-ui-transitions;
 @import "node_modules/foundation-sites/scss/foundation";
 @include foundation-everything;
+@include foundation-xy-grid-classes;
 
 hr {
   border: 0;
@@ -71,14 +72,7 @@ hr.raw {
 }
 
 #app {
-  flex-direction: column;
-  display: flex;
-  min-height: 100%;
   word-wrap: break-word;
-}
-
-#content {
-  flex: 1;
 }
 
 #footer {

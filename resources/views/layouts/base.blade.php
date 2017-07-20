@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
   <head>
     <meta charset="utf-8">
@@ -18,13 +19,16 @@
         <div id="content"  class="off-canvas-content" data-off-canvas-content>
           @include('layouts.topbar-mobile')
           @include('layouts.flashes')
-        
-          @yield('content')
+          <div class="grid-container">
+            @yield('content')
+          </div>
         </div>
 
+        <!--
         <footer id="footer">
           @include('layouts.footer')
         </footer>
+        -->
         <popup-info name="server"></popup-info>
       @else
         <!-- デスクトップ用body -->
@@ -32,12 +36,15 @@
           @include('layouts.topbar')
           @include('layouts.flashes')
         
-          @yield('content')
+          <div class="grid-container">
+            @yield('content')
+          </div>
         </div>
-
+        <!--
         <footer id="footer">
           @include('layouts.footer')
         </footer>
+        -->
         <popup-info name="server"></popup-info>
       @endif
     </div>
