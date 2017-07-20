@@ -3,26 +3,26 @@
 @section('title', __('view.title.home'))
 
 @section('content')
-  <div class="grid-x">
-    <div class="orbit" role="region" aria-label="New SSS Features" data-orbit>
-      <ul class="orbit-container">
-        <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-        <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
-        <li class="is-active orbit-slide">
-          <img class="orbit-image" src="{{ asset('images/SSSLogo.png') }}" alt="Space">
-          <figcaption class="orbit-caption">ShortStoryServer、再誕。</figcaption>
-        </li>
-        <li class="orbit-slide">
-          <img class="orbit-image" src="{{ asset('images/laravel-text-logo.png') }}" alt="Space">
-          <figcaption class="orbit-caption">Laravel 5、はじめました。</figcaption>
-        </li>
-      </ul>
-      <nav class="orbit-bullets">
-        <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
-        <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button>
-      </nav>
-    </div>
+<div class="grid-x">
+  <div class="orbit" role="region" aria-label="New SSS Features" data-orbit>
+    <ul class="orbit-container">
+      <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+      <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+      <li class="is-active orbit-slide">
+        <img class="orbit-image" src="{{ asset('images/SSSLogo.png') }}" alt="Space">
+        <figcaption class="orbit-caption">ShortStoryServer、再誕。</figcaption>
+      </li>
+      <li class="orbit-slide">
+        <img class="orbit-image" src="{{ asset('images/laravel-text-logo.png') }}" alt="Space">
+        <figcaption class="orbit-caption">Laravel 5、はじめました。</figcaption>
+      </li>
+    </ul>
+    <nav class="orbit-bullets">
+      <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
+      <button data-slide="1"><span class="show-for-sr">Second slide details.</span></button>
+    </nav>
   </div>
+</div>
 
 
 <div class="grid-x text-center flex-container flex-child-grow">
