@@ -10,7 +10,7 @@
   <body>
     <!-- 本体 -->
     <div id="app">
-      <div id="content" class="row">
+      <div id="content" class="grid-container">
         <h1 class="text-center">
           <strike>ShortStoryServer</strike>
         </h1>

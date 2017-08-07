@@ -3,16 +3,16 @@
 @section('title', __('view.title.profile'))
 
 @section('content')
-<div class="row">
+<div class="grid-x">
   <h1>@lang('view.title.profile')</h1>
 </div>
 
-<div class="row" data-equalizer data-equalize-on="medium">
-  <div class="medium-4 large-3 columns">
-    <div class="callout small-6 medium-12 columns" data-equalizer-watch>
+<div class="grid-x" data-equalizer data-equalize-on="medium">
+  <div class="medium-4 large-3 cell">
+    <div class="callout small-6 medium-12 cell" data-equalizer-watch>
       <img alt="User Image" src="{{ Storage::url($user->icon) }}">
     </div>
-    <div class="small-6 medium-12 columns" data-equalizer-watch>
+    <div class="small-6 medium-12 cell" data-equalizer-watch>
       <h3>
         {{ $user->display_name }}
         <small>({{ $user->name }})</small>
@@ -31,8 +31,8 @@
       </ul>
     </div>
   </div>
-  <div class="medium-8 large-9 columns">
-    <div class="small-12 columns" data-equalizer-watch>
+  <div class="medium-8 large-9 cell">
+    <div class="small-12 cell" data-equalizer-watch>
       <ul class="tabs" data-tabs id="tabs-main">
         <li class="tabs-title is-active"><a href="#panel-notif" aria-selected="true">@lang('view.user.description')</a></li>
         <li class="tabs-title"><a href="#panel-post">@lang('view.user.posts')</a></li>
@@ -44,9 +44,9 @@
           <p>{{ $user->description ?: __('view.user.no-description') }}</p>
         </div>
         <div class="tabs-panel" id="panel-post">
-          <div class="row">
+          <div class="grid-x">
             @foreach($posts as $post)
-              <div class="small-12 columns">
+              <div class="small-12 cell">
                 <div class="card">
                   <div class="card-divider">
                     <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
@@ -63,15 +63,15 @@
                 </div>
               </div>
             @endforeach
-            <div class="small-12 columns">
+            <div class="small-12 cell">
               <a href="{{ route('post.search', ['q' => $user->name, 'type' => 'author', 'sort' => 'updated']) }}">@lang('view.user.posts-more')</a>
             </div>
           </div>
         </div>
         <div class="tabs-panel" id="panel-bookmark">
-          <div class="row">
+          <div class="grid-x">
             @foreach($posts as $post)
-              <div class="small-12 columns">
+              <div class="small-12 cell">
                 <div class="card">
                   <div class="card-divider">
                     <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
@@ -88,7 +88,7 @@
                 </div>
               </div>
             @endforeach
-            <div class="small-12 columns">
+            <div class="small-12 cell">
               <a href="#">@lang('view.user.posts-more')</a>
             </div>
           </div>

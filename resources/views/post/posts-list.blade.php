@@ -1,4 +1,4 @@
-<div class="row small-up-1 medium-up-1 large-up-2" id="posts-list" data-equalizer data-equalize-on="large" data-equalize-by-row="true">
+<div class="grid-x small-up-1 medium-up-1 large-up-2" id="posts-list" data-equalizer data-equalize-on="large" data-equalize-by-row="true">
   @foreach($posts as $post)
     <div class="column" data-equalizer-watch>
       <div class="card">

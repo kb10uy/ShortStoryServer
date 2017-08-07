@@ -3,11 +3,11 @@
 @section('title', __('view.title.edit_post'))
 
 @section('content')
-<div class="row">
+<div class="grid-x">
   <h1>@lang('view.title.edit_post')</h1>
 </div>
 
-<div class="row">
+<div class="grid-x">
   <form role="form" method="POST" action="{{ route('post.edit', ['id' => $post->id]) }}" novalidate data-abide>
     {{ csrf_field() }}
     <input name="_method" type="hidden" value="PATCH">

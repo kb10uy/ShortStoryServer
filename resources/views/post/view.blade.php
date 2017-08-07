@@ -4,19 +4,19 @@
 
 @section('content')
 @if(Agent::isMobile())
-  <div class="row">
+  <div class="grid-x">
     <h1>{{ $post->title }}</h1>
   </div>
 @else
-  <div class="row" id="postinfo">
-    <div class="small-12 medium-6 large-8 columns">
+  <div class="grid-x" id="postinfo">
+    <div class="small-12 medium-6 large-8 cell">
       <h1>{{ $post->title }}</h1>
       <p>
         @include('post.post-info')
         @include('post.post-tags')
       </p>
     </div>
-    <div class="small-12 medium-6 large-4 columns">
+    <div class="small-12 medium-6 large-4 cell">
       <div class="card">
         <div class="card-section">
           <div class="media-object-section">
@@ -33,16 +33,16 @@
 
 <hr>
 
-<div class="row">
+<div class="grid-x">
   @if(Agent::isMobile())
-    <div class="small-12 columns with-emoji" id="text-body">
+    <div class="small-12 cell with-emoji" id="text-body">
       {!! $parsed['text'] !!}
     </div>
   @else
-    <div class="medium-8 columns with-emoji" id="text-body">
+    <div class="medium-8 cell with-emoji" id="text-body">
       {!! $parsed['text'] !!}
     </div>
-    <div class="medium-4 columns" data-sticky-container>
+    <div class="medium-4 cell" data-sticky-container>
       <div class="sticky callout" data-sticky data-anchor="text-body">
         @if(Auth::check())
           <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}"
