@@ -1,16 +1,16 @@
 <template>
-  <div class="small-12 columns">
+  <div class="small-12 cell">
     <input type="hidden" name="tags" id="tags-field" v-bind:value="tagsValue">
-    <div class="small-12 medium-4 columns">
+    <div class="small-12 medium-4 cell">
       <div class="input-group">
         <input type="text" class="input-group-field" form="" v-model="newTagText" @keyup.enter="addTag">
         <div class="input-group-button">
-          <a class="button" @click="addTag">追加</a>
+          <button class="button" @click="addTag">追加</button>
         </div>
       </div>
     </div>
-    <div class="small-12 medium-8 columns">
-      <span v-for="(tag, i) in tags">
+    <div class="small-12 medium-8 cell">
+      <span v-for="(tag, i) in tags" :key="tag">
         <span class="label primary">
           {{ tag }} <a @click="tags.splice(i, 1)"><i class="label-keep fi-x"></i></a>
         </span>

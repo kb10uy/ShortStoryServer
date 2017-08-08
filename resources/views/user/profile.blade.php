@@ -7,7 +7,7 @@
   <h1>@lang('view.title.profile')</h1>
 </div>
 
-<div class="grid-x" data-equalizer data-equalize-on="medium">
+<div class="grid-x grid-padding-x" data-equalizer data-equalize-on="medium">
   <div class="medium-4 large-3 cell">
     <div class="callout small-6 medium-12 cell" data-equalizer-watch>
       <img alt="User Image" src="{{ Storage::url($user->icon) }}">
