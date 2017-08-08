@@ -9,18 +9,24 @@ use App\Post;
 use App\Tag;
 use App\User;
 use App\Jobs\SyncPostInfoToDatabase;
+use App\Utilities\ViewExtra;
 
 use Auth;
-use Session;
 use Text;
 use Redis;
 
 class PostController extends Controller
 {
     public $paginationCount = 10;
+    public $request = null;
+
+    public function __construct(Request $request) 
+    {
+        $this->request = $request;
+    }
 
     // /post/{id} (GET)
-    public function view(Request $request, $id) 
+    public function view($id) 
     {
         $post = Post::find($id);
         if (!Post::visibleForMe($post, $response)) return $response;
@@ -34,11 +40,11 @@ class PostController extends Controller
 
     // /post?sort=****&.... (GET)
     // pageクエリは勝手に探して判断してくれるよ！
-    public function list(Request $request)
+    public function list()
     {
         $posts = Post::visible();
-        if ($request->has('sort')) {
-            switch($request->input('sort')) {
+        if ($this->request->has('sort')) {
+            switch($this->request->input('sort')) {
                 case 'view':
                     $posts = $posts->orderBy('view_count', 'desc');
                     break;
@@ -65,20 +71,20 @@ class PostController extends Controller
         ]);
     }
 
-    public function search(Request $request)
+    public function search()
     {
-        if (!$request->has('q')) return view('post.search');
+        if (!$this->request->has('q')) return view('post.search');
         
         // whereIn句で書き直したほうが良いかも 要検証
-        switch($request->input('type')) {
+        switch($this->request->input('type')) {
             case 'keyword':
-                $posts = $this->paginatePosts($request, Post::search($request->input('q'))->get());
+                $posts = $this->paginatePosts($this->request, Post::search($this->request->input('q'))->get());
                 break;
             case 'tag':
-                $posts = $this->paginatePosts($request, $this->getPostsOfTags($request->input('q')));
+                $posts = $this->paginatePosts($this->request, $this->getPostsOfTags($this->request->input('q')));
                 break;
             case 'author':
-                $posts = $this->paginatePosts($request, $this->getPostsOfUsers($request->input('q')));
+                $posts = $this->paginatePosts($this->request, $this->getPostsOfUsers($this->request->input('q')));
                 break;
             default:
                 $posts = Post::visible()->paginate($this->paginationCount);
@@ -89,9 +95,9 @@ class PostController extends Controller
         return view('post.search', [
             'posts' => $posts,
             'request' => [
-                'q' => $request->input('q'),
-                'keyword' => $request->input('keyword'),
-                'type' => $request->input('type'),
+                'q' => $this->request->input('q'),
+                'keyword' => $this->request->input('keyword'),
+                'type' => $this->request->input('type'),
             ],
         ]);
     }

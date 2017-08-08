@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
   <head>
     <meta charset="utf-8">
@@ -10,17 +11,42 @@
   <body>
     <!-- 本体 -->
     <div id="app">
-      <div id="content">
-        @include('layouts.topbar')
-        @include('layouts.flashes')
-      
-        @yield('content')
-      </div>
+      @if(Agent::isMobile())
+        <!-- モバイル用body -->
+        <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+           @include('layouts.offcanvas')
+        </div>
+        <div id="content"  class="off-canvas-content" data-off-canvas-content>
+          @include('layouts.topbar-mobile')
+          @include('layouts.flashes')
+          <div class="grid-container">
+            @yield('content')
+          </div>
+        </div>
 
-      <footer id="footer">
-        @include('layouts.footer')
-      </footer>
-      <popup-info name="server"></popup-info>
+        <!--
+        <footer id="footer">
+          @include('layouts.footer')
+        </footer>
+        -->
+        <popup-info name="server"></popup-info>
+      @else
+        <!-- デスクトップ用body -->
+        <div id="content">
+          @include('layouts.topbar')
+          @include('layouts.flashes')
+        
+          <div class="grid-container">
+            @yield('content')
+          </div>
+        </div>
+        <!--
+        <footer id="footer">
+          @include('layouts.footer')
+        </footer>
+        -->
+        <popup-info name="server"></popup-info>
+      @endif
     </div>
 
     @include('layouts.includes-after')

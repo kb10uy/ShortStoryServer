@@ -2,7 +2,7 @@
 @section('title', __('view.title.about'))
 
 @section('content')
-<div class="row">
+<div class="grid-x">
   <h1>@lang('view.about.title')</h1>
 
   <p>

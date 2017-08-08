@@ -3,35 +3,35 @@
 @section('title', __('view.title.login'))
 
 @section('content')
-<div class="row">
+<div class="grid-x">
   <h1>@lang('view.auth.login_sss')</h1>
 </div>
-<div class="row">
-  <div class="medium-6 small-12 columns">
+<div class="grid-x grid-padding-x">
+  <div class="medium-6 small-12 cell">
     <h4>@lang('view.auth.sss_account')</h4>
     <form role="form" method="POST" action="{{ route('login') }}">
       {{ csrf_field() }}
-      <div class="row">
-        <div class="small-4 columns">
+      <div class="grid-x grid-padding-x">
+        <div class="small-4 cell">
           <label for="name" class="text-right middle">@lang('view.auth.username')</label>
         </div>
-        <div class="small-8 columns">
+        <div class="small-8 cell">
           <input type="text" name="name" value="{{ old('name') }}" required>
         </div>
       </div>
-      <div class="row">
-        <div class="small-4 columns">
+      <div class="grid-x grid-padding-x">
+        <div class="small-4 cell">
           <label for="password" class="text-right middle">@lang('view.auth.password')</label>
         </div>
-        <div class="small-8 columns">
+        <div class="small-8 cell">
           <input type="password" name="password" required>
         </div>
       </div>
-      <div class="row">
-        <div class="small-8 columns">
+      <div class="grid-x">
+        <div class="small-8 cell">
           <label class="text-right middle" for="remember">@lang('view.auth.remember')</label>
         </div>
-        <div class="small-4 columns">
+        <div class="small-4 cell">
           <div class="switch large">
             <input id="remember" name="remember" type="checkbox" class="switch-input">
             <label class="switch-paddle" for="remember">
@@ -50,7 +50,7 @@
     
     <a href="{{ route('password.request') }}">@lang('view.auth.forgot')</a>
   </div>
-  <div class="medium-6 small-12 columns">
+  <div class="medium-6 small-12 cell">
     <h4>@lang('view.auth.other_account')</h4>
     <p>
       @lang('view.auth.other_account_info')

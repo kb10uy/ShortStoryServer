@@ -184,6 +184,7 @@ return [
         App\Providers\CustomBladeDirectiveProvider::class,
         App\Providers\CustomValidatorProvider::class,
         App\Providers\TextServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
         //Barryvdh\Debugbar\ServiceProvider::class,
         
     ],
@@ -239,6 +240,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Text' => App\Facades\Text::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

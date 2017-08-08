@@ -25,5 +25,5 @@ window.axios.defaults.headers.common = {
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: window.location.hostname + ':50626'
+    host: window.location.hostname + ':443'
 });

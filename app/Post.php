@@ -7,7 +7,6 @@ use Laravel\Scout\Searchable;
 use Auth;
 use Text;
 use Redis;
-use Session;
 
 use Mail;
 
@@ -47,11 +46,11 @@ class Post extends Model
     static public function updatable(Post $post = null, &$response)
     {
         if (!$post) {
-            Session::flash('alert', __('view.message.post_not_exist'));
+            session()->flash('alert', __('view.message.post_not_exist'));
             $response = redirect()->route('home');
             return false;
         } elseif (Auth::user()->cant('update', $post)) {
-            Session::flash('alert', __('view.message.post_cant_edit'));
+            session()->flash('alert', __('view.message.post_cant_edit'));
             $response = redirect()->route('home');
             return false;
         }
@@ -61,11 +60,11 @@ class Post extends Model
     static public function visibleForMe(Post $post = null, &$response) 
     {
         if (!$post) {
-            Session::flash('alert', __('view.message.post_not_exist'));
+            session()->flash('alert', __('view.message.post_not_exist'));
             $response = redirect()->route('home');
             return false;
         } elseif ($post->invisible && Auth::user() != $post->user) {
-            Session::flash('warning', __('view.message.post_invisible'));
+            session()->flash('warning', __('view.message.post_invisible'));
             $response = redirect()->route('home');
             return false;
         }

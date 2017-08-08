@@ -112,6 +112,10 @@ return [
         'type_s3wf' => 'ShortStoryServer Writer Format',
         'nice' => 'いいね！',
         'nice_ok' => 'しました。',
+        'delete' => '削除する',
+        'make_invisible' => '非公開にする',
+        'make_visible' => '公開する',
+        'cancel' => 'キャンセル', 
     ],
 
     'message' => [
@@ -129,6 +133,7 @@ return [
         'post_cant_edit' => 'このIDの投稿はあなたは編集できません。',
         'post_invisible' => 'この投稿は現在非公開になっています。',
         'post_uploaded' => 'SSが投稿されました！',
+        'post_deleted' => 'SSが削除されました。',
         'bookmark_not_exist' => 'このIDのブックマークは存在しないか削除された可能性があります。',
         'not_admin' => 'あなたに管理者権限がありません。',
 

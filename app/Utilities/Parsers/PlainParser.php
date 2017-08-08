@@ -20,7 +20,7 @@ class PlainParser extends Parser
             $line .= '<br>';
             $result[] = $line;
         }
-        return implode("\n", $result); 
+        return ['text' => implode("\n", $result), 'anchors' => []]; 
     }
 
     public function parseToPlain(string $text)

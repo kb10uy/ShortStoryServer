@@ -10,13 +10,19 @@ use App\Bookmark;
 class BookmarkController extends Controller
 {
     public $paginationCount = 10;
+    public $request = null;
+
+    public function __construct(Request $request) 
+    {
+        $this->request = $request;
+    }
 
     // ユーザー名で一覧する
-    public function listUser(Request $request, $name)
+    public function listUser($name)
     {
         $user = User::where('name', $name)->first();
         if (!$user) {
-            Session::flash('alert', __('view.message.user_not_exist'));
+            $this->session()->flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
         //visibleクエリが必要なので動的プロパティ使用不可？
@@ -33,7 +39,7 @@ class BookmarkController extends Controller
 
     // /bookmark/{id} (GET)
     // 特定ブクマのPost一覧
-    public function view(Request $request, $id)
+    public function view($id)
     {
         $bookmark = Bookmark::find($id);
         if (!Bookmark::visibleForMe($bookmark, $response)) return $response;

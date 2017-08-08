@@ -1,6 +1,6 @@
-<div class="row small-up-1 medium-up-1 large-up-2" id="posts-list" data-equalizer data-equalize-on="large" data-equalize-by-row="true">
+<div class="grid-x grid-padding-x small-up-1 medium-up-1 large-up-2" id="posts-list">
   @foreach($posts as $post)
-    <div class="column" data-equalizer-watch>
+    <div class="cell">
       <div class="card">
         <div class="card-divider">
           <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>

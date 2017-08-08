@@ -3,11 +3,11 @@
 @section('title', __('view.title.post'))
 
 @section('content')
-<div class="row">
+<div class="grid-x">
   <h1>@lang('view.title.post')</h1>
 </div>
 
-<div class="row">
+<div class="grid-x">
   <form role="form" method="POST" action="{{ route('post.new') }}" novalidate data-abide>
     {{ csrf_field() }}
     <label>

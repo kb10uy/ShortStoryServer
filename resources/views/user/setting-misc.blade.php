@@ -1,7 +1,7 @@
 <h3>@lang('view.user.additional_info')</h3>
 <form role="form" method="POST" action="{{ route('user.update.misc') }}" data-abide novalidate>
   {{ csrf_field() }}
-  <div class="row">
+  <div class="grid-x">
     <div class="small-3 columns">
       <label for="right-label" class="text-right middle">@lang('view.user.display_name')</label>
     </div>
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="grid-x">
     <div class="small-3 columns">
       <label for="right-label" class="text-right middle">@lang('view.user.birthday')</label>
     </div>
@@ -19,7 +19,7 @@
     </div>
   </div>
   
-  <div class="row">
+  <div class="grid-x">
     <div class="small-3 columns">
       <label for="right-label" class="text-right middle">@lang('view.user.url')</label>
     </div>
@@ -28,7 +28,7 @@
     </div>
   </div>
   
-  <div class="row">
+  <div class="grid-x">
     <div class="small-9 small-offset-3 columns">
       <button class="button" type="submit" value="Submit">@lang('view.update')</button>
     </div>

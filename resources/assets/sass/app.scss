@@ -9,6 +9,7 @@
 @include motion-ui-transitions;
 @import "node_modules/foundation-sites/scss/foundation";
 @include foundation-everything;
+@include foundation-xy-grid-classes;
 
 hr {
   border: 0;
@@ -24,6 +25,17 @@ hr {
     rgba($color, 0),
     rgba($color, 1) 50%,
     rgba($color, 0) 100%);
+}
+
+hr.raw {
+  max-width: 100%;
+  box-sizing: border-box;
+  height: 1px;
+  margin: 0.5em auto;
+}
+
+.compressed {
+    margin-bottom: 1px;
 }
 
 //本文装飾用
@@ -60,13 +72,7 @@ hr {
 }
 
 #app {
-  flex-direction: column;
-  display: flex;
-  min-height: 100%;
-}
-
-#content {
-  flex: 1;
+  word-wrap: break-word;
 }
 
 #footer {

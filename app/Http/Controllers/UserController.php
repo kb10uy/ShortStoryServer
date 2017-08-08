@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 use Hash;
-use Session;
 use App\User;
 use App\Post;
 use App\Bookmark;
@@ -15,9 +14,11 @@ class UserController extends Controller
 {
     protected $postsToShowInProfile = 5;
     protected $bookmarksToShowInProfile = 5;
+    public $request = null;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $this->request = $request;
         //そりゃお前ログイン済みでしょ
         $this->middleware('auth')->except('profile');
     }
@@ -26,7 +27,7 @@ class UserController extends Controller
     {
         $user = User::where('name', $user)->first();
         if (!$user) {
-            Session::flash('alert', __('view.message.user_not_exist'));
+            session()->flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
         //visibleクエリが必要なので動的プロパティ使用不可？

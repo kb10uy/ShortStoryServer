@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/post/new', 'PostEditController@upload')->name('post.new');
     Route::get('/post/{id}/edit', 'PostEditController@edit')->name('post.edit');
     Route::patch('/post/{id}/edit', 'PostEditController@update')->name('post.edit');
+    Route::delete('/post/{id}/delete', 'PostEditController@delete')->name('post.delete');
 });
 Route::get('/post', 'PostController@list')->name('post.list');
 Route::get('/post/search', 'PostController@search')->name('post.search');
