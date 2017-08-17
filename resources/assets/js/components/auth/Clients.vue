@@ -36,6 +36,12 @@
 
   <div class="reveal" id="modal-new-client" data-reveal>
     <h3>新しいクライアントを作成</h3>
+    <div class="alert callout" v-if="createForm.errors.length > 0">
+      <h4>エラー！</h4>
+      <ul>
+        <li v-for="error in createForm.errors" :key="error">{{ error }}</li>
+      </ul>
+    </div>
     <form>
       <div class="grid-x grid-padding-x">
         <div class="small-3 large-4 cell">
@@ -65,6 +71,12 @@
 
   <div class="reveal" id="modal-edit-client" data-reveal>
     <h3>クライアントを編集</h3>
+    <div class="alert callout" v-if="editForm.errors.length > 0">
+      <h4>エラー！</h4>
+      <ul>
+        <li v-for="error in editForm.errors" :key="error">{{ error }}</li>
+      </ul>
+    </div>
     <form>
       <div class="grid-x grid-padding-x">
         <div class="small-3 large-4 cell">
@@ -130,9 +142,6 @@
                     });
             },
 
-            /**
-             * Create a new OAuth client for the user.
-             */
             createClient() {
                 this.persistClient(
                     'post', '/oauth/clients',
@@ -140,9 +149,6 @@
                 );
             },
 
-            /**
-             * Edit the given client.
-             */
             editClient(client) {
                 this.editForm.id = client.id;
                 this.editForm.name = client.name;

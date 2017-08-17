@@ -25,7 +25,7 @@ class S3wfParser extends Parser
                 continue;
             }
             //タイトル
-            if (preg_match('/^(#+)\s*(.+)\s*$/', $line, $matches)) {
+            if (preg_match('/^(#+)\s*(.+)\s*$/u', $line, $matches)) {
                 $level = strlen($matches[1]) + 2;
                 $title = $matches[2];
                 $anchor = hash('crc32', $title);
