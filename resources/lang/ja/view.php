@@ -75,6 +75,7 @@ return [
         'basic_info' => '基本情報',
         'additional_info' => '追加情報',
         'social' => '連携',
+        'api' => 'APIクライアント',
         'profile' => 'プロフィール',
         'description' => '自己紹介',
         'description_p' => '自己紹介的な文章を入力してください。(200文字以内)',

@@ -1,14 +1,14 @@
-<div class="small-12 columns">
+<div class="small-12 cell">
   <h3>@lang('view.user.icon')</h3>
 </div>
 
-<div class="small-6 medium-4 columns">
-  <div class="callout" data-equalizer-watch>
+<div class="small-6 medium-4 cell">
+  <div class="callout">
     <img alt="Current icon" src="{{ Storage::url(Auth::user()->icon) }}">
   </div>
 </div>
 
-<div class="small-6 medium-8 columns" data-equalizer-watch>
+<div class="small-6 medium-8 cell">
   <ul>
     <li>@lang('view.user.icon_req_1')</li>
     <li>@lang('view.user.icon_req_2')</li>

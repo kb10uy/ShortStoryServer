@@ -14,6 +14,7 @@
       <li class="tabs-title"><a href="#panel-icon">@lang('view.user.icon')</a></li>
       <li class="tabs-title"><a href="#panel-misc">@lang('view.user.misc')</a></li>
       <li class="tabs-title"><a href="#panel-social">@lang('view.user.social')</a></li>
+      <li class="tabs-title"><a href="#panel-api">@lang('view.user.api')</a></li>
     </ul>
     </div>
     <div class="medium-9 cell">
@@ -28,19 +29,24 @@
       
       <!-- アイコン -->
       <div class="tabs-panel" id="panel-icon">
-        <div class="grid-x" data-equalizer data-equalize-on="medium">
+        <div class="grid-x grid-padding-x">
           @include('user.setting-icon')
         </div>
       </div>
       
-      <div class="tabs-panel is-active" id="panel-misc">
+      <div class="tabs-panel" id="panel-misc">
         <!-- 追加情報 -->
         @include('user.setting-misc')
       </div>
       
-      <div class="tabs-panel is-active" id="panel-social">
+      <div class="tabs-panel" id="panel-social">
         <!-- 連携設定 -->
         @include('user.setting-social')
+      </div>
+
+      <div class="tabs-panel" id="panel-api">
+        <!-- API設定 -->
+        @include('user.setting-oauth')
       </div>
     </div>
   </div>
