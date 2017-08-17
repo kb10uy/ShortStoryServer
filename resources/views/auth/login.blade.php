@@ -42,10 +42,7 @@
           </div>
         </div>
       </div>
-      
-      <div class="input-group-button">
-        <input type="submit" class="button expanded" value="@lang('view.auth.login')">
-      </div>
+      <input type="submit" class="button expanded" value="@lang('view.auth.login')">
     </form>
     
     <a href="{{ route('password.request') }}">@lang('view.auth.forgot')</a>
