@@ -31,9 +31,13 @@ class PostsApi extends Controller
         ]);
         if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
-        $post = Post::find((int)$request->input('id'));
-        if (!$post) return response()->json([ 'error' => 'The post doesn\'t exist.'], 404);
-        return response()->json($post, 200);
+        $post = Post::find((int)$this->request->input('id'));
+        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        //リレーション読み込み
+        $post->user;
+        $post->tags;
+
+        return response()->json($post->toArray(), 200);
     }
 
     /* 
@@ -50,7 +54,7 @@ class PostsApi extends Controller
         if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
         $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json([ 'error' => 'The post doesn\'t exist.'], 404);
+        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
         $post->performNice();
         return response()->json([
             'result' => 'Niced.',
@@ -72,7 +76,7 @@ class PostsApi extends Controller
         if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
         $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json([ 'error' => 'The post doesn\'t exist.'], 404);
+        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
         $post->performDopyulicate();
         return response()->json([
             'result' => 'Dopyulicated.',

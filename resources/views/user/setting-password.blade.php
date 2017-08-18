@@ -2,7 +2,7 @@
 <form role="form" method="POST" action="{{ route('user.update.password') }}" data-abide novalidate>
   {{ csrf_field() }}
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.user.cur_password')</label>
     </div>
@@ -12,7 +12,7 @@
     </div>
   </div>
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.user.new_password')</label>
     </div>
@@ -21,7 +21,7 @@
       <span class="form-error">@lang('view.message.new_password_required')</span>
     </div>
   </div>
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.user.new_password_confirm')</label>
     </div>
@@ -31,7 +31,7 @@
     </div>
   </div>
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-9 small-offset-3 cell">
       <button class="button" type="submit" value="Submit">@lang('view.update')</button>
     </div>

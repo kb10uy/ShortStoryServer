@@ -9,6 +9,8 @@ class Tag extends Model
     //
     protected $fillable = ['name'];
 
+    protected $hidden = ['pivot'];
+
     //関連する投稿を取得します
     public function posts()
     {

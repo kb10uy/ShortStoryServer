@@ -31,6 +31,7 @@ return [
         'edit_post' => '編集する',
         'search' => '検索する',
         'post_search_result' => ':word の検索結果',
+        'authorization' => '認証',
     ],
     
     //aboutページ
@@ -75,6 +76,7 @@ return [
         'basic_info' => '基本情報',
         'additional_info' => '追加情報',
         'social' => '連携',
+        'api' => 'API認証・クライアント',
         'profile' => 'プロフィール',
         'description' => '自己紹介',
         'description_p' => '自己紹介的な文章を入力してください。(200文字以内)',

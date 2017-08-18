@@ -1,7 +1,7 @@
 <h3>@lang('view.user.basic_info')</h3>
 <form role="form" method="POST" action="{{ route('user.update.basic') }}" data-abide novalidate>
   {{ csrf_field() }}
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.auth.username')</label>
     </div>
@@ -11,7 +11,7 @@
     </div>
   </div>
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.auth.email')</label>
     </div>
@@ -21,7 +21,7 @@
     </div>
   </div>
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-3 cell">
       <label for="right-label" class="text-right middle">@lang('view.user.description')</label>
     </div>
@@ -30,7 +30,7 @@
     </div>
   </div>
   
-  <div class="grid-x">
+  <div class="grid-x grid-padding-x">
     <div class="small-9 small-offset-3 cell">
       <button class="button" type="submit" value="Submit">@lang('view.update')</button>
     </div>

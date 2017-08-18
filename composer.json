@@ -7,17 +7,17 @@
     "require": {
         "php": ">=5.6.4",
         "ateliee/mecab": "dev-master",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "doctrine/dbal": "^2.5",
-        "intervention/image": "^2.3",
-        "jenssegers/agent": "^2.5",
+        "barryvdh/laravel-debugbar": "2.*",
+        "doctrine/dbal": "2.*",
+        "intervention/image": "*",
+        "jenssegers/agent": "*",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "^2.0",
-        "laravel/scout": "^3.0",
-        "laravel/socialite": "^3.0",
-        "laravel/tinker": "~1.0",
-        "mpyw/co": "^1.5",
-        "predis/predis": "^1.1"
+        "laravel/passport": "2.*",
+        "laravel/scout": "3.*",
+        "laravel/socialite": "3.*",
+        "laravel/tinker": "1.*",
+        "mpyw/co": "*",
+        "predis/predis": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

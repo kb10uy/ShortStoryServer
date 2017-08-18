@@ -5,6 +5,6 @@ export class Logger {
 
     static initialize(): void {
         this.default = Log4js.getLogger();
-        this.default.setLevel('debug');
+        //this.default.level = 'debug';
     }
 }

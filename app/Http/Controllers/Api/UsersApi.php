@@ -11,6 +11,12 @@ use Validator;
 
 class UsersApi extends Controller
 {
+    public $request = null;
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
     /* 
      * /users/get (GET)
      * id(required): 調べたいユーザーのid

@@ -1,5 +1,5 @@
 <h3>@lang('view.user.additional_info')</h3>
-<div class="grid-x">
+<div class="grid-x grid-padding-x">
   <div class="small-3 cell">
     <label for="right-label" class="text-right middle">@lang('view.user.twitter')</label>
   </div>
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="grid-x">
+<div class="grid-x grid-padding-x">
   <div class="small-3 cell">
     <label for="right-label" class="text-right middle">@lang('view.user.github')</label>
   </div>
