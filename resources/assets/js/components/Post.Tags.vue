@@ -5,7 +5,7 @@
       <div class="input-group">
         <input type="text" class="input-group-field" form="" v-model="newTagText" @keyup.enter="addTag">
         <div class="input-group-button">
-          <button class="button" @click="addTag">追加</button>
+          <button class="button" @click="addTag" type="button">追加</button>
         </div>
       </div>
     </div>
