@@ -23,7 +23,8 @@ class User extends Authenticatable
     ];
     
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'twitter_id', 'github_id', 
+        'type'
     ];
 
     //API認証でユーザー名当てる

@@ -24,30 +24,32 @@ API ルート表
 
 */
 
-Route::group([
-    'middleware' => 'auth:api',
-    'namespace' => 'Api',
-    ], function () {
+Route::group(['namespace' => 'Api'], function () {
     // /foobar => FoobarApi@method
     // でおｋ
 
     // Admin グループ
-    Route::group(['prefix' => 'admin'], function() {
+    Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
         Route::post('request', 'AdminApi@request');
         Route::get('users', 'AdminApi@users');
         Route::post('broadcast_server_message', 'AdminApi@broadcastServerMessage');
     });
 
     // Users グループ
-    Route::group(['prefix' => 'users'], function() {
+    Route::group(['prefix' => 'users'], function () {
         Route::get('get', 'UsersApi@get');
         Route::get('query', 'UsersApi@query');
+        Route::group(['middleware' => 'auth:api'], function () {
+        });
     });
 
     // Posts グループ
-    Route::group(['prefix' => 'posts'], function() {
+    Route::group(['prefix' => 'posts'], function () {
         Route::get('get', 'PostsApi@get');
-        Route::patch('nice', 'PostsApi@nice');
-        Route::post('dopyulicate', 'PostsApi@dopyulicate');
+
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::patch('nice', 'PostsApi@nice');
+            Route::post('dopyulicate', 'PostsApi@dopyulicate');
+        });
     });
 });

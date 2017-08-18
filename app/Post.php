@@ -22,6 +22,10 @@ class Post extends Model
         'modified_at',
     ];
 
+    protected $hidden = [
+        'user_id', 'type'
+    ];
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
