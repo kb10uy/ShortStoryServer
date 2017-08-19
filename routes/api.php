@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 /*
 API ルート表
 users
-  - show
-  - bookmarks
-  - posts
+  + show
+  + bookmarks
+  + posts
   
 posts
   - show
@@ -60,15 +60,17 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Users グループ
     Route::group(['prefix' => 'users'], function () {
-        Route::get('get', 'UsersApi@get');
-        Route::get('query', 'UsersApi@query');
+        Route::get('show', 'UsersApi@show');
+        Route::get('bookmarks', 'UsersApi@bookmarks');
+        Route::get('posts', 'UsersApi@posts');
         Route::group(['middleware' => 'auth:api'], function () {
         });
     });
 
     // Posts グループ
     Route::group(['prefix' => 'posts'], function () {
-        Route::get('get', 'PostsApi@get');
+        Route::get('show', 'PostsApi@show');
+        
 
         Route::group(['middleware' => 'auth:api'], function () {
             Route::patch('nice', 'PostsApi@nice');

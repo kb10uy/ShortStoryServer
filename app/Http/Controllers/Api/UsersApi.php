@@ -17,25 +17,66 @@ class UsersApi extends Controller
         $this->request = $request;
     }
 
-    public function get() 
+    public function show()
     {
         $validator = Validator::make($this->request->all(), [
             'id' => 'required',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
+        if ($validator->fails()) {
+            return response()->json(['error' => 'You should set id.'], 400);
+        }
 
         $user = User::find((int)$this->request->input('id'));
-        if (!$user) return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
-        return response()->json($user, 200);
+        if (!$user) {
+            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+        }
+        return $user->toArray();
     }
 
+    public function bookmarks()
+    {
+        $validator = Validator::make($this->request->all(), [
+            'user_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => 'You should set id.'], 400);
+        }
+        $user = User::find((int)$this->request->input('user_id'));
+        if (!$user) {
+            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+        }
+
+        $bookmarks = $user->bookmarks;
+        return $bookmarks->toArray();
+    }
+
+    public function posts()
+    {
+        $validator = Validator::make($this->request->all(), [
+            'user_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => 'You should set id.'], 400);
+        }
+        $user = User::find((int)$this->request->input('user_id'));
+        if (!$user) {
+            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+        }
+
+        $posts = $user->posts;
+        return $posts->toArray();
+    }
+
+    /*
     public function query()
     {
         $validator = Validator::make($this->request->all(), [
             'query' => 'nullable|string',
             'full' => 'nullable|boolean',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set query string.'], 400);
+        if ($validator->fails()) {
+            return response()->json(['error' => 'You should set query string.'], 400);
+        }
 
         $users = User::queryString($this->request->input('query'));
         if (!$this->request->input('full') ?? true) {
@@ -43,10 +84,5 @@ class UsersApi extends Controller
         }
         return response()->json($users->get(), 200);
     }
-
-    public function listBookmarks() {
-        $bookmarks = Auth::user()->bookmarks;
-
-        return $bookmarks->toJson();
-    }
+    */
 }
