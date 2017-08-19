@@ -14,14 +14,37 @@ use Illuminate\Http\Request;
 */
 /*
 API ルート表
-/api
-+---/admin
-|   +---/request (POST) Admin権限を要求する
-|   +---/message (POST) サーバーメッセージを発行する
-|   +---/users (GET) ユーザーのリストを取得する
-+---/app
-    +---/create (POST) アプリケーションの作成
+users
+  - show
+  - bookmarks
+  - posts
+  
+posts
+  - show
+  - list
+  - create
+  - update 
+  - delete 
+  - nice
+  - bad
+  - dopyulicate
 
+bookmarks
+  - show
+  - list
+  - create
+  - add
+  - pluck
+  - delete
+  
+tags
+  - show
+  - list
+
+search
+  - post
+  - bookmark
+  - user
 */
 
 Route::group(['namespace' => 'Api'], function () {
@@ -50,6 +73,14 @@ Route::group(['namespace' => 'Api'], function () {
         Route::group(['middleware' => 'auth:api'], function () {
             Route::patch('nice', 'PostsApi@nice');
             Route::post('dopyulicate', 'PostsApi@dopyulicate');
+        });
+    });
+
+    // Bookmarks グループ
+    Route::group(['prefix' => 'bookmarks'], function () {
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::get('list', 'BookmarksApi@list');
+            Route::patch('add', 'BookmarksApi@add');
         });
     });
 });

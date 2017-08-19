@@ -17,12 +17,6 @@ class UsersApi extends Controller
         $this->request = $request;
     }
 
-    /* 
-     * /users/get (GET)
-     * id(required): 調べたいユーザーのid
-     * 
-     * 指定したidを持つユーザーの全ての情報を取得します。
-     */
     public function get() 
     {
         $validator = Validator::make($this->request->all(), [
@@ -35,17 +29,6 @@ class UsersApi extends Controller
         return response()->json($user, 200);
     }
 
-    /* 
-     * /users/query (GET)
-     * ・クエリ文字列のオプション
-     *   max, min: ユーザーのid範囲
-     *   from, to: ユーザーの登録日付の範囲
-     *   count: 取得件数(~200, デフォルトは10)
-     *
-     * full: 全情報を取得するかのフラグ(デフォルトはfalse)
-     * 
-     * 複数のユーザーの概略を取得します。
-     */
     public function query()
     {
         $validator = Validator::make($this->request->all(), [
@@ -59,5 +42,11 @@ class UsersApi extends Controller
             $users = $users->select('id', 'name');
         }
         return response()->json($users->get(), 200);
+    }
+
+    public function listBookmarks() {
+        $bookmarks = Auth::user()->bookmarks;
+
+        return $bookmarks->toJson();
     }
 }

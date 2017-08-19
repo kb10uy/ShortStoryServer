@@ -54,6 +54,12 @@ Route::get('/post/{id}', 'PostController@view')->name('post.view');
 //ブックマーク
 // Route::get('/bookmark', 'BookmarkController@list')->name('bookmark.list');
 // Route::get('/bookmark/search', 'BookmarkController@search')->name('bookmark.search');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/bookmark/add/{id}', 'BookmarkController@showAddView')->name('bookmark.showadd');
+    Route::patch('/bookmark/add', 'BookmarkController@addToBookmark')->name('bookmark.add');
+    Route::get('/bookmark/create', 'BookmarkController@showCreateView')->name('bookmark.create');
+    Route::post('/bookmark/create', 'BookmarkController@create')->name('bookmark.create');
+});
 Route::get('/bookmark/user/{user}', 'BookmarkController@listUser')->name('bookmark.user');
 Route::get('/bookmark/{id}', 'BookmarkController@view')->name('bookmark.view');
 

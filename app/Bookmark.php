@@ -8,7 +8,7 @@ use Auth;
 class Bookmark extends Model
 {
     protected $fillable = [
-        'name', 'description', 'user_id',
+        'name', 'description', 'user_id', 'invisible',
     ];
 
     // スコープ --------------------------------------------------

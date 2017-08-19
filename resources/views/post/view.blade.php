@@ -49,6 +49,7 @@
                         :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
           </nice-button>
           <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
+          <bookmark-dropdown tl_add="追加" tl_already="追加済み！" :id="{{ $post->id }}"></bookmark-dropdown>
           
           @if(Auth::user() == $post->user)
             <ul class="vertical menu" data-accordion-menu>
@@ -120,6 +121,7 @@
                 :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
   </nice-button>
   <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
+  <bookmark-dropdown tl_add="追加" tl_already="追加済み！" :id="{{ $post->id }}"></bookmark-dropdown>
 @else
   <a class="button primary expanded" href="{{ route('login') }}">ログインして評価する</a>
 @endif
