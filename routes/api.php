@@ -20,14 +20,14 @@ users
   + posts
   
 posts
-  - show
-  - list
+  + show
+  + list
   - create
   - update 
   - delete 
-  - nice
-  - bad
-  - dopyulicate
+  + nice
+  + bad
+  + dopyulicate
 
 bookmarks
   - show
@@ -70,10 +70,11 @@ Route::group(['namespace' => 'Api'], function () {
     // Posts グループ
     Route::group(['prefix' => 'posts'], function () {
         Route::get('show', 'PostsApi@show');
-        
+        Route::get('list', 'PostsApi@list');
 
         Route::group(['middleware' => 'auth:api'], function () {
             Route::patch('nice', 'PostsApi@nice');
+            Route::patch('bad', 'PostsApi@bad');
             Route::post('dopyulicate', 'PostsApi@dopyulicate');
         });
     });

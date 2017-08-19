@@ -18,13 +18,7 @@ class PostsApi extends Controller
         $this->request = $request;
     }
 
-    /* 
-     * /posts/get (GET)
-     * id(required): 取得したい投稿のid
-     * 
-     * 指定したidを持つ投稿の全ての情報を取得します。
-     */
-    public function get()
+    public function show()
     {
         $validator = Validator::make($this->request->all(), [
             'id' => 'required',
@@ -37,15 +31,20 @@ class PostsApi extends Controller
         $post->user;
         $post->tags;
 
-        return response()->json($post->toArray(), 200);
+        return $post->toArray();
     }
 
-    /* 
-     * /posts/nice (PATCH)
-     * id(required): 取得したい投稿のid
-     * 
-     * 指定したidを持つ投稿にいいねします。
-     */
+    public function list()
+    {
+        $posts = Post::all();
+        foreach($posts as $post) {
+            $post->user;
+            $post->tags;
+        }
+
+        return $posts->toArray();
+    }
+
     public function nice()
     {
         $validator = Validator::make($this->request->all(), [
@@ -58,16 +57,26 @@ class PostsApi extends Controller
         $post->performNice();
         return response()->json([
             'result' => 'Niced.',
-            'nice_count' => ($post->info())['nice_count'],
+            'nice_count' => (int) ($post->info())['nice_count'],
         ], 200);
     }
 
-    /*
-     * /posts/dopyulicate (POST)
-     * id(required): シコった投稿のid
-     *
-     * 指定したidの投稿にシコりメールを送ります。
-     */
+    public function bad()
+    {
+        $validator = Validator::make($this->request->all(), [
+            'id' => 'required',
+        ]);
+        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
+
+        $post = Post::find((int)$this->request->input('id'));
+        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        $post->performBad();
+        return response()->json([
+            'result' => 'Badded.',
+            'bad_count' => (int) ($post->info())['bad_count'],
+        ], 200);
+    }
+
     public function dopyulicate() 
     {
          $validator = Validator::make($this->request->all(), [
