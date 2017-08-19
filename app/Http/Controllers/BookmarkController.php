@@ -53,11 +53,13 @@ class BookmarkController extends Controller
             return $item->visibleNow();
         });
         $page = LengthAwarePaginator::resolveCurrentPage();
-        $sliced = array_slice($posts->toArray(), $page, $this->paginationCount);
-        $paginator = new LengthAwarePaginator($sliced, count($posts), $page);
+        $paginated = new LengthAwarePaginator(
+            $posts->forPage($page, $this->paginationCount),
+            $posts->count(), $this->paginationCount, $page,
+            ['path' => $this->request->url(), 'query' => $this->request->query()]);
         return view('bookmark.view', [
             'bookmark' => $bookmark,
-            'posts' => $paginator,
+            'posts' => $paginated,
         ]);
     }
 

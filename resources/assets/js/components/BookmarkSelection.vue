@@ -44,6 +44,10 @@
                     .catch(error => {
                         if (error.response.status == 409) {
                             this.message = this.tl_already;
+                            setTimeout(() => {
+                                this.performable = true;
+                                this.message = this.tl_add;
+                            }, 1000);
                         }
                     });
             },

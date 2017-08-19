@@ -78,13 +78,13 @@ class PostController extends Controller
         // whereIn句で書き直したほうが良いかも 要検証
         switch($this->request->input('type')) {
             case 'keyword':
-                $posts = $this->paginatePosts($this->request, Post::search($this->request->input('q'))->get());
+                $posts = $this->paginatePosts(Post::search($this->request->input('q'))->get());
                 break;
             case 'tag':
-                $posts = $this->paginatePosts($this->request, $this->getPostsOfTags($this->request->input('q')));
+                $posts = $this->paginatePosts($this->getPostsOfTags($this->request->input('q')));
                 break;
             case 'author':
-                $posts = $this->paginatePosts($this->request, $this->getPostsOfUsers($this->request->input('q')));
+                $posts = $this->paginatePosts($this->getPostsOfUsers($this->request->input('q')));
                 break;
             default:
                 $posts = Post::visible()->paginate($this->paginationCount);
@@ -143,10 +143,10 @@ class PostController extends Controller
         return $results;
     }
 
-    public function paginatePosts(Request $request, $posts)
+    public function paginatePosts($posts)
     {
-        $sort = $request['sort'];
-        $page = (int)$request['page'];
+        $sort = $this->request['sort'];
+        $page = (int)$this->request['page'];
         $posts = $posts->filter(function($item, $key) {
             return $item->visibleNow();
         });
@@ -172,7 +172,7 @@ class PostController extends Controller
         $paginated = new LengthAwarePaginator(
             $posts->forPage($page , $this->paginationCount),
             $posts->count(), $this->paginationCount, $page,
-            ['path' => $request->url(), 'query' => $request->query()]);
+            ['path' => $this->request->url(), 'query' => $this->request->query()]);
         return $paginated;
     }
 }
