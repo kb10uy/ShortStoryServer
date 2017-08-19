@@ -20,10 +20,6 @@ ShortStoryServerはAPIを公開しています。
 + twitter_name (string) - TwitterのSN
 + github_name (string) - GitHubのSN
 
-### Tag
-+ id (number) - タグの内部ID
-+ name (string) - タグのテキスト
-
 ### Post
 + id (number) - 投稿ID
 + title (string) - タイトル
@@ -36,14 +32,29 @@ ShortStoryServerはAPIを公開しています。
 + user (User) - 投稿したユーザー
 + tags (array[Tag]) - 付けられているタグ
 
+### Bookmark
++ id (number) - ブックマークID
++ name (string) - 名前
++ description (string) - ブックマークの説明
++ created_at (string) - ブックマークの作成日時
++ updated_at (string) - ブックマークの更新日時(追加削除は更新されません！)
++ user (User) - このブックマークを作成したユーザー
+
+### Tag
++ id (number) - タグの内部ID
++ name (string) - タグのテキスト
+
 ### SuccessResult
 + result (string) - メッセージ
 
 ### ErrorResult
 + error (string) - 早く放課後になれ
 
+<!-- ここからドキュメント -->
+
 ## User API [/users]
-### Get User [GET /users/get{?id}]
+
+### Show User [GET /users/show{?id}]
 指定したidのユーザーの情報を取得します。
 + Parameters
     + id (number, required) - ユーザーのID
@@ -51,26 +62,44 @@ ShortStoryServerはAPIを公開しています。
 + Response 200 (application/json)
     + Attributes (User)
 
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
-### Query User [GET /users/query{?query,full}]
-指定したクエリー条件にマッチするユーザーを検索します。
+### List User's Posts [GET /users/posts{?user_id}]
+指定したidのユーザーが投稿したSSを取得します。
 + Parameters
-    + query (string, required) - クエリ文字列
-        + `max` `min` ユーザーIDの範囲
-        + `from` `to` 登録日時の範囲
-        + `count` 取得する件数
-            + default: 10, max: 200
-    + full (boolean, optional) - 全情報取得フラグ
-        + 設定しない場合id, nameのみリスティングされます
+    + user_id (number, required) - ユーザーのID
 
 + Response 200 (application/json)
-    + Attributes (array[User])
+    + Attributes (array[Post])
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
+### List User's Bookmarks [GET /users/bookmarks{?user_id}]
+指定したidのユーザーが作成したブックマークを取得します。
++ Parameters
+    + user_id (number, required) - ユーザーのID
+
++ Response 200 (application/json)
+    + Attributes (array[Bookmark])
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
 
 ## Post API [/posts]
 
-### Get Post [GET /posts/get{?id}]
+### Show Post [GET /posts/show{?id}]
 指定したidの投稿の情報を取得します。
 + Parameters
     + id (number, required) - 投稿のID
@@ -78,8 +107,18 @@ ShortStoryServerはAPIを公開しています。
 + Response 200 (application/json)
     + Attributes (Post)
 
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
 + Response 404 (application/json)
     + Attributes (ErrorResult)
+
+### List Posts [GET /posts/list]
+SSをまぁ全部取得します。
+重いのであんま呼ばないで…
+
++ Response 200 (application/json)
+    + Attributes (array[Post])
 
 ### Nice Post [PATCH /posts/nice]
 **認証が必要です。**
@@ -87,7 +126,7 @@ ShortStoryServerはAPIを公開しています。
 
 + Request (application/json)
     + Attributes
-        + id (number, required) - しこりメールを贈りたい投稿のID
+        + id (number, required) - いいねする投稿のID
     + Headers
     
             Authentication: Bearer JWT
@@ -96,10 +135,34 @@ ShortStoryServerはAPIを公開しています。
     + Attributes (SuccessResult)
     + Attributes
         + nice_count (number) - 現在のいいね数
-        
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
+### Bad Post [PATCH /posts/nice]
+**認証が必要です。**
+指定したIDの投稿によくないねします。
+
++ Request (application/json)
+    + Attributes
+        + id (number, required) - よくないねする投稿のID
+    + Headers
+    
+            Authentication: Bearer JWT
+        
++ Response 200 (application/json)
+    + Attributes (SuccessResult)
+    + Attributes
+        + bad_count (number) - 現在のよくないね数
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
 
 ### Dopyulicate Post [POST /posts/dopyulicate]
 **認証が必要です。**
@@ -113,7 +176,89 @@ ShortStoryServerはAPIを公開しています。
         
 + Response 200 (application/json)
     + Attributes (SuccessResult)
-        
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
+
+## Bookmark API [/bookmarks]
+
+### Show Bookmark [GET /bookmarks/show{?id}]
+指定したidのブックマークの情報を取得します。
++ Parameters
+    + id (number, required) - ブックマークのID
+
++ Response 200 (application/json)
+    + Attributes (Bookmark)
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
+### List Bookmarks [GET /bookmarks/list]
+SSをまぁ全部取得します。
+これも重いのであんま呼ばないで…
+
++ Response 200 (application/json)
+    + Attributes (array[Bookmark])
+
+### Add Post to Bookmark [PATCH /bookmarks/add]
+**認証が必要です。**
+指定したidのブックマークに指定したidのSSを登録します。
+すでに登録してある場合409エラーが帰ってきます。
+
++ Request (application/json)
+    + Attributes
+        + post_id (number, required) - 登録したい投稿のID
+        + bookmark_id (number, required) - 登録したいブックマークのID
+    + Headers
+    
+            Authentication: Bearer JWT
+
++ Response 200 (application/json)
+    + Attributes (Bookmark)
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 403 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 409 (application/json)
+    + Attributes (ErrorResult)
+
+### Pluck Post from Bookmark [PATCH /bookmarks/pluck]
+**認証が必要です。**
+指定したidのブックマークから指定したidのSSを解除します。
+登録されていないidを指定しても200が帰ってきます。
+
++ Request (application/json)
+    + Attributes
+        + post_id (number, required) - 解除したい投稿のID
+        + bookmark_id (number, required) - 解除したいブックマークのID
+    + Headers
+    
+            Authentication: Bearer JWT
+
++ Response 200 (application/json)
+    + Attributes (Bookmark)
+
++ Response 400 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 403 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
++ Response 409 (application/json)
+    + Attributes (ErrorResult)

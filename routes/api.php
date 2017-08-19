@@ -30,11 +30,11 @@ posts
   + dopyulicate
 
 bookmarks
-  - show
-  - list
+  + show
+  + list
   - create
-  - add
-  - pluck
+  + add
+  + pluck
   - delete
   
 tags
@@ -81,9 +81,12 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Bookmarks グループ
     Route::group(['prefix' => 'bookmarks'], function () {
+        Route::get('show', 'BookmarksApi@show');
+        Route::get('list', 'BookmarksApi@list');
+
         Route::group(['middleware' => 'auth:api'], function () {
-            Route::get('list', 'BookmarksApi@list');
             Route::patch('add', 'BookmarksApi@add');
+            Route::patch('pluck', 'BookmarksApi@pluck');
         });
     });
 });

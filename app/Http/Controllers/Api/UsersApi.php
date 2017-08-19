@@ -25,11 +25,11 @@ class UsersApi extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => 'You should set id.'], 400);
         }
-
         $user = User::find((int)$this->request->input('id'));
         if (!$user) {
             return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
         }
+        
         return $user->toArray();
     }
 
