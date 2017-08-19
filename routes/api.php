@@ -15,26 +15,26 @@ use Illuminate\Http\Request;
 /*
 API ルート表
 users
-  - show
-  - bookmarks
-  - posts
+  + show
+  + bookmarks
+  + posts
   
 posts
-  - show
-  - list
+  + show
+  + list
   - create
   - update 
   - delete 
-  - nice
-  - bad
-  - dopyulicate
+  + nice
+  + bad
+  + dopyulicate
 
 bookmarks
-  - show
-  - list
+  + show
+  + list
   - create
-  - add
-  - pluck
+  + add
+  + pluck
   - delete
   
 tags
@@ -60,27 +60,33 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Users グループ
     Route::group(['prefix' => 'users'], function () {
-        Route::get('get', 'UsersApi@get');
-        Route::get('query', 'UsersApi@query');
+        Route::get('show', 'UsersApi@show');
+        Route::get('bookmarks', 'UsersApi@bookmarks');
+        Route::get('posts', 'UsersApi@posts');
         Route::group(['middleware' => 'auth:api'], function () {
         });
     });
 
     // Posts グループ
     Route::group(['prefix' => 'posts'], function () {
-        Route::get('get', 'PostsApi@get');
+        Route::get('show', 'PostsApi@show');
+        Route::get('list', 'PostsApi@list');
 
         Route::group(['middleware' => 'auth:api'], function () {
             Route::patch('nice', 'PostsApi@nice');
+            Route::patch('bad', 'PostsApi@bad');
             Route::post('dopyulicate', 'PostsApi@dopyulicate');
         });
     });
 
     // Bookmarks グループ
     Route::group(['prefix' => 'bookmarks'], function () {
+        Route::get('show', 'BookmarksApi@show');
+        Route::get('list', 'BookmarksApi@list');
+
         Route::group(['middleware' => 'auth:api'], function () {
-            Route::get('list', 'BookmarksApi@list');
             Route::patch('add', 'BookmarksApi@add');
+            Route::patch('pluck', 'BookmarksApi@pluck');
         });
     });
 });

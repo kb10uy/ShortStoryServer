@@ -11,6 +11,10 @@ class Bookmark extends Model
         'name', 'description', 'user_id', 'invisible',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     // スコープ --------------------------------------------------
     public function scopeVisible($query)
     {

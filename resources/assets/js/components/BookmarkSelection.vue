@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        props: ['tl_add', 'tl_already', 'id'],
+        props: ['tl_add', 'tl_already', 'id', 'user_id'],
         data() {
             return {
                 bookmarks: [],
@@ -23,7 +23,11 @@
         methods: {
             fetchBookmarks() {
                 axios
-                    .get('/api/bookmarks/list')
+                    .get('/api/users/bookmarks',{
+                        params: {
+                            user_id: this.user_id
+                        }
+                    })
                     .then(response => {
                         this.bookmarks = response.data;
                         if (this.bookmarks.length == 0) return;
