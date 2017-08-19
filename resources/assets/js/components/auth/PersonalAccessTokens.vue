@@ -34,7 +34,7 @@
         <li v-for="error in form.errors" :key="error">{{ error }}</li>
       </ul>
     </div>
-    <form>
+    <form @submit.prevent="createToken">
       <div class="grid-x grid-padding-x">
         <div class="small-3 large-4 cell">
           <label for="new-token-name" class="text-right middle">名前</label>

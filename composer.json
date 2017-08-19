@@ -12,7 +12,7 @@
         "intervention/image": "*",
         "jenssegers/agent": "*",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "2.*",
+        "laravel/passport": "*",
         "laravel/scout": "3.*",
         "laravel/socialite": "3.*",
         "laravel/tinker": "1.*",

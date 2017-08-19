@@ -19,14 +19,14 @@ class BookmarksApi extends Controller
     }
 
     /* 
-     * /bookmarks/list (GET)
+     * /bookmarks/get (GET)
      * 
-     * 指定したidを持つ投稿の全ての情報を取得します。
+     * 指定したIDのブクマのを返すよ
      */
     public function list() {
-        $bookmarks = Auth::user()->bookmarks;
+        $bookmark = Auth::user()->bookmarks;
 
-        return $bookmarks->toJson();
+        return $bookmark->toJson();
     }
 
     /*

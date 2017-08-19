@@ -5,76 +5,115 @@ HOST: https://ss.kb10uy.org/api/
 ShortStoryServerはAPIを公開しています。
 何に使えるかは知らないけど使ってみてね。
 
-## Questions Collection [/questions]
+## Data Structures
+### User
++ id (number) - ユーザーID
++ name (string) - ログイン時に用いるユーザー名
++ display_name (string) - 表示される名前
++ email (string) - メールアドレス
++ created_at (string) - アカウント作成日時
++ updated_at (string) - アカウント更新日時
++ icon (string) - アイコンのパス。サブディレクトリ以下からです
++ description (string) - アカウントの自己紹介文
++ birthday (string) - 誕生日
++ url (string) - 任意で設定されたURL
++ twitter_name (string) - TwitterのSN
++ github_name (string) - GitHubのSN
 
-### List All Questions [GET]
+### Tag
++ id (number) - タグの内部ID
++ name (string) - タグのテキスト
+
+### Post
++ id (number) - 投稿ID
++ title (string) - タイトル
++ text (string) - 処理されていない本文
++ view_count (number) - 閲覧数
++ nice_count (number) - いいね数
++ bad_count (number) - よくないね数
++ created_at (number) - 初版の作成日時
++ modified_at (number) - 最新の編集日時
++ user (User) - 投稿したユーザー
++ tags (array[Tag]) - 付けられているタグ
+
+### SuccessResult
++ result (string) - メッセージ
+
+### ErrorResult
++ error (string) - 早く放課後になれ
+
+## User API [/users]
+### Get User [GET /users/get{?id}]
+指定したidのユーザーの情報を取得します。
++ Parameters
+    + id (number, required) - ユーザーのID
 
 + Response 200 (application/json)
+    + Attributes (User)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
 
-### Create a New Question [POST]
+### Query User [GET /users/query{?query,full}]
+指定したクエリー条件にマッチするユーザーを検索します。
++ Parameters
+    + query (string, required) - クエリ文字列
+        + `max` `min` ユーザーIDの範囲
+        + `from` `to` 登録日時の範囲
+        + `count` 取得する件数
+            + default: 10, max: 200
+    + full (boolean, optional) - 全情報取得フラグ
+        + 設定しない場合id, nameのみリスティングされます
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ Response 200 (application/json)
+    + Attributes (array[User])
+
+## Post API [/posts]
+
+### Get Post [GET /posts/get{?id}]
+指定したidの投稿の情報を取得します。
++ Parameters
+    + id (number, required) - 投稿のID
+
++ Response 200 (application/json)
+    + Attributes (Post)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
+### Nice Post [PATCH /posts/nice]
+**認証が必要です。**
+指定したIDの投稿にいいねします。
 
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
+    + Attributes
+        + id (number, required) - しこりメールを贈りたい投稿のID
     + Headers
+    
+            Authentication: Bearer JWT
+        
++ Response 200 (application/json)
+    + Attributes (SuccessResult)
+    + Attributes
+        + nice_count (number) - 現在のいいね数
+        
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
 
-            Location: /questions/2
 
-    + Body
+### Dopyulicate Post [POST /posts/dopyulicate]
+**認証が必要です。**
+指定したIDの投稿にしこりメールを送ります。
++ Request (application/json)
+    + Attributes
+        + id (number, required) - しこりメールを贈りたい投稿のID
+    + Headers
+    
+            Authentication: Bearer JWT
+        
++ Response 200 (application/json)
+    + Attributes (SuccessResult)
+        
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
