@@ -11,7 +11,7 @@
         data() {
             return {
                 nice: 0,
-            }
+            };
         },
         methods: {
             perform() {

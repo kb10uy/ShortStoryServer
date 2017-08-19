@@ -32,6 +32,7 @@ return [
         'search' => '検索する',
         'post_search_result' => ':word の検索結果',
         'authorization' => '認証',
+        'bookmark_create' => 'ブックマークを作成',
     ],
     
     //aboutページ
@@ -137,6 +138,7 @@ return [
         'post_uploaded' => 'SSが投稿されました！',
         'post_deleted' => 'SSが削除されました。',
         'bookmark_not_exist' => 'このIDのブックマークは存在しないか削除された可能性があります。',
+        'bookmark_protected' => 'このIDのブックマークは現在非公開になっています。',
         'not_admin' => 'あなたに管理者権限がありません。',
 
         'title_required' => 'タイトルを入力してください。',

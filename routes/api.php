@@ -52,4 +52,12 @@ Route::group(['namespace' => 'Api'], function () {
             Route::post('dopyulicate', 'PostsApi@dopyulicate');
         });
     });
+
+    // Bookmarks グループ
+    Route::group(['prefix' => 'bookmarks'], function () {
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::get('list', 'BookmarksApi@list');
+            Route::patch('add', 'BookmarksApi@add');
+        });
+    });
 });
