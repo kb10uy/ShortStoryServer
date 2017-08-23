@@ -65,9 +65,7 @@
         <span class="form-error">@lang('view.message.password_nomatch')</span>
       </div>
     </div>
-    <div class="input-group-button">
-      <input type="submit" class="button expanded" value="@lang('view.auth.register')">
-    </div>
+    <input type="submit" class="button expanded" value="@lang('view.auth.register')">
   </form>
 </div>
 @endsection
