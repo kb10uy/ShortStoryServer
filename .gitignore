@@ -11,6 +11,7 @@ disablecache
 /.vscode
 .vscode-upload.json
 package.lock
+package-lock.json
 yarn.lock
 composer.lock
 .phpstorm.meta.php
