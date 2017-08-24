@@ -23,7 +23,10 @@ export class ServerManager {
             db: 0
         },
         socketio: {
-
+            // デフォルトでioというキーで謎のクッキーが記録されてLaravelのDecryptに引っかかる
+            // https://github.com/socketio/socket.io/issues/2276
+            // ＞＞＞It's not used for anything＜＜＜
+            cookie: false
         }
     };
 
