@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
 use App\Utilities\MeCabEngine;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Validator;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->resolving(EncryptCookies::class, function ($object) {
+            $object->disableFor('XDEBUG_SESSION');
+        });
     }
 }

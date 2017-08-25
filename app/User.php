@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
@@ -21,14 +20,14 @@ class User extends Authenticatable
         'twitter_id', 'twitter_name',
         'github_id', 'github_name',
     ];
-    
+
     protected $hidden = [
-        'password', 'remember_token', 'twitter_id', 'github_id', 
+        'password', 'remember_token', 'twitter_id', 'github_id',
         'type'
     ];
 
     //API認証でユーザー名当てる
-    public function findForPassport($username) 
+    public function findForPassport($username)
     {
         return $this->where('name', $username)->first();
     }
@@ -48,23 +47,23 @@ class User extends Authenticatable
             }
 
             $prm = explode(':', $test);
-            switch($prm[0]) {
-                case 'max':
+            switch ($prm[0]) {
+                case 'max' :
                     $next = $next->where('id', '<=', (int)$prm[1]);
                     break;
-                case 'min':
+                case 'min' :
                     $next = $next->where('id', '>=', (int)$prm[1]);
                     break;
-                case 'from':
+                case 'from' :
                     $next = $next->whereDate('created_at', '<=', (int)$prm[1]);
                     break;
-                case 'to':
+                case 'to' :
                     $next = $next->whereDate('created_at', '>=', (int)$prm[1]);
                     break;
-                case 'count':
+                case 'count' :
                     $count = (int)$prm[1];
                     break;
-                default:
+                default :
                     break;
             }
         }
@@ -74,13 +73,13 @@ class User extends Authenticatable
     // リレーション --------------------------------------------------------
 
     //このユーザーが投稿したSS
-    public function posts() 
+    public function posts()
     {
         return $this->hasMany('App\Post');
     }
 
     //このユーザーが所持しているブクマ
-    public function bookmarks() 
+    public function bookmarks()
     {
         return $this->hasMany('App\Bookmark');
     }
