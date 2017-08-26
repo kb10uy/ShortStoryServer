@@ -29,6 +29,7 @@ class BookmarkController extends Controller
         }
         //visibleクエリが必要なので動的プロパティ使用不可？
         $bookmarks = Bookmark::where('user_id', $user->id)
+            ->with('user')
             ->visible()
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationCount);
@@ -43,7 +44,7 @@ class BookmarkController extends Controller
     // 特定ブクマのPost一覧
     public function view($id)
     {
-        $bookmark = Bookmark::find($id);
+        $bookmark = Bookmark::find($id)->with('posts.user');
         if (!Bookmark::visibleForMe($bookmark, $response)) {
             $this->session()->flash('alert', __('view.message.bookmark_protected'));
             return redirect()->route('home');
@@ -64,16 +65,6 @@ class BookmarkController extends Controller
             'bookmark' => $bookmark,
             'posts' => $paginated,
         ]);
-    }
-
-    // get 登録確認画面
-    public function showAddView($id)
-    {
-    }
-
-    // patch 登録する
-    public function addToBookmark()
-    {
     }
 
     // get 作成画面

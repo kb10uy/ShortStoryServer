@@ -49,6 +49,9 @@
         </h3>
       </div>
     </div>
-    @include('post.posts-list')
+    <div class="grid-x" id="posts-list">
+      @include('post.posts-list', ['posts' => $posts])
+    </div>
+    {{ $posts->links() }}
   @endif
 @endsection

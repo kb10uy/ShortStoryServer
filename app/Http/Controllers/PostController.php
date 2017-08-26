@@ -42,7 +42,7 @@ class PostController extends Controller
     // pageクエリは勝手に探して判断してくれるよ！
     public function list()
     {
-        $posts = Post::visible();
+        $posts = Post::with(['tags', 'user'])->visible();
         if ($this->request->has('sort')) {
             switch($this->request->input('sort')) {
                 case 'view':
@@ -87,7 +87,7 @@ class PostController extends Controller
                 $posts = $this->paginatePosts($this->getPostsOfUsers($this->request->input('q')));
                 break;
             default:
-                $posts = Post::visible()->paginate($this->paginationCount);
+                $posts = Post::visible()->with(['tags', 'user'])->paginate($this->paginationCount);
                 break;
         }
         //dd($posts);
@@ -106,7 +106,7 @@ class PostController extends Controller
     {
         $tags = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
-                return Tag::where('name', $item)->first();
+                return Tag::where('name', $item)->with(['posts.user'])->first();
             })
             ->filter()
             ->keyBy('id');
@@ -127,7 +127,7 @@ class PostController extends Controller
     {
         $users = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
-                return User::where('name', $item)->first();
+                return User::where('name', $item)->with(['tags', 'user'])->first();
             })
             ->filter()
             ->keyBy('id');

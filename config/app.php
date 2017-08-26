@@ -185,7 +185,7 @@ return [
         App\Providers\CustomValidatorProvider::class,
         App\Providers\TextServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
-        //Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         
     ],
 
