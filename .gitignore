@@ -1,5 +1,5 @@
 /node_modules
-/public/
+/public/*
 /storage/*.key
 /vendor
 /.idea
@@ -16,3 +16,6 @@ yarn.lock
 composer.lock
 .phpstorm.meta.php
 _ide_helper.php
+
+!/public/index.php
+!/public/robots.txt

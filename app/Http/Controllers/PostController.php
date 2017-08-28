@@ -127,7 +127,7 @@ class PostController extends Controller
     {
         $users = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
-                return User::where('name', $item)->with(['tags', 'user'])->first();
+                return User::where('name', $item)->with('posts.tags', 'posts.user')->first();
             })
             ->filter()
             ->keyBy('id');
