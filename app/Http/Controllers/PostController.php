@@ -78,7 +78,7 @@ class PostController extends Controller
         // whereIn句で書き直したほうが良いかも 要検証
         switch($this->request->input('type')) {
             case 'keyword':
-                $posts = $this->paginatePosts(Post::search($this->request->input('q'))->get());
+                $posts = $this->paginatePosts(Post::search($this->request->input('q'))->get()->load(['tags', 'user']));
                 break;
             case 'tag':
                 $posts = $this->paginatePosts($this->getPostsOfTags($this->request->input('q')));
@@ -106,7 +106,7 @@ class PostController extends Controller
     {
         $tags = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
-                return Tag::where('name', $item)->with(['posts.user'])->first();
+                return Tag::with(['posts.user', 'posts.tags'])->where('name', $item)->first();
             })
             ->filter()
             ->keyBy('id');
@@ -127,7 +127,7 @@ class PostController extends Controller
     {
         $users = collect(preg_split('/[\s　]/u', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(function($item, $key) {
-                return User::where('name', $item)->with('posts.tags', 'posts.user')->first();
+                return User::with(['posts.tags', 'posts.user'])->where('name', $item)->first();
             })
             ->filter()
             ->keyBy('id');

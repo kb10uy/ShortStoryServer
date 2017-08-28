@@ -44,7 +44,7 @@ class BookmarkController extends Controller
     // 特定ブクマのPost一覧
     public function view($id)
     {
-        $bookmark = Bookmark::find($id)->with('posts.user');
+        $bookmark = Bookmark::with(['posts.user', 'posts.tags'])->find($id);
         if (!Bookmark::visibleForMe($bookmark, $response)) {
             $this->session()->flash('alert', __('view.message.bookmark_protected'));
             return redirect()->route('home');
