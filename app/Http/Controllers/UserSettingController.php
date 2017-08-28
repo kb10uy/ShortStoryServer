@@ -41,9 +41,9 @@ class UserSettingController extends Controller
         }
         
         $user->fill([
-            'name' => $request->name,
-            'email' => $request->email,
-            'description' => $request->description,
+            'name' => $this->request->name,
+            'email' => $this->request->email,
+            'description' => $this->request->description,
         ])->save();
         
         session()->flash('success', __('view.message.basic_info_updated'));

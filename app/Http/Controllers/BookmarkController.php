@@ -14,7 +14,7 @@ class BookmarkController extends Controller
     public $paginationCount = 10;
     public $request = null;
 
-    public function __construct(Request $request) 
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
@@ -29,6 +29,7 @@ class BookmarkController extends Controller
         }
         //visibleクエリが必要なので動的プロパティ使用不可？
         $bookmarks = Bookmark::where('user_id', $user->id)
+            ->with('user')
             ->visible()
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationCount);
@@ -43,44 +44,39 @@ class BookmarkController extends Controller
     // 特定ブクマのPost一覧
     public function view($id)
     {
-        $bookmark = Bookmark::find($id);
+        $bookmark = Bookmark::find($id)->with('posts.user');
         if (!Bookmark::visibleForMe($bookmark, $response)) {
             $this->session()->flash('alert', __('view.message.bookmark_protected'));
             return redirect()->route('home');
         }
 
-        $posts = $bookmark->posts->filter(function($item, $key) {
+        $posts = $bookmark->posts->filter(function ($item, $key) {
             return $item->visibleNow();
         });
         $page = LengthAwarePaginator::resolveCurrentPage();
         $paginated = new LengthAwarePaginator(
             $posts->forPage($page, $this->paginationCount),
-            $posts->count(), $this->paginationCount, $page,
-            ['path' => $this->request->url(), 'query' => $this->request->query()]);
+            $posts->count(),
+            $this->paginationCount,
+            $page,
+            ['path' => $this->request->url(), 'query' => $this->request->query()]
+        );
         return view('bookmark.view', [
             'bookmark' => $bookmark,
             'posts' => $paginated,
         ]);
     }
 
-    // get 登録確認画面
-    public function showAddView($id) {
-
-    }
-
-    // patch 登録する
-    public function addToBookmark() {
-
-    }
-
     // get 作成画面
-    public function showCreateView() {
+    public function showCreateView()
+    {
         return view('bookmark.create');
-    } 
+    }
 
     // post 作成する
-    public function create() {
-        $this->validate($this->request,[
+    public function create()
+    {
+        $this->validate($this->request, [
             'name' => 'required',
             'description' => 'max:512',
             //'protected' => 'required',

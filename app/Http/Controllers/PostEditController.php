@@ -60,7 +60,7 @@ class PostEditController extends Controller
     // /post/{id}/edit (GET)
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::find($id)->with('tags');
         if (!Post::updatable($post, $response)) return $response;
         
         $taglist = json_encode($post->tags->map(function($item,$key) {

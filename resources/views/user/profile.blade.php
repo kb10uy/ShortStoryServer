@@ -45,24 +45,7 @@
         </div>
         <div class="tabs-panel" id="panel-post">
           <div class="grid-x">
-            @foreach($posts as $post)
-              <div class="small-12 cell">
-                <div class="card">
-                  <div class="card-divider">
-                    <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
-                  </div>
-                  <div class="card-section">
-                    @include('post.post-info')
-                    @include('post.post-tags')
-                  </div>
-                  <div class="card-section">
-                    <p>
-                      {{ $post->digest() }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            @endforeach
+            @include('post.posts-list', ['posts' => $posts])
             <div class="small-12 cell">
               <a href="{{ route('post.search', ['q' => $user->name, 'type' => 'author', 'sort' => 'updated']) }}">@lang('view.user.posts-more')</a>
             </div>
@@ -70,26 +53,9 @@
         </div>
         <div class="tabs-panel" id="panel-bookmark">
           <div class="grid-x">
-            @foreach($posts as $post)
-              <div class="small-12 cell">
-                <div class="card">
-                  <div class="card-divider">
-                    <h3><a href="{{ route('post.view', ['id' => $post->id]) }}">{{ $post->title }}</a>&nbsp;<small>by {{ $post->user->display_name }}</small></h3>
-                  </div>
-                  <div class="card-section">
-                    @include('post.post-info')
-                    @include('post.post-tags')
-                  </div>
-                  <div class="card-section">
-                    <p>
-                      {{ $post->digest() }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            @endforeach
+            @include('bookmark.bookmarks-list', ['bookmarks' => $bookmarks])
             <div class="small-12 cell">
-              <a href="#">@lang('view.user.posts-more')</a>
+              <a href="{{ route('bookmark.user', ['user' => $user->name]) }}">@lang('view.user.posts-more')</a>
             </div>
           </div>
         </div>

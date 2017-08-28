@@ -25,19 +25,26 @@ class UserController extends Controller
     
     public function profile($user)
     {
-        $user = User::where('name', $user)->first();
+        $user = User::where('name', $user)
+            ->with([
+                'posts' => function ($query) {
+                    $query->visible()->latest()->take($this->postsToShowInProfile);
+                },
+                'posts.tags',
+                'posts.user',
+                'bookmarks' => function ($query) {
+                    $query->visible()->latest()->take($this->bookmarksToShowInProfile);
+                }
+            ])->first();
         if (!$user) {
             session()->flash('alert', __('view.message.user_not_exist'));
             return redirect()->route('home');
         }
-        //visibleクエリが必要なので動的プロパティ使用不可？
-        $posts = Post::where('user_id', $user->id)->visible()->latest()->take($this->postsToShowInProfile)->get();
-        $bookmarks = Bookmark::where('user_id', $user->id)->visible()->latest()->take($this->bookmarksToShowInProfile)->get();
 
         return view('user.profile', [
             'user' => $user,
-            'posts' => $posts,
-            'bookmarks' => $bookmarks,
+            'posts' => $user->posts,
+            'bookmarks' => $user->bookmarks,
         ]);
     }
     
