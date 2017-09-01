@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2",
+        "filp/whoops": "*",
         "fzaninotto/faker": "*",
         "mockery/mockery": "*",
         "phpunit/phpunit": "*"

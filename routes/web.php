@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/bookmark/add', 'BookmarkController@addToBookmark')->name('bookmark.add');
     Route::get('/bookmark/create', 'BookmarkController@showCreateView')->name('bookmark.create');
     Route::post('/bookmark/create', 'BookmarkController@create')->name('bookmark.create');
+    Route::get('/bookmark/edit', 'BookmarkController@edit')->name('bookmark.edit');
 });
 Route::get('/bookmark/user/{user}', 'BookmarkController@listUser')->name('bookmark.user');
 Route::get('/bookmark/{id}', 'BookmarkController@view')->name('bookmark.view');

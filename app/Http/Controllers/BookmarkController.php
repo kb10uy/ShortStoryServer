@@ -33,7 +33,7 @@ class BookmarkController extends Controller
             ->visible()
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationCount);
-        
+
         return view('bookmark.list-user', [
             'user' => $user,
             'bookmarks' => $bookmarks,
@@ -89,5 +89,10 @@ class BookmarkController extends Controller
         ]);
 
         return redirect()->route('bookmark.view', ['id' => $bookmark->id]);
+    }
+
+    // get 編集する
+    public function edit() {
+        return view('bookmark.edit');
     }
 }
