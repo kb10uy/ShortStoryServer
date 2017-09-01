@@ -44,7 +44,7 @@
     </div>
     <div class="medium-4 cell" data-sticky-container>
       <div class="sticky callout" data-sticky data-anchor="text-body">
-        @if(Auth::check())
+        @auth
           <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}"
                         :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
           </nice-button>
@@ -63,9 +63,10 @@
               </li>
             </ul>
           @endif
-        @else
+        @endauth
+        @guest
           <a class="button primary expanded" href="{{ route('login') }}">ログインして評価する</a>
-        @endif
+        @endguest
         @if(count($parsed['anchors']) > 0)
           <hr class="raw">
           <ul class="vertical menu">
@@ -116,15 +117,16 @@
 
 <hr class="raw">
 
-@if(Auth::check())
+@auth
   <nice-button tlnice="{{ __('view.post.nice') }}" tlnice_ok="{{ __('view.post.nice_ok') }}"
                 :id="{{ $post->id }}" :nice_count="{{ $post->info()['nice_count'] }}">
   </nice-button>
   <dopyulicate-button tldopyu="シコりメールを送る" tldopyu_ok="送信されました！" :id="{{ $post->id }}"></dopyulicate-button>
   <bookmark-dropdown tl_add="追加" tl_already="追加済み！" :id="{{ $post->id }}" :user_id="{{ Auth::user()->id }}"></bookmark-dropdown>
-@else
+@endauth
+@guest
   <a class="button primary expanded" href="{{ route('login') }}">ログインして評価する</a>
-@endif
+@endguest
 
 @if(Auth::user() == $post->user)
   <hr class="raw">

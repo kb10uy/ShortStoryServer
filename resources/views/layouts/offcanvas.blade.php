@@ -9,13 +9,14 @@
     </ul>
   </li>
   <li>
-    @if(Auth::guest())
+    @guest
     <a href="#">@lang('view.not_loggedin')</a>
     <ul class="menu vertical nested">
       <li><a href="{{ route('login') }}">@lang('view.title.login')</a></li>
       <li><a href="{{ route('register') }}">@lang('view.title.register_user')</a></li>
     </ul>
-    @else
+    @endguest
+    @auth
     <a href="#">{{ Auth::user()->name }}</a>
     <ul class="menu vertical nested">
       <li><a href="{{ route('post.new') }}">@lang('view.title.post')</a></li>
@@ -26,7 +27,7 @@
         {{ csrf_field() }}
       </form>
     </ul>
-    @endif
+    @endauth
   </li>
 </ul>
 
