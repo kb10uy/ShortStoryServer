@@ -12,6 +12,6 @@ trim_trailing_whitespace = true
 indent_size = 2
 
 ; Script Attributes
-[*.{js,vue}]
+[*.{js,vue,json}]
 indent_size = 2
 

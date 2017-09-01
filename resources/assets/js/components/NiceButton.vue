@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: ['tlnice', 'tlnice_ok', 'id', 'nice_count'],
   data() {

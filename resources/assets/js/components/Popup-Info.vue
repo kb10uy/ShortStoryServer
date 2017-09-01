@@ -11,6 +11,7 @@
 <script>
 //thisはスコープが多分このコンポーネントになってしまうのでグロバのappはapp取らないと無理
 //popup-messageイベントにターゲットの名前とメッセージ付けて発火すると出て来る
+import $ from 'jquery';
 export default {
   props: ['name'],
   data() {
@@ -24,11 +25,10 @@ export default {
     }
   },
   mounted() {
-    var vm = this;
-    VueEvent.$on('popup-message', function (target, msg) {
-      if (target != vm.name) return;
-      vm.message = msg;
-      $('#' + vm.elementId).foundation('open');
+    VueEvent.$on('popup-message', (target, msg) => {
+      if (target != this.name) return;
+      this.message = msg;
+      $('#' + this.elementId).foundation('open');
     });
   },
 }

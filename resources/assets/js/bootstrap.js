@@ -1,18 +1,11 @@
-window.$ = window.jQuery = require('jquery');
-window._ = require('lodash');
-window.Vue = require('vue');
-window.axios = require('axios');
-import Echo from "laravel-echo"
+import Vue from 'vue';
+import axios from 'axios';
+import Echo from 'laravel-echo';
 
-window.axios.defaults.headers.common = {
+axios.defaults.headers.common = {
   'X-CSRF-TOKEN': window.Laravel.csrfToken,
   'X-Requested-With': 'XMLHttpRequest'
 };
-
-window.Echo = new Echo({
-  broadcaster: 'socket.io',
-  host: window.location.hostname + ':443'
-});
 
 Vue.component('sss-post-tags', require('./components/Post.Tags.vue'));
 Vue.component('popup-info', require('./components/Popup-Info.vue'));
@@ -30,4 +23,9 @@ Vue.component('oauth-personal-tokens', require('./components/auth/PersonalAccess
 window.VueEvent = new Vue();
 window.VueInstance = new Vue({
   el: '#app'
+});
+
+window.EchoInstance = new Echo({
+  broadcaster: 'socket.io',
+  host: window.location.hostname + ':443'
 });

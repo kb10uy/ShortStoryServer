@@ -11,30 +11,34 @@
     "build-echo-server": "tsc --project ./echo-server/"
   },
   "dependencies": {
-    "@types/ioredis": "latest",
-    "@types/lodash": "latest",
-    "@types/log4js": "latest",
-    "@types/node": "latest",
-    "@types/socket.io": "latest",
     "axios": "latest",
     "codemirror": "latest",
     "cookie": "latest",
-    "cross-env": "latest",
     "dotenv": "latest",
+    "eslint-plugin-vue": "^2.1.0",
     "foundation-sites": "latest",
     "ioredis": "latest",
     "jquery": "latest",
     "laravel-echo": "latest",
-    "laravel-mix": "latest",
     "lodash": "latest",
     "log4js": "latest",
     "motion-ui": "latest",
     "node-sass": "latest",
     "php-unserialize": "latest",
+    "socket.io": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@types/ioredis": "latest",
+    "@types/lodash": "latest",
+    "@types/log4js": "latest",
+    "@types/node": "latest",
+    "@types/socket.io": "latest",
+    "cross-env": "latest",
+    "eslint": "^4.5.0",
+    "laravel-mix": "latest",
     "request": "latest",
     "script-loader": "latest",
-    "socket.io": "latest",
-    "typescript": "latest",
-    "vue": "latest"
+    "typescript": "latest"
   }
 }

@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "vue"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "globals": {
+    "emojione": false,
+    "EchoInstance": false,
+    "VueEvent": false,
+    "VueInstance": false
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "quotes": ["error", "single"]
+  }
+}

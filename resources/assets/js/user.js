@@ -1,15 +1,16 @@
-require('./bootstrap');
+import $ from 'jquery';
+import { setSearchParameter } from './app';
 
 $(document).ready(() => {
   setSearchParameter();
 });
 
 $(window).on('beforeunload', (e) => {
-  Echo.leave('server-information');
+  EchoInstance.leave('server-information');
 });
 
 // Laravel Echoグローバル域 ------------------------------------------------------
-Echo.channel('server-information')
+EchoInstance.channel('server-information')
   .listen('ServerInformed', (e) => {
     VueEvent.$emit('popup-message', 'server', e.message);
   });
@@ -25,19 +26,9 @@ $('#search-type').change(function () {
   }
 });
 
-function setSearchParameter() {
-  const type = getUrlParameter('type'), sort = getUrlParameter('sort');
-  if (type != '' && type != 'keyword') {
-    $('#search-type').val(type);
-    $('#search-sort').prop('disabled', false);
-    $('#search-sort').val(sort);
-  }
-  $('#posts-list>div:last').addClass('end');
-}
+// Emoji One変換(対象にはwith-emojiクラス付加すること) ---------------------------
+$('.with-emoji').each(function (i, e) {
+  e.innerHTML = emojione.toImage(e.innerHTML);
+});
 
-function getUrlParameter(name) {
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-  var results = regex.exec(location.search);
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
+$(document).foundation();

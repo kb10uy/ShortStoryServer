@@ -32,33 +32,33 @@
 </template>
 
 <script>
-    export default {
-        data: function() {
-            return {
-                query: '',
-                users: [],
-            };
-        },
-        methods:{
-            startQuery() {
-                var vm = this;
-                $('#admin-post-query')
-                    .attr('disabled', '')
-                    .text('検索中…');
-                axios
-                    .get('/api/posts/query', {
-                        params: {
-                            query: this.query,
-                            full: 1,
-                        }
-                    })
-                    .then(function(r) {
-                        vm.users = r.data;
-                        $('#admin-post-query')
-                            .removeAttr('disabled')
-                            .text('検索');
-                    });
-            },
-        },
-    }
+export default {
+  data: function() {
+    return {
+      query: '',
+      users: [],
+    };
+  },
+  methods: {
+    startQuery() {
+      var vm = this;
+      $('#admin-post-query')
+        .attr('disabled', '')
+        .text('検索中…');
+      axios
+        .get('/api/posts/query', {
+          params: {
+            query: this.query,
+            full: 1,
+          }
+        })
+        .then(function(r) {
+          vm.users = r.data;
+          $('#admin-post-query')
+            .removeAttr('disabled')
+            .text('検索');
+        });
+    },
+  },
+}
 </script>

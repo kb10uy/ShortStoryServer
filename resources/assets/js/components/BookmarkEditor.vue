@@ -17,17 +17,38 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  props: [],
+  props: ['bookmarkId'],
   data() {
     return {
-
+      posts: [],
     };
   },
   methods: {
     mounted() {
+      this.fetchBookmark();
+    },
 
-    }
+    fetchBookmark() {
+      axios
+        .get('/api/bookmarks/show', {
+          params: {
+            user_id: this.user_id
+          }
+        })
+        .then(result => {
+          this.posts = result.data;
+        });
+    },
+
+    moveUp(index) {
+
+    },
+
+    moveDown(index) {
+
+    },
   }
 }
 </script>

@@ -12,7 +12,7 @@ class Bookmark extends Model
     ];
 
     protected $hidden = [
-        'user_id',
+        'user_id', 'pivot',
     ];
 
     // スコープ --------------------------------------------------
@@ -22,13 +22,13 @@ class Bookmark extends Model
         return $query;
     }
 
-    
+
     public function visibleNow()
     {
         return true; // !($this->invisible && (Auth::check() ? Auth::user() != $this->user : false));
     }
 
-    static public function visibleForMe(Bookmark $bookmark = null, &$response) 
+    static public function visibleForMe(Bookmark $bookmark = null, &$response)
     {
         /*
         if (!$bookmark) {
