@@ -9,7 +9,6 @@
 </template>
 
 <script>
-//thisはスコープが多分このコンポーネントになってしまうのでグロバのappはapp取らないと無理
 //popup-messageイベントにターゲットの名前とメッセージ付けて発火すると出て来る
 import $ from 'jquery';
 export default {

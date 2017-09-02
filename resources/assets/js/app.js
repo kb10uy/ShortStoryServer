@@ -26,3 +26,15 @@ export function setSearchParameter() {
   }
   $('#posts-list>div:last').addClass('end');
 }
+
+
+/**
+ * foudationメソッドを実行します。
+ *
+ * @export
+ * @param {string} target セレクタ文字列
+ * @param {string} action アクション文字列
+ */
+export function performFoundation(target, action) {
+  $(target).foundation(action);
+}

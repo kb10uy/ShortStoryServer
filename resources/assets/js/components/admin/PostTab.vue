@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import $ from 'jquery';
 export default {
   data: function() {
     return {

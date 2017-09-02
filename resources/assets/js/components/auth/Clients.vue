@@ -109,6 +109,7 @@
 <script>
 import axios from 'axios';
 import $ from 'jquery';
+import _ from 'lodash';
 export default {
   /*
    * The component's data.

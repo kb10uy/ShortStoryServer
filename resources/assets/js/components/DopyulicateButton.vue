@@ -1,15 +1,16 @@
 <template>
-  <button class="compressed button primary expanded" id="button-dopyulicate" @click="perform">
+  <button class="compressed button primary expanded" id="button-dopyulicate" @click="perform" :disabled="!performable">
     {{ message }}
   </button>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
   data() {
     return {
       message: '',
+      performable: true,
     };
   },
   methods: {
@@ -18,11 +19,10 @@ export default {
     },
 
     perform() {
-      $('#button-dopyulicate').prop('disabled', true);
+      this.performable = false;
       axios.post('/api/posts/dopyulicate', {
         'id': this.id,
-      })
-      .then(() => {
+      }).then(() => {
         this.message = this.tldopyu_ok;
       });
     },

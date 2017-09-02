@@ -12,7 +12,8 @@
     <div class="small-12 medium-8 cell">
       <span v-for="(tag, i) in tags" :key="tag">
         <span class="label primary">
-          {{ tag }} <a @click="tags.splice(i, 1)"><i class="label-keep fi-x"></i></a>
+          {{ tag }}
+          <a @click="tags.splice(i, 1)"><i class="label-keep fi-x"></i></a>
         </span>
         &nbsp;
       </span>
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 export default {
   mounted() {
     //editから呼ばれた場合のタグのセット
@@ -45,9 +47,9 @@ export default {
   computed: {
     tagsValue() {
       return this.tags
-        .map((t) => t.replace(/'/g, "\\\'"))
-        .map((t) => "\'" + t + "\'")
-        .join(", ");
+        .map((t) => t.replace(/'/g, '\\\''))
+        .map((t) => '\'' + t + '\'')
+        .join(', ');
     },
   },
 }

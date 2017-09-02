@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
   props: ['tl_add', 'tl_already', 'id', 'user_id'],
   data() {

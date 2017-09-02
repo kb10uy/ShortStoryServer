@@ -12,11 +12,10 @@
   },
   "dependencies": {
     "axios": "latest",
-    "codemirror": "latest",
+    "codemirror": "^5.29.0",
     "cookie": "latest",
     "dotenv": "latest",
-    "eslint-plugin-vue": "^2.1.0",
-    "foundation-sites": "latest",
+    "foundation-sites": "^6.4.3",
     "ioredis": "latest",
     "jquery": "latest",
     "laravel-echo": "latest",
@@ -29,16 +28,19 @@
     "vue": "latest"
   },
   "devDependencies": {
-    "@types/ioredis": "latest",
-    "@types/lodash": "latest",
-    "@types/log4js": "latest",
-    "@types/node": "latest",
-    "@types/socket.io": "latest",
+    "@types/ioredis": "0.0.25",
+    "@types/lodash": "^4.14.74",
+    "@types/log4js": "0.0.33",
+    "@types/node": "^8.0.26",
+    "@types/socket.io": "^1.4.30",
     "cross-env": "latest",
     "eslint": "^4.5.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-vue": "^2.1.0",
     "laravel-mix": "latest",
     "request": "latest",
     "script-loader": "latest",
-    "typescript": "latest"
+    "typescript": "^2.5.2",
+    "uglifyjs-webpack-plugin": "webpack-contrib/uglifyjs-webpack-plugin"
   }
 }
