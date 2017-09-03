@@ -82,7 +82,7 @@
 
 <script>
 import axios from 'axios';
-import $ from 'jquery';
+import { performFoundation } from '../../app';
 import _ from 'lodash';
 export default {
   /*
@@ -167,11 +167,11 @@ export default {
      * Show the given access token to the user.
      */
     showAccessToken(accessToken) {
-      $('#modal-new-token').foundation('close');
+      performFoundation('#modal-new-token', 'close');
 
       this.accessToken = accessToken;
 
-      $('#modal-show-token').foundation('open');
+      performFoundation('#modal-show-token', 'open');
     },
 
     destroyToken(token) {

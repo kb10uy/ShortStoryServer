@@ -10,7 +10,7 @@
 
 <script>
 //popup-messageイベントにターゲットの名前とメッセージ付けて発火すると出て来る
-import $ from 'jquery';
+import { performFoundation } from '../app';
 export default {
   props: ['name'],
   data() {
@@ -27,7 +27,7 @@ export default {
     VueEvent.$on('popup-message', (target, msg) => {
       if (target != this.name) return;
       this.message = msg;
-      $('#' + this.elementId).foundation('open');
+      performFoundation('#' + this.elementId, 'open');
     });
   },
 }

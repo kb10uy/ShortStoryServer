@@ -108,7 +108,7 @@
 
 <script>
 import axios from 'axios';
-import $ from 'jquery';
+import { performFoundation } from '../../app';
 import _ from 'lodash';
 export default {
   /*
@@ -157,7 +157,7 @@ export default {
       this.editForm.name = client.name;
       this.editForm.redirect = client.redirect;
 
-      $('#modal-edit-client').foundation('open');
+      performFoundation('#modal-edit-client', 'open');
     },
 
     updateClient() {
@@ -178,7 +178,7 @@ export default {
           form.redirect = '';
           form.errors = [];
 
-          $(modal).foundation('close');
+          performFoundation(modal, 'close');
         })
         .catch(error => {
           if (typeof error.response.data === 'object') {

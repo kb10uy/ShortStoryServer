@@ -31,15 +31,13 @@ export default {
     },
 
     fetchBookmark() {
-      axios
-        .get('/api/bookmarks/show', {
-          params: {
-            user_id: this.user_id
-          }
-        })
-        .then(result => {
-          this.posts = result.data;
-        });
+      axios.get('/api/bookmarks/show', {
+        params: {
+          user_id: this.user_id
+        }
+      }).then(result => {
+        this.posts = result.data;
+      });
     },
 
     moveUp(index) {
