@@ -9,15 +9,11 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      message: '',
+      message: this.tldopyu,
       performable: true,
     };
   },
   methods: {
-    mounted() {
-      this.message = this.tldopyu;
-    },
-
     perform() {
       this.performable = false;
       axios.post('/api/posts/dopyulicate', {

@@ -141,21 +141,28 @@ class Post extends Model
     }
 
     // リレーション ----------------------------------------------
-    //投稿したユーザーを取得
+    // 投稿したユーザーを取得
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    //この投稿のタグを取得
+    // この投稿のタグを取得
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
 
-    //この投稿が登録されてるブクマを取得
+    // この投稿が登録されてるブクマを取得
+    // Deprecated: 互換性のために存在
     public function bookmarks()
     {
         return $this->belongsToMany('App\Bookmark')->withTimestamps();
+    }
+
+    // この投稿に紐付いてるブックマークエントリを取得
+    public function bookmarkEntries()
+    {
+        return $this->hasMany('App\BookmarkEntry');
     }
 }

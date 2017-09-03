@@ -1,14 +1,15 @@
 <?php
+// 直接ブラウザに表示される文字列類
 
 return [
-    //ログインフォーム関係
+    // ログインフォーム関係
     'not_loggedin' => 'ログインしていません',
     'update' => '更新',
     't_post' => '投稿',
     'page_prev' => '前のページ',
     'page_next' => '次のページ',
     'page_current' => '現在のページは',
-    
+
     'status' => [
         'running' => '正常に稼働しています。',
         'developing' => 'オープンにできない類の開発作業中です。',
@@ -16,12 +17,12 @@ return [
         'down' => 'なんか無理っぽいごめんね。',
     ],
 
-    //タイトル
+    // タイトル
     'title' => [
         'home' => 'ホーム',
         'explore' => '探索',
         'about' => 'kb10uy S3とは',
-        'profile' => 'プロフィール', 
+        'profile' => 'プロフィール',
         'setting' => '設定',
         'login' => 'ログイン',
         'register_user' => 'ユーザー登録',
@@ -34,17 +35,17 @@ return [
         'authorization' => '認証',
         'bookmark_create' => 'ブックマークを作成',
     ],
-    
-    //aboutページ
+
+    // aboutページ
     'about' => [
         'title' => 'ShortStoryServer とは?'
     ],
-    //認証関係
+    // 認証関係
     'auth' => [
-        //含 register要素
+        // 含 register要素
         'register_intro' => 'ユーザー登録をすると、SSの投稿やブックマーク、通知などを利用できます！早速登録しましょう。',
         'register_account' => 'ShortStoryServerアカウントを作成する',
-        
+
         'login_sss' => 'ShortStoryServerにログインする',
         'sss_account' => 'ShortStoryServerアカウント',
         'other_account' => '他のサービスのアカウント',
@@ -57,20 +58,20 @@ return [
         'register' => '登録',
         'login' => 'ログイン',
         'logout' => 'ログアウト',
-        'remember' => 'ログインしたままにする', 
-        'forgot' => 'パスワードを忘れた方はこちら', 
+        'remember' => 'ログインしたままにする',
+        'forgot' => 'パスワードを忘れた方はこちら',
         'reset_password' => 'パスワードのリセット',
         'send_reset_link' => 'パスワードリセットのリンクを送信',
         'enter_new_password' => '新しいパスワードの入力',
         'accept_password' => 'パスワードを更新',
         'other_account_info' => 'ShortStoryServerにTwitterアカウントなどを利用してログインできます。一度ログインすればSSSアカウントと外部アカウント両方でログインできます。',
-        
+
         'login_with_twitter' => 'Twitterアカウントでログイン',
         'login_with_github' => 'GitHubアカウントでログイン',
     ],
-    
+
     'user' => [
-        'basic_setting' => '基本設定', 
+        'basic_setting' => '基本設定',
         'icon' => 'アイコン',
         'misc' => 'その他',
         'password_update' => 'パスワードの更新',
@@ -103,7 +104,7 @@ return [
         'set' => '設定・更新',
         'unlink' => '解除',
     ],
-    
+
     'post' => [
         'title' => 'タイトル',
         'title_p' => 'このSSのタイトルを入力',
@@ -118,7 +119,7 @@ return [
         'delete' => '削除する',
         'make_invisible' => '非公開にする',
         'make_visible' => '公開する',
-        'cancel' => 'キャンセル', 
+        'cancel' => 'キャンセル',
     ],
 
     'message' => [

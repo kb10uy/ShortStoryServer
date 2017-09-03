@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
 use App\Utilities\MeCabEngine;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Validator;
+use Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +21,11 @@ class AppServiceProvider extends ServiceProvider
             return new MeCabEngine;
         });
 
-        Validator::extend('str_ident', function($attribute, $value, $parameters, $validator) {
-            return preg_match('/^[\w\d\-]+$/u', $value) !== FALSE;
+        Response::macro('jsonError', function($messageId, $code) {
+            return response()->json(['error' => __($messageId)], $code);
+        });
+        Response::macro('jsonResult', function($messageId, $code) {
+            return response()->json(['result' => __($messageId)], $code);
         });
     }
 

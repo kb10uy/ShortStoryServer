@@ -50,9 +50,7 @@ class BookmarkController extends Controller
             return redirect()->route('home');
         }
 
-        $posts = $bookmark->posts->filter(function ($item, $key) {
-            return $item->visibleNow();
-        });
+        $posts = $bookmark->posts()->visible()->get();
         $page = LengthAwarePaginator::resolveCurrentPage();
         $paginated = new LengthAwarePaginator(
             $posts->forPage($page, $this->paginationCount),

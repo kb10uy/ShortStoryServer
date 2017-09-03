@@ -14,11 +14,7 @@ class CustomBladeDirectiveProvider extends ServiceProvider
      */
     public function boot()
     {
-        //nullable($value, $key) directive
-        Blade::directive('nullable', function ($expression) {
-            $params = eval('return [' . substr($expression, 1, -1) . '];');
-            
-        });
+
     }
 
     /**

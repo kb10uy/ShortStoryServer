@@ -1,7 +1,7 @@
 <template>
   <div class="compressed button-group expanded">
     <button class="button hollow">{{ nice }}</button>
-    <button class="button" id="button-nice" @click="perform" :disabled="performable">{{ tlnice }}</button>
+    <button class="button" id="button-nice" @click="perform" :disabled="!performable">{{ tlnice }}</button>
   </div>
 </template>
 
