@@ -21,11 +21,11 @@ class AppServiceProvider extends ServiceProvider
             return new MeCabEngine;
         });
 
-        Response::macro('jsonError', function($messageId, $code) {
-            return response()->json(['error' => __($messageId)], $code);
+        Response::macro('jsonError', function($message, $code) {
+            return response()->json(['error' => $message], $code);
         });
-        Response::macro('jsonResult', function($messageId, $code) {
-            return response()->json(['result' => __($messageId)], $code);
+        Response::macro('jsonResult', function($message, $code) {
+            return response()->json(['result' => $message], $code);
         });
     }
 

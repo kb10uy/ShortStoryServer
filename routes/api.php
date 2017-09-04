@@ -18,25 +18,26 @@ users
   + show
   + bookmarks
   + posts
-  
+
 posts
   + show
   + list
   - create
-  - update 
-  - delete 
+  - update
+  - delete
   + nice
   + bad
   + dopyulicate
 
 bookmarks
   + show
+  + entries
   + list
   - create
   + add
   + pluck
   - delete
-  
+
 tags
   - show
   - list
@@ -82,6 +83,7 @@ Route::group(['namespace' => 'Api'], function () {
     // Bookmarks グループ
     Route::group(['prefix' => 'bookmarks'], function () {
         Route::get('show', 'BookmarksApi@show');
+        Route::get('entries', 'BookmarksApi@entries');
         Route::get('list', 'BookmarksApi@list');
 
         Route::group(['middleware' => 'auth:api'], function () {

@@ -23,10 +23,10 @@ class PostsApi extends Controller
         $validator = Validator::make($this->request->all(), [
             'id' => 'required',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
+        if ($validator->fails()) return response()->jsonError(__('message.api.bad_request'), 400);
 
         $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        if (!$post) return response()->jsonError(__('message.api.post_not_found'), 404);
         //リレーション読み込み
         $post->user;
         $post->tags;
@@ -77,7 +77,7 @@ class PostsApi extends Controller
         ], 200);
     }
 
-    public function dopyulicate() 
+    public function dopyulicate()
     {
          $validator = Validator::make($this->request->all(), [
             'id' => 'required',
