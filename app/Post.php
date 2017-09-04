@@ -23,7 +23,7 @@ class Post extends Model
     ];
 
     protected $hidden = [
-        'user_id', 'type'
+        'user_id', 'type', 'pivot',
     ];
 
     public function toSearchableArray()
@@ -46,7 +46,7 @@ class Post extends Model
     }
 
     // 検証 ------------------------------------------------------
-    
+
     static public function updatable(Post $post = null, &$response)
     {
         if (!$post) {
@@ -61,7 +61,7 @@ class Post extends Model
         return true;
     }
 
-    static public function visibleForMe(Post $post = null, &$response) 
+    static public function visibleForMe(Post $post = null, &$response)
     {
         if (!$post) {
             session()->flash('alert', __('view.message.post_not_exist'));
@@ -109,10 +109,10 @@ class Post extends Model
             'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
         ];
     }
-    
+
     //Redis --> $this
     //あくまで検索用、表示に使うときはinfo()使ってね
-    public function applyCachedInfo() 
+    public function applyCachedInfo()
     {
         $info = $this->info();
         $this->view_count = $info['view_count'] ?: 0;
@@ -141,21 +141,28 @@ class Post extends Model
     }
 
     // リレーション ----------------------------------------------
-    //投稿したユーザーを取得
+    // 投稿したユーザーを取得
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    //この投稿のタグを取得
+    // この投稿のタグを取得
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
 
-    //この投稿が登録されてるブクマを取得
+    // この投稿が登録されてるブクマを取得
+    // Deprecated: 互換性のために存在
     public function bookmarks()
     {
         return $this->belongsToMany('App\Bookmark')->withTimestamps();
+    }
+
+    // この投稿に紐付いてるブックマークエントリを取得
+    public function bookmarkEntries()
+    {
+        return $this->hasMany('App\BookmarkEntry');
     }
 }

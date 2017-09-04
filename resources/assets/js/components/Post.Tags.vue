@@ -12,7 +12,8 @@
     <div class="small-12 medium-8 cell">
       <span v-for="(tag, i) in tags" :key="tag">
         <span class="label primary">
-          {{ tag }} <a @click="tags.splice(i, 1)"><i class="label-keep fi-x"></i></a>
+          {{ tag }}
+          <a @click="tags.splice(i, 1)"><i class="label-keep fi-x"></i></a>
         </span>
         &nbsp;
       </span>
@@ -21,34 +22,35 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
-            //editから呼ばれた場合のタグのセット
-            const oldtag = $('#post_hidden_tags');
-            if (!oldtag) return;
-            this.tags = JSON.parse(oldtag.val());
-        }, 
-        methods: {
-            addTag(event) {
-                const formed = this.newTagText.replace(/"/g, '');
-                if (formed == '' || this.tags.indexOf(formed) >= 0) return;
-                this.tags.push(formed);
-                this.newTagText = '';
-            },
-        },
-        data() {
-            return {
-                newTagText: '', 
-                tags: [],
-            };
-        },
-        computed: {
-            tagsValue() {
-                return this.tags
-                    .map((t) => t.replace(/'/g, "\\\'"))
-                    .map((t) => "\'" + t + "\'")
-                    .join(", ");
-            },
-        },
-    }
+import $ from 'jquery';
+export default {
+  mounted() {
+    //editから呼ばれた場合のタグのセット
+    const oldtag = $('#post_hidden_tags');
+    if (!oldtag) return;
+    this.tags = JSON.parse(oldtag.val());
+  },
+  methods: {
+    addTag(event) {
+      const formed = this.newTagText.replace(/"/g, '');
+      if (formed == '' || this.tags.indexOf(formed) >= 0) return;
+      this.tags.push(formed);
+      this.newTagText = '';
+    },
+  },
+  data() {
+    return {
+      newTagText: '',
+      tags: [],
+    };
+  },
+  computed: {
+    tagsValue() {
+      return this.tags
+        .map((t) => t.replace(/'/g, '\\\''))
+        .map((t) => '\'' + t + '\'')
+        .join(', ');
+    },
+  },
+}
 </script>

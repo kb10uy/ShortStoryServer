@@ -18,71 +18,96 @@ class BookmarksApi extends Controller
         $this->request = $request;
     }
 
-    public function show() {
-        $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+    public function show()
+    {
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => 'You should set id.'], 400);
-        }
-        $bookmark = Bookmark::find((int)$this->request->input('id'));
+
+        $bookmark = Bookmark::find((int)$data['id']);
         if (!$bookmark) {
-            return response()->json([ 'error' => 'The bookmark doesn\'t exist.'], 404);
+            return response()->jsonError(__('message.api.bookmark_not_found'), 404);
         }
 
         $bookmark->user;
         return $bookmark->toArray();
     }
 
-    public function list() {
+    public function entries()
+    {
+        $data = $this->request->validate([
+            'id' => 'required',
+            'include_posts' => 'boolean',
+        ]);
+
+        $bookmark = Bookmark::find((int)$data['id']);
+        if (!$bookmark) {
+            return response()->jsonError(__('message.api.bookmark_not_found'), 404);
+        }
+
+        $entries = $bookmark->entries();
+        if ($data['include_posts']) {
+            $entries->with('post.user');
+        }
+        return $entries->get();
+    }
+
+    public function list()
+    {
         $bookmarks = Bookmark::all();
-        foreach($bookmarks as $bookmark) {
+        foreach ($bookmarks as $bookmark) {
             $bookmark->user;
         }
         return $bookmarks->toArray();
     }
 
-    public function add() {
-        $validator = Validator::make($this->request->all(), [
+    public function add()
+    {
+        $data = $this->request->validate([
             'bookmark_id' => 'required|numeric',
             'post_id' => 'required|numeric',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set ids.'], 400);
-        $bookmark = Bookmark::find($this->request->input('bookmark_id'));
-        if (!$bookmark)  return response()->json(['error' => 'That bookmark does not exist.'], 404);
-        if ($bookmark->user->id != Auth::user()->id) return response()->json(['error' => 'That bookmark is not yours.'], 403);
-        $post = Post::find($this->request->input('post_id'));
-        if (!$post)  return response()->json(['error' => 'That post does not exist.'], 404);
-        
-        if ($bookmark->posts->first(function($value) use($post) { return $value->id == $post->id; })) {
-            return response()->json(['error' => 'That post already exists in the bookmark.'], 409);
+
+        $bookmark = Bookmark::find($data['bookmark_id']);
+        if (!$bookmark) {
+            return response()->jsonError(__('message.api.bookmark_not_found'), 404);
+        }
+        if ($bookmark->user->id != Auth::user()->id) {
+            return response()->jsonError(__('message.api.bookmark_not_yours'), 403);
+        }
+        $post = Post::find($data['post_id']);
+        if (!$post) {
+            return response()->jsonError(__('message.api.post_not_found'), 404);
         }
 
-        $bookmark->posts()->attach($post->id);
-        return response()->json([
-            'result' => 'Added.',
-        ], 200);
+        $result = $bookmark->registerPost($post);
+        if ($result === false) {
+            return response()->jsonError(__('message.api.bookmark_already_exists'), 409);
+        }
+
+        return response()->jsonResult(__('message.api.bookmark_added'), 200);
     }
 
-    public function pluck() {
-        $validator = Validator::make($this->request->all(), [
+    public function pluck()
+    {
+        $data = $this->request->validate([
             'bookmark_id' => 'required|numeric',
             'post_id' => 'required|numeric',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set ids.'], 400);
-        $bookmark = Bookmark::find($this->request->input('bookmark_id'));
-        if (!$bookmark)  return response()->json(['error' => 'That bookmark does not exist.'], 404);
-        if ($bookmark->user->id != Auth::user()->id) return response()->json(['error' => 'That bookmark is not yours.'], 403);
-        $post = Post::find($this->request->input('post_id'));
+
+        $bookmark = Bookmark::find($data['bookmark_id']);
+        if (!$bookmark) {
+            return response()->jsonError(__('message.api.bookmark_not_found'), 404);
+        }
+        if ($bookmark->user->id != Auth::user()->id) {
+            return response()->jsonError(__('message.api.bookmark_not_yours'), 403);
+        }
+        $post = Post::find($data['post_id']);
         if (!$post) {
-            //無くてもエントリ削除だけしてあげるのよ
-            $bookmark->posts()->detach($this->request->input('post_id'));
-            return response()->json(['result' => 'That post was not found.'], 404);
+            return response()->jsonError(__('message.api.post_not_found'), 404);
         }
 
-        $bookmark->posts()->detach($post->id);
-        return response()->json([
-            'result' => 'Plucked.',
-        ], 200);
+        $bookmark->removePostByInstance($post);
+        return response()->jsonResult(__('message.api.bookmark_plucked'), 200);
     }
 }

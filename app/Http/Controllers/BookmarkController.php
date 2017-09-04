@@ -33,7 +33,7 @@ class BookmarkController extends Controller
             ->visible()
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationCount);
-        
+
         return view('bookmark.list-user', [
             'user' => $user,
             'bookmarks' => $bookmarks,
@@ -44,15 +44,13 @@ class BookmarkController extends Controller
     // 特定ブクマのPost一覧
     public function view($id)
     {
-        $bookmark = Bookmark::find($id)->with('posts.user');
+        $bookmark = Bookmark::with(['posts.user', 'posts.tags'])->find($id);
         if (!Bookmark::visibleForMe($bookmark, $response)) {
             $this->session()->flash('alert', __('view.message.bookmark_protected'));
             return redirect()->route('home');
         }
 
-        $posts = $bookmark->posts->filter(function ($item, $key) {
-            return $item->visibleNow();
-        });
+        $posts = $bookmark->posts()->visible()->get();
         $page = LengthAwarePaginator::resolveCurrentPage();
         $paginated = new LengthAwarePaginator(
             $posts->forPage($page, $this->paginationCount),
@@ -89,5 +87,10 @@ class BookmarkController extends Controller
         ]);
 
         return redirect()->route('bookmark.view', ['id' => $bookmark->id]);
+    }
+
+    // get 編集する
+    public function edit() {
+        return view('bookmark.edit');
     }
 }

@@ -40,6 +40,12 @@ ShortStoryServerはAPIを公開しています。
 + updated_at (string) - ブックマークの更新日時(追加削除は更新されません！)
 + user (User) - このブックマークを作成したユーザー
 
+## BookmarkEntry
++ id (number) - エントリID
++ created_at (string) - 登録日時
++ updated_at (string) - ブックマーク情報の更新日時
++ post_id (number) - 紐付いている投稿のID
+
 ### Tag
 + id (number) - タグの内部ID
 + name (string) - タグのテキスト
@@ -128,9 +134,9 @@ SSをまぁ全部取得します。
     + Attributes
         + id (number, required) - いいねする投稿のID
     + Headers
-    
+
             Authentication: Bearer JWT
-        
+
 + Response 200 (application/json)
     + Attributes (SuccessResult)
     + Attributes
@@ -150,9 +156,9 @@ SSをまぁ全部取得します。
     + Attributes
         + id (number, required) - よくないねする投稿のID
     + Headers
-    
+
             Authentication: Bearer JWT
-        
+
 + Response 200 (application/json)
     + Attributes (SuccessResult)
     + Attributes
@@ -171,9 +177,9 @@ SSをまぁ全部取得します。
     + Attributes
         + id (number, required) - しこりメールを贈りたい投稿のID
     + Headers
-    
+
             Authentication: Bearer JWT
-        
+
 + Response 200 (application/json)
     + Attributes (SuccessResult)
 
@@ -217,7 +223,7 @@ SSをまぁ全部取得します。
         + post_id (number, required) - 登録したい投稿のID
         + bookmark_id (number, required) - 登録したいブックマークのID
     + Headers
-    
+
             Authentication: Bearer JWT
 
 + Response 200 (application/json)
@@ -245,7 +251,7 @@ SSをまぁ全部取得します。
         + post_id (number, required) - 解除したい投稿のID
         + bookmark_id (number, required) - 解除したいブックマークのID
     + Headers
-    
+
             Authentication: Bearer JWT
 
 + Response 200 (application/json)

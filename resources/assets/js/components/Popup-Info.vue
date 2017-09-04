@@ -9,27 +9,26 @@
 </template>
 
 <script>
-    //thisはスコープが多分このコンポーネントになってしまうのでグロバのappはapp取らないと無理
-    //popup-messageイベントにターゲットの名前とメッセージ付けて発火すると出て来る
-    export default {
-        props: ['name'],
-        data() {
-            return {
-                message: '', 
-            };
-        },
-        computed: {
-            elementId() {
-                return 'popup-info-' + this.name;
-            }
-        },
-        mounted() {
-            var vm = this;
-            VueEvent.$on('popup-message', function (target, msg) {
-                if (target != vm.name) return;
-                vm.message = msg;
-                $('#' + vm.elementId).foundation('open');
-            });
-        },
+//popup-messageイベントにターゲットの名前とメッセージ付けて発火すると出て来る
+import { performFoundation } from '../app';
+export default {
+  props: ['name'],
+  data() {
+    return {
+      message: '',
+    };
+  },
+  computed: {
+    elementId() {
+      return 'popup-info-' + this.name;
     }
+  },
+  mounted() {
+    VueEvent.$on('popup-message', (target, msg) => {
+      if (target != this.name) return;
+      this.message = msg;
+      performFoundation('#' + this.elementId, 'open');
+    });
+  },
+}
 </script>

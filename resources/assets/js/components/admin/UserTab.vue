@@ -32,33 +32,35 @@
 </template>
 
 <script>
-    export default {
-        data: function() {
-            return {
-                query: '',
-                users: [],
-            };
-        },
-        methods:{
-            startQuery() {
-                var vm = this;
-                $('#admin-user-query')
-                    .attr('disabled', '')
-                    .text('検索中…');
-                axios
-                    .get('/api/users/query', {
-                        params: {
-                            query: this.query,
-                            full: 1,
-                        }
-                    })
-                    .then(function(r) {
-                        vm.users = r.data;
-                        $('#admin-user-query')
-                            .removeAttr('disabled')
-                            .text('検索');
-                    });
-            },
-        },
-    }
+import $ from 'jquery';
+import axios from 'axios';
+export default {
+  data: function() {
+    return {
+      query: '',
+      users: [],
+    };
+  },
+  methods: {
+    startQuery() {
+      var vm = this;
+      $('#admin-user-query')
+        .attr('disabled', '')
+        .text('検索中…');
+      axios
+        .get('/api/users/query', {
+          params: {
+            query: this.query,
+            full: 1,
+          }
+        })
+        .then(function(r) {
+          vm.users = r.data;
+          $('#admin-user-query')
+            .removeAttr('disabled')
+            .text('検索');
+        });
+    },
+  },
+}
 </script>
