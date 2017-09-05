@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
-use App\Http\Resources\User as UserResource;
 
-class Bookmark extends Resource
+class Tag extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +17,6 @@ class Bookmark extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
-            'created_at' => $this->created_at,
-            'user' => new UserResource($this->user),
         ];
     }
 }

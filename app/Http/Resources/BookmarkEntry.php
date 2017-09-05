@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Bookmark as BookmarkResource;
+use App\Http\Resources\Post as PostResource;
 
-class Bookmark extends Resource
+class BookmarkEntry extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +18,10 @@ class Bookmark extends Resource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'created_at' => $this->created_at,
-            'user' => new UserResource($this->user),
+            'order' => $this->order,
+            'comment' => $this->comment,
+            'post_id' => $this->post_id,
+            'post' => new PostResource($this->whenLoaded('post')),
         ];
     }
 }

@@ -6,16 +6,33 @@ ShortStoryServerはAPIを公開しています。
 何に使えるかは知らないけど使ってみてね。
 
 ## Data Structures
+### Timestamp
++ date (string) - ローカル日時
++ timezone_type (number) - 不明
++ timezone (string) - タイムゾーン
+
+### PaginationLinks
++ first (string) - 最初のページのリンク
++ last (string) - 最後のページのリンク
++ prev (string) - 前のページのリンク(nullable)
++ next (string) - 次のページのリンク(nullable)
+
+### PaginationMetaData
++ current_page (number) - 現在のページ番号
++ from (number) - 開始番号
++ last_page (number) - 最後のページ番号
++ path (string) - APIパス
++ per_page (number) - 1ページ辺りの件数
++ to (number) - 終了番号
++ total (number) - 総数
+
 ### User
 + id (number) - ユーザーID
 + name (string) - ログイン時に用いるユーザー名
 + display_name (string) - 表示される名前
-+ email (string) - メールアドレス
-+ created_at (string) - アカウント作成日時
-+ updated_at (string) - アカウント更新日時
-+ icon (string) - アイコンのパス。サブディレクトリ以下からです
++ created_at (Timestamp) - アカウント作成日時
 + description (string) - アカウントの自己紹介文
-+ birthday (string) - 誕生日
++ birthday (Timestamp) - 誕生日
 + url (string) - 任意で設定されたURL
 + twitter_name (string) - TwitterのSN
 + github_name (string) - GitHubのSN
@@ -27,8 +44,8 @@ ShortStoryServerはAPIを公開しています。
 + view_count (number) - 閲覧数
 + nice_count (number) - いいね数
 + bad_count (number) - よくないね数
-+ created_at (number) - 初版の作成日時
-+ modified_at (number) - 最新の編集日時
++ created_at (Timestamp) - 初版の作成日時
++ updated_at (Timestamp) - 最新の編集日時
 + user (User) - 投稿したユーザー
 + tags (array[Tag]) - 付けられているタグ
 
@@ -36,14 +53,13 @@ ShortStoryServerはAPIを公開しています。
 + id (number) - ブックマークID
 + name (string) - 名前
 + description (string) - ブックマークの説明
-+ created_at (string) - ブックマークの作成日時
-+ updated_at (string) - ブックマークの更新日時(追加削除は更新されません！)
++ created_at (Timestamp) - ブックマークの作成日時
 + user (User) - このブックマークを作成したユーザー
 
-## BookmarkEntry
+### BookmarkEntry
 + id (number) - エントリID
-+ created_at (string) - 登録日時
-+ updated_at (string) - ブックマーク情報の更新日時
++ created_at (Timestamp) - 登録日時
++ updated_at (Timestamp) - ブックマーク情報の更新日時
 + post_id (number) - 紐付いている投稿のID
 
 ### Tag
@@ -56,7 +72,15 @@ ShortStoryServerはAPIを公開しています。
 ### ErrorResult
 + error (string) - 早く放課後になれ
 
+### PaginatedBookmarks
++ data (array[Bookmark]) - 実際のデータ
++ links (PaginationLinks) - リンク
++ meta (PaginationMetaData) - メタデータ
 
+### PaginatedPosts
++ data (array[Post]) - 実際のデータ
++ links (PaginationLinks) - リンク
++ meta (PaginationMetaData) - メタデータ
 
 ## User API [/users]
 
@@ -68,36 +92,33 @@ ShortStoryServerはAPIを公開しています。
 + Response 200 (application/json)
     + Attributes (User)
 
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
-
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
-### List User's Posts [GET /users/posts{?user_id}]
+### List User's Posts [GET /users/posts{?user_id,page,count}]
 指定したidのユーザーが投稿したSSを取得します。
 + Parameters
     + user_id (number, required) - ユーザーのID
+    + page (number, optional) - ページ番号
+    + count (number, optional) - 1ページ辺りの件数
+        - デフォルト: 20
 
 + Response 200 (application/json)
-    + Attributes (array[Post])
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
+    + Attributes (PaginatedPosts)
 
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
-### List User's Bookmarks [GET /users/bookmarks{?user_id}]
+### List User's Bookmarks [GET /users/bookmarks{?user_id,page,count}]
 指定したidのユーザーが作成したブックマークを取得します。
 + Parameters
     + user_id (number, required) - ユーザーのID
+    + page (number, optional) - ページ番号
+    + count (number, optional) - 1ページ辺りの件数
+        - デフォルト: 20
 
 + Response 200 (application/json)
-    + Attributes (array[Bookmark])
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
+    + Attributes (PaginatedBookmarks)
 
 + Response 404 (application/json)
     + Attributes (ErrorResult)
@@ -113,18 +134,18 @@ ShortStoryServerはAPIを公開しています。
 + Response 200 (application/json)
     + Attributes (Post)
 
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
-
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
-### List Posts [GET /posts/list]
-SSをまぁ全部取得します。
-重いのであんま呼ばないで…
+### List Posts [GET /posts/list{?page,count}]
+SSを全てから取得します。
++ Parameters
+    + page (number, optional) - ページ番号
+    + count (number, optional) - 1ページ辺りの件数
+        - デフォルト: 20
 
 + Response 200 (application/json)
-    + Attributes (array[Post])
+    + Attributes (PaginatedPosts)
 
 ### Nice Post [PATCH /posts/nice]
 **認証が必要です。**
@@ -141,9 +162,6 @@ SSをまぁ全部取得します。
     + Attributes (SuccessResult)
     + Attributes
         + nice_count (number) - 現在のいいね数
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
 
 + Response 404 (application/json)
     + Attributes (ErrorResult)
@@ -164,9 +182,6 @@ SSをまぁ全部取得します。
     + Attributes
         + bad_count (number) - 現在のよくないね数
 
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
-
 + Response 404 (application/json)
     + Attributes (ErrorResult)
 
@@ -182,9 +197,6 @@ SSをまぁ全部取得します。
 
 + Response 200 (application/json)
     + Attributes (SuccessResult)
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
 
 + Response 404 (application/json)
     + Attributes (ErrorResult)

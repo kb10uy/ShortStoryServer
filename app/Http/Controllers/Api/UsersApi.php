@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Bookmark as BookmarkResource;
+use App\Http\Resources\Post as PostResource;
 
 use App\User;
 use Auth;
@@ -19,70 +22,49 @@ class UsersApi extends Controller
 
     public function show()
     {
-        $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => 'You should set id.'], 400);
-        }
-        $user = User::find((int)$this->request->input('id'));
+
+        $user = User::find((int)$data['id']);
         if (!$user) {
-            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+            return response()->jsonError(__('message.api.user_not_found'), 404);
         }
-        
-        return $user->toArray();
+
+        return new UserResource($user);
     }
 
     public function bookmarks()
     {
-        $validator = Validator::make($this->request->all(), [
-            'user_id' => 'required',
+        $data = $this->request->validate([
+            'user_id' => 'required|integer',
+            'page' => 'nullable|integer',
+            'count' => 'nullable|integer',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => 'You should set id.'], 400);
-        }
-        $user = User::find((int)$this->request->input('user_id'));
+        $user = User::find((int)$data['user_id']);
         if (!$user) {
-            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+            return response()->jsonError(__('message.api.user_not_found'), 404);
         }
 
-        $bookmarks = $user->bookmarks;
-        return $bookmarks->toArray();
+        $count = $data['count'] ?? 20;
+        $bookmarks = $user->bookmarks()->paginate($count);
+        return BookmarkResource::collection($bookmarks);
     }
 
     public function posts()
     {
-        $validator = Validator::make($this->request->all(), [
-            'user_id' => 'required',
+        $data = $this->request->validate([
+            'user_id' => 'required|integer',
+            'page' => 'nullable|integer',
+            'count' => 'nullable|integer',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => 'You should set id.'], 400);
-        }
         $user = User::find((int)$this->request->input('user_id'));
         if (!$user) {
-            return response()->json([ 'error' => 'The user doesn\'t exist.'], 404);
+            return response()->jsonError(__('message.api.user_not_found'), 404);
         }
 
-        $posts = $user->posts;
-        return $posts->toArray();
+        $count = $data['count'] ?? 20;
+        $posts = $user->posts()->paginate($count);
+        return PostResource::collection($posts);
     }
-
-    /*
-    public function query()
-    {
-        $validator = Validator::make($this->request->all(), [
-            'query' => 'nullable|string',
-            'full' => 'nullable|boolean',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => 'You should set query string.'], 400);
-        }
-
-        $users = User::queryString($this->request->input('query'));
-        if (!$this->request->input('full') ?? true) {
-            $users = $users->select('id', 'name');
-        }
-        return response()->json($users->get(), 200);
-    }
-    */
 }

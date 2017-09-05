@@ -14,6 +14,12 @@ class BookmarkEntry extends Model
         'bookmark_id',
     ];
 
+    protected $casts = [
+        'order' => 'integer',
+        'bookmark_id' => 'integer',
+        'post_id' => 'integer,'
+    ];
+
     // スコープ
     // postsからの継承
     public function scopeVisible($query)

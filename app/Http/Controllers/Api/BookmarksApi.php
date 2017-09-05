@@ -7,12 +7,17 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
 use App\Bookmark;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Bookmark as BookmarkResource;
+use App\Http\Resources\BookmarkEntry as BookmarkEntryResource;
+use App\Http\Resources\Post as PostResource;
 use Auth;
 use Validator;
 
 class BookmarksApi extends Controller
 {
     public $request = null;
+
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -24,20 +29,21 @@ class BookmarksApi extends Controller
             'id' => 'required|integer',
         ]);
 
-        $bookmark = Bookmark::find((int)$data['id']);
+        $bookmark = Bookmark::with('user')->find((int)$data['id']);
         if (!$bookmark) {
             return response()->jsonError(__('message.api.bookmark_not_found'), 404);
         }
 
-        $bookmark->user;
-        return $bookmark->toArray();
+        return new BookmarkResource($bookmark);
     }
 
     public function entries()
     {
         $data = $this->request->validate([
-            'id' => 'required',
-            'include_posts' => 'boolean',
+            'id' => 'required|integer',
+            'include_posts' => 'nullable|boolean',
+            'page' => 'nullable|integer',
+            'count' => 'nullable|integer',
         ]);
 
         $bookmark = Bookmark::find((int)$data['id']);
@@ -45,20 +51,25 @@ class BookmarksApi extends Controller
             return response()->jsonError(__('message.api.bookmark_not_found'), 404);
         }
 
+        $count = $data['count'] ?? 20;
         $entries = $bookmark->entries();
         if ($data['include_posts']) {
             $entries->with('post.user');
         }
-        return $entries->get();
+        return BookmarkEntryResource::collection($entries->paginate($count));
     }
 
     public function list()
     {
-        $bookmarks = Bookmark::all();
-        foreach ($bookmarks as $bookmark) {
-            $bookmark->user;
-        }
-        return $bookmarks->toArray();
+        $data = $this->request->validate([
+            'page' => 'nullable|integer',
+            'count' => 'nullable|integer',
+        ]);
+
+        $count = $data['count'] ?? 20;
+        $bookmarks = Bookmark::with('user')->paginate($count);
+
+        return BookmarkResource::collection($bookmarks);
     }
 
     public function add()

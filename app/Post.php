@@ -26,6 +26,13 @@ class Post extends Model
         'user_id', 'type', 'pivot',
     ];
 
+    protected $casts = [
+        'view_count' => 'integer',
+        'nice_count' => 'integer',
+        'bad_count' => 'integer',
+        'modified_at' => 'timestamp',
+    ];
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
@@ -104,9 +111,9 @@ class Post extends Model
     public function info()
     {
         return [
-            'view_count' => Redis::zscore(config('database.keys.post-views'), $this->id),
-            'nice_count' => Redis::zscore(config('database.keys.post-nices'), $this->id),
-            'bad_count' => Redis::zscore(config('database.keys.post-bads'), $this->id),
+            'view_count' => (int)Redis::zscore(config('database.keys.post-views'), $this->id),
+            'nice_count' => (int)Redis::zscore(config('database.keys.post-nices'), $this->id),
+            'bad_count' => (int)Redis::zscore(config('database.keys.post-bads'), $this->id),
         ];
     }
 
