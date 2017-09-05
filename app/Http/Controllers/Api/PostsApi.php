@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use App\Post;
+use App\Http\Resources\Post as PostResource;
 use Auth;
 use Validator;
 
@@ -20,40 +21,48 @@ class PostsApi extends Controller
 
     public function show()
     {
-        $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) return response()->jsonError(__('message.api.bad_request'), 400);
 
-        $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->jsonError(__('message.api.post_not_found'), 404);
+        $post = Post::find((int)$data['id']);
+        if (!$post) {
+            return response()->jsonError(__('message.api.post_not_found'), 404);
+        }
         //リレーション読み込み
         $post->user;
         $post->tags;
 
-        return $post->toArray();
+        return new PostResource($post);
     }
 
     public function list()
     {
-        $posts = Post::all();
-        foreach($posts as $post) {
+        $data = $this->request->validate([
+            'page' => 'nullable|integer',
+            'count' => 'nullable|integer',
+        ]);
+
+        $count = $data['count'] ?? 20;
+        $posts = Post::with(['user', 'tags'])->paginate($count);
+        foreach ($posts as $post) {
             $post->user;
             $post->tags;
         }
 
-        return $posts->toArray();
+        return PostResource::collection($posts);
     }
 
     public function nice()
     {
-        $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
-        $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        $post = Post::find((int)$data['id']);
+        if (!$post) {
+            return response()->jsonError(__('message.api.post_not_found'), 404);
+        }
         $post->performNice();
         return response()->json([
             'result' => 'Niced.',
@@ -63,13 +72,14 @@ class PostsApi extends Controller
 
     public function bad()
     {
-        $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
-        $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        $post = Post::find((int)$data['id']);
+        if (!$post) {
+            return response()->jsonError(__('message.api.post_not_found'), 404);
+        }
         $post->performBad();
         return response()->json([
             'result' => 'Badded.',
@@ -79,17 +89,17 @@ class PostsApi extends Controller
 
     public function dopyulicate()
     {
-         $validator = Validator::make($this->request->all(), [
-            'id' => 'required',
+        $data = $this->request->validate([
+            'id' => 'required|integer',
         ]);
-        if ($validator->fails()) return response()->json(['error' => 'You should set id.'], 400);
 
-        $post = Post::find((int)$this->request->input('id'));
-        if (!$post) return response()->json(['error' => 'The post doesn\'t exist.'], 404);
+        $post = Post::find((int)$data['id']);
+        if (!$post) {
+            return response()->jsonError(__('message.api.post_not_found'), 404);
+        }
         $post->performDopyulicate();
         return response()->json([
             'result' => 'Dopyulicated.',
         ], 200);
     }
-
 }

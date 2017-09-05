@@ -26,6 +26,12 @@ class User extends Authenticatable
         'type'
     ];
 
+    protected $casts = [
+        'birthday' => 'date',
+        'twitter_id' => 'integer',
+        'github_id' => 'integer',
+    ];
+
     //API認証でユーザー名当てる
     public function findForPassport($username)
     {
@@ -33,7 +39,7 @@ class User extends Authenticatable
     }
 
     // スコープ ------------------------------------------------------------
-    
+
     //APIのUser検索用
     public function scopeQueryString($query, $search)
     {
