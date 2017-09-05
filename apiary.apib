@@ -58,9 +58,13 @@ ShortStoryServerはAPIを公開しています。
 
 ### BookmarkEntry
 + id (number) - エントリID
++ order (number) - ブックマークの中での並び順
++ comment (number) - ブックマークのコメント
 + created_at (Timestamp) - 登録日時
 + updated_at (Timestamp) - ブックマーク情報の更新日時
 + post_id (number) - 紐付いている投稿のID
++ post (Post) - 投稿
+    - オプション値によってはないです
 
 ### Tag
 + id (number) - タグの内部ID
@@ -74,6 +78,11 @@ ShortStoryServerはAPIを公開しています。
 
 ### PaginatedBookmarks
 + data (array[Bookmark]) - 実際のデータ
++ links (PaginationLinks) - リンク
++ meta (PaginationMetaData) - メタデータ
+
+### PaginatedBookmarkEntries
++ data (array[BookmarkEntry]) - 実際のデータ
 + links (PaginationLinks) - リンク
 + meta (PaginationMetaData) - メタデータ
 
@@ -225,6 +234,21 @@ SSをまぁ全部取得します。
 + Response 200 (application/json)
     + Attributes (array[Bookmark])
 
+### Show Bookmark Entries [GET /bookmarks/entries{?id,count,page,include_posts}]
+指定したidのブックマークに登録されている投稿のエントリを取得します。
++ Parameters
+    + id (number, required) - ブックマークのID
+    + page (number, optional) - ページ番号
+    + count (number, optional) - 1ページ辺りの件数
+        - デフォルト: 20
+    + include_posts (boolean, optional) - trueとすると投稿の情報まで取得します
+
++ Response 200 (application/json)
+    + Attributes (PaginatedBookmarkEntries)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResult)
+
 ### Add Post to Bookmark [PATCH /bookmarks/add]
 **認証が必要です。**
 指定したidのブックマークに指定したidのSSを登録します。
@@ -240,9 +264,6 @@ SSをまぁ全部取得します。
 
 + Response 200 (application/json)
     + Attributes (SuccessResult)
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
 
 + Response 403 (application/json)
     + Attributes (ErrorResult)
@@ -268,9 +289,6 @@ SSをまぁ全部取得します。
 
 + Response 200 (application/json)
     + Attributes (SuccessResult)
-
-+ Response 400 (application/json)
-    + Attributes (ErrorResult)
 
 + Response 403 (application/json)
     + Attributes (ErrorResult)
