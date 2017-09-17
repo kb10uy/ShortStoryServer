@@ -22,13 +22,12 @@
 </template>
 
 <script>
-import $ from 'jquery';
 export default {
   mounted() {
     //editから呼ばれた場合のタグのセット
-    const oldtag = $('#post_hidden_tags');
+    const oldtag = document.getElementById('post_hidden_tags');
     if (!oldtag) return;
-    this.tags = JSON.parse(oldtag.val());
+    this.tags = JSON.parse(oldtag.value);
   },
   methods: {
     addTag(event) {
