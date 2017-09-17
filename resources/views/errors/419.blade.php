@@ -5,25 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @include('layouts.includes')
-    <title>ShortStoryServer is currently down.</title>
+    <title>ShortStoryServer Token Mismatched.</title>
   </head>
   <body>
     <!-- 本体 -->
     <div id="app">
       <div id="content" class="grid-container">
         <h1 class="text-center">
-          <strike>ShortStoryServer</strike>
+          <i>ShortStoryServer</i>
         </h1>
         <p class="text-center">
-          @lang('view.status.' . ($exception->getMessage() ?: 'down'))
+          @lang('view.status.token_expired')
         </p>
-        <p class="text-center">
-          ShortStoryServer is down since:
-          <div class="stat text-center">
-            {{ $exception->wentDownAt->formatLocalized('%m/%e %H:%M:%S') }}
-          </div>
-        </p>
-
       </div>
     </div>
   </body>

@@ -36,7 +36,7 @@ export default {
           user_id: this.user_id
         }
       }).then(result => {
-        this.posts = result.data;
+        this.posts = result.data.data;
       });
     },
 

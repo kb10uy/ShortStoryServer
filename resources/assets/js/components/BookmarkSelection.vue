@@ -13,6 +13,7 @@
 import axios from 'axios';
 export default {
   props: ['tl_add', 'tl_already', 'id', 'user_id'],
+
   data() {
     return {
       bookmarks: [],
@@ -21,6 +22,7 @@ export default {
       selected: 0,
     };
   },
+
   methods: {
     fetchBookmarks() {
       axios
@@ -30,12 +32,13 @@ export default {
           }
         })
         .then(response => {
-          this.bookmarks = response.data;
+          this.bookmarks = response.data.data;
           if (this.bookmarks.length == 0) return;
           this.performable = true;
           this.selected = this.bookmarks[0].id;
         });
     },
+
     addToBookmark() {
       this.performable = false;
       axios
@@ -57,6 +60,7 @@ export default {
         });
     },
   },
+
   mounted() {
     this.fetchBookmarks();
     this.message = this.tl_add;

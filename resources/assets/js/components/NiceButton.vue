@@ -21,7 +21,7 @@ export default {
       this.performable = false;
       axios.patch('/api/posts/nice', {
         'id': vm.id,
-      }).then(function() {
+      }).then(() => {
         this.performable = true;
         vm.nice++;
       });
