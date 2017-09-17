@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Auth;
 use Text;
-use Redis;
+use Redis;   // duplicated
 
 use Mail;
 
@@ -15,6 +15,7 @@ use App\Mail\PostDopyulicated;
 class Post extends Model
 {
     use Searchable;
+    public $asYouType = true;
 
     protected $fillable = [
         'title', 'text', 'type',

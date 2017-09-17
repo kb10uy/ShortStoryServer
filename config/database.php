@@ -95,40 +95,40 @@ return [
     'redis' => [
         'cluster' => false,
         'client' => 'predis',
-        
+
         'default' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 0,
         ],
         'queue' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 1,
         ],
         'index' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 2,
         ],
         'session' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 3,
         ],
         'broadcast' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 4,
         ],
         'cache' => [
-            'scheme' => 'unix',
-            'path' => env('REDIS_SOCK', '/tmp/redis.sock'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
             'password' => env('REDIS_PASSWORD', null),
             'database' => 5,
         ],

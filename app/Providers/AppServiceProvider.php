@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Scout\EngineManager;
-use App\Utilities\MeCabEngine;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Http\Resources\Json\Resource;
 use Response;
@@ -18,9 +16,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        resolve(EngineManager::class)->extend('mecab', function () {
-            return new MeCabEngine;
-        });
         Resource::withoutWrapping();
 
         Response::macro('jsonError', function($message, $code) {

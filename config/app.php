@@ -167,6 +167,16 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        App\Providers\CustomBladeDirectiveProvider::class,
+        App\Providers\CustomValidatorProvider::class,
+        App\Providers\TextServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -176,17 +186,6 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        
-        Laravel\Socialite\SocialiteServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
-        App\Providers\CustomBladeDirectiveProvider::class,
-        App\Providers\CustomValidatorProvider::class,
-        App\Providers\TextServiceProvider::class,
-        Jenssegers\Agent\AgentServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        
     ],
 
     /*
@@ -235,7 +234,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        
+
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Text' => App\Facades\Text::class,

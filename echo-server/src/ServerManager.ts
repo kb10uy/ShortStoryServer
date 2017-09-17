@@ -18,7 +18,7 @@ export class ServerManager {
             cert: ''
         },
         redis: {
-            path: '',
+            path: null,
             password: '',
             db: 0
         },

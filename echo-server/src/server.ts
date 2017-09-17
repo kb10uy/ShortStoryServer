@@ -14,7 +14,9 @@ let config: any = {
         protocol: env.SOCKETIO_PROTOCOL,
     },
     redis: {
-        path: env.REDIS_SOCKET,
+        path: env.REDIS_SOCKET || null,
+        host: env.REDIS_HOST || 'localhost',
+        port: env.REDIS_PORT || 6379,
         password: env.REDIS_PASSWORD,
         db: 4,
     },
