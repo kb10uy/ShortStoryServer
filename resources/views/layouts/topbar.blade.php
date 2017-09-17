@@ -36,7 +36,7 @@
           <li><a href="{{ route('post.new') }}">@lang('view.title.post')</a></li>
           <li><a href="{{ route('user.profile', ['user' => Auth::user()->name]) }}">@lang('view.user.profile')</a></li>
           <li><a href="{{ route('user.setting') }}">@lang('view.title.setting')</a></li>
-          <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); $('#logout-form').submit();">@lang('view.auth.logout')</a></li>
+          <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">@lang('view.auth.logout')</a></li>
           <form id="logout-form" action="{{ route('logout') }}" method="POST">
             {{ csrf_field() }}
           </form>
