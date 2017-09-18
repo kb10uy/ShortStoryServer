@@ -20,13 +20,13 @@ class PostController extends Controller
     public $paginationCount = 10;
     public $request = null;
 
-    public function __construct(Request $request) 
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
     // /post/{id} (GET)
-    public function view($id) 
+    public function view($id)
     {
         $post = Post::find($id);
         if (!Post::visibleForMe($post, $response)) return $response;
@@ -74,11 +74,11 @@ class PostController extends Controller
     public function search()
     {
         if (!$this->request->has('q')) return view('post.search');
-        
+
         // whereIn句で書き直したほうが良いかも 要検証
         switch($this->request->input('type')) {
             case 'keyword':
-                $posts = $this->paginatePosts(Post::search($this->request->input('q'))->get()->load(['tags', 'user']));
+                $posts = $this->paginatePosts(Post::with(['tags', 'user'])->searchFulltext($this->request->input('q'))->get());
                 break;
             case 'tag':
                 $posts = $this->paginatePosts($this->getPostsOfTags($this->request->input('q')));

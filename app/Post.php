@@ -50,10 +50,9 @@ class Post extends Model
 
     public function scopeSearchFulltext($query, $search)
     {
-        if (!$search) return $query;
         return $query
-            ->where('text', '&@~', $search)
-            ->orWhere('title', '&@~', $search);
+            ->whereRaw('text &@~ :q1', ['q1' => $search])
+            ->orWhereRaw('title &@~ :q2', ['q2' => $search]);
     }
 
     // 検証 ------------------------------------------------------
