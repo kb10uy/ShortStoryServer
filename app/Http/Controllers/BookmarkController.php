@@ -50,15 +50,8 @@ class BookmarkController extends Controller
             return redirect()->route('home');
         }
 
-        $posts = $bookmark->posts()->visible()->get();
-        $page = LengthAwarePaginator::resolveCurrentPage();
-        $paginated = new LengthAwarePaginator(
-            $posts->forPage($page, $this->paginationCount),
-            $posts->count(),
-            $this->paginationCount,
-            $page,
-            ['path' => $this->request->url(), 'query' => $this->request->query()]
-        );
+        $entries = $bookmark->entries()->visible();
+        $paginated = $entries->paginate($this->paginationCount);
         return view('bookmark.view', [
             'bookmark' => $bookmark,
             'posts' => $paginated,
