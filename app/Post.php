@@ -3,10 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 use Auth;
 use Text;
-use Redis;   // duplicated
+use Redis;
 
 use Mail;
 
@@ -14,9 +13,14 @@ use App\Mail\PostDopyulicated;
 
 class Post extends Model
 {
-    use Searchable;
     public $asYouType = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'modofied_at',
+    ];
     protected $fillable = [
         'title', 'text', 'type',
         'view_count', 'nice_count', 'bad_count',
@@ -31,16 +35,7 @@ class Post extends Model
         'view_count' => 'integer',
         'nice_count' => 'integer',
         'bad_count' => 'integer',
-        'modified_at' => 'timestamp',
     ];
-
-    public function toSearchableArray()
-    {
-        $array = $this->toArray();
-        $array = array_intersect_key($array, ['title' => '', 'text' => '']);
-
-        return $array;
-    }
 
     // スコープ ----------------------------------------------
     public function scopeVisible($query)
@@ -51,6 +46,14 @@ class Post extends Model
             $result = $result->orWhere('user_id', Auth::user()->id);
         }
         return $result;
+    }
+
+    public function scopeSearchFulltext($query, $search)
+    {
+        if (!$search) return $query;
+        return $query
+            ->where('text', '&@~', $search)
+            ->orWhere('title', '&@~', $search);
     }
 
     // 検証 ------------------------------------------------------
