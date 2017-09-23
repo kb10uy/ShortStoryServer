@@ -22,6 +22,7 @@
   },
   "rules": {
     "no-unused-vars": "warn",
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "no-console": "off"
   }
 }

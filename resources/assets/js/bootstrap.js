@@ -22,10 +22,10 @@ Vue.component('oauth-personal-tokens', require('./components/auth/PersonalAccess
 
 window.VueEvent = new Vue();
 window.VueInstance = new Vue({
-  el: '#app'
+  el: '#app',
 });
 
 window.EchoInstance = new Echo({
   broadcaster: 'socket.io',
-  host: window.location.hostname + ':443'
+  host: window.location.hostname + ':443',
 });
