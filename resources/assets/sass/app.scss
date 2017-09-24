@@ -63,7 +63,7 @@ hr.raw {
     display: block;
 }
 
-// 
+//
 .label-keep {
 	color: $label-color;
     &:hover {
@@ -93,4 +93,21 @@ hr.raw {
 .admin-table-type {
     width: 6rem;
     word-wrap: break-word;
+}
+
+.bme-table-move {
+    width: 8rem;
+    text-align: center;
+    button {
+        margin: 0;
+    }
+}
+
+
+.bme-table-tool {
+    width: 5rem;
+    text-align: center;
+    button {
+        margin: 0;
+    }
 }

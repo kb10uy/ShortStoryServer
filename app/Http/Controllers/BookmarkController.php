@@ -83,7 +83,7 @@ class BookmarkController extends Controller
     }
 
     // get 編集する
-    public function edit() {
-        return view('bookmark.edit');
+    public function edit($id) {
+        return view('bookmark.edit', ['id' => $id]);
     }
 }

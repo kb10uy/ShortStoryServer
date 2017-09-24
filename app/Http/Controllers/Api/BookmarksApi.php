@@ -53,7 +53,7 @@ class BookmarksApi extends Controller
 
         $count = $data['count'] ?? 20;
         $entries = $bookmark->entries();
-        if ($data['include_posts']) {
+        if ($data['include_posts'] ?? false) {
             $entries->with('post.user');
         }
         return BookmarkEntryResource::collection($entries->paginate($count));
