@@ -12,12 +12,10 @@
         "jenssegers/agent": "*",
         "laravel/framework": "5.5.*",
         "laravel/passport": "*",
-        "laravel/scout": "*",
         "laravel/socialite": "*",
         "laravel/tinker": "*",
         "mpyw/co": "*",
-        "predis/predis": "*",
-        "teamtnt/laravel-scout-tntsearch-driver": "^3.0"
+        "predis/predis": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2",

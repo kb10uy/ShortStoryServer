@@ -169,8 +169,6 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\CustomBladeDirectiveProvider::class,
         App\Providers\CustomValidatorProvider::class,

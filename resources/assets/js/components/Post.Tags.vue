@@ -32,8 +32,12 @@ export default {
   methods: {
     addTag(event) {
       const formed = this.newTagText.replace(/"/g, '');
-      if (formed == '' || this.tags.indexOf(formed) >= 0) return;
-      this.tags.push(formed);
+      const list = formed.split(/\s+/, 32);
+      list.forEach((nt) => {
+        if (nt == '' || this.tags.indexOf(nt) >= 0) return;
+        this.tags.push(nt);
+      });
+
       this.newTagText = '';
     },
   },

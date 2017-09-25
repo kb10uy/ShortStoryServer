@@ -8,7 +8,7 @@
 </div>
 
 <div class="grid-x" id="posts-list">
-  @include('post.posts-list', ['posts' => $posts])
+  @include('post.posts-list', ['posts' => $posts->load(['post.user', 'post.tags'])->pluck('post')])
 </div>
 {{ $posts->links() }}
 @endsection

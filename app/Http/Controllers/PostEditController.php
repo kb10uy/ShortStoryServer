@@ -12,7 +12,7 @@ use Redis;
 use Carbon\Carbon;
 
 class PostEditController extends Controller
-{   
+{
     public $request = null;
 
     public function __construct(Request $request)
@@ -33,7 +33,7 @@ class PostEditController extends Controller
             'title' => 'required|max:128',
             'text' => 'required',
         ]);
-        
+
         $tags = eval('return [' . $this->request->tags . '];');
         $tagids = [];
         foreach ($tags as $tagname) {
@@ -60,9 +60,9 @@ class PostEditController extends Controller
     // /post/{id}/edit (GET)
     public function edit($id)
     {
-        $post = Post::find($id)->with('tags');
+        $post = Post::find($id)->load('tags');
         if (!Post::updatable($post, $response)) return $response;
-        
+
         $taglist = json_encode($post->tags->map(function($item,$key) {
             return $item->name;
         }));
@@ -105,7 +105,7 @@ class PostEditController extends Controller
     public function delete($id) {
         $post = Post::find($id);
         if (!Post::updatable($post, $response)) return $response;
-        
+
         $post->delete();
         session()->flash('success', __('view.message.post_deleted'));
         return redirect()->route('home');

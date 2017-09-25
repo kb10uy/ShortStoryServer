@@ -7,6 +7,6 @@
   <h1>ブックマークを編集する</h1>
 </div>
 
-<bookmark-editor></bookmark-editor>
+<bookmark-editor :bookmark-id="{{ $id }}"></bookmark-editor>
 
 @endsection
